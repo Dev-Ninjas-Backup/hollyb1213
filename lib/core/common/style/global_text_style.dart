@@ -8,7 +8,7 @@ TextStyle getTextStyle({
   double fontSize = 14.0,
   FontWeight fontWeight = FontWeight.w400,
   TextAlign textAlign = TextAlign.center,
-  Color color = Appcolor.backgroundcolor,
+  Color color = Appcolor.primaryColor,
 }) {
   return GoogleFonts.poppins(
     fontSize: fontSize.sp,

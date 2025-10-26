@@ -16,3 +16,16 @@ TextStyle getTextStyle({
     color: color,
   );
 }
+
+TextStyle getBodyTextStyle({
+  double fontSize = 14.0,
+  FontWeight fontWeight = FontWeight.w400,
+  TextAlign textAlign = TextAlign.center,
+  Color color = Appcolor.appBodyColor,
+}) {
+  return GoogleFonts.inter(
+    fontSize: fontSize.sp,
+    fontWeight: fontWeight,
+    color: color,
+  );
+}

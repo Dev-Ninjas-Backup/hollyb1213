@@ -5,6 +5,7 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/login/controller/login_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -105,7 +106,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoute.getforgotPasswordScreen());
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size(50, 30),

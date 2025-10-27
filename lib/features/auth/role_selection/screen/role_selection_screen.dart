@@ -4,6 +4,7 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
@@ -29,109 +30,121 @@ class RoleSelectionScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(height: height * 0.07),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+          child: Column(
+            children: [
+              SizedBox(height: height * 0.05),
 
-            // Employer Box
-            Obx(
-              () => GestureDetector(
-                onTap: () => ctrl.selectRole('Employer'),
-                child: Container(
-                  width: double.infinity,
-                  height: 173,
-                  decoration: BoxDecoration(
-                    color: Appcolor.appSecondaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: ctrl.selectedRole.value == 'Employer'
-                          ? Appcolor.primaryColor
-                          : Appcolor.appBorderColor,
-                      width: 1.5,
+              // Employer Box
+              Obx(
+                () => GestureDetector(
+                  onTap: () => ctrl.selectRole('Employer'),
+                  child: Container(
+                    width: double.infinity,
+                    height: 173,
+                    decoration: BoxDecoration(
+                      color: Appcolor.appSecondaryColor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: ctrl.selectedRole.value == 'Employer'
+                            ? Appcolor.primaryColor
+                            : Appcolor.appBorderColor,
+                        width: 1.5,
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Appcolor.backgroundcolor,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Appcolor.backgroundcolor,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Image.asset(
+                            Iconpath.employer,
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
-                        child: Image.asset(
-                          Iconpath.employer,
-                          width: 24,
-                          height: 24,
+                        SizedBox(height: 10),
+                        Text(
+                          "Employer",
+                          style: getTextStyle(
+                            fontSize: 20,
+                            color: Appcolor.appTextColor,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Employer",
-                        style: getTextStyle(
-                          fontSize: 20,
-                          color: Appcolor.appTextColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            SizedBox(height: 20),
-            // Employee Box
-            Obx(
-              () => GestureDetector(
-                onTap: () => ctrl.selectRole('Employee'),
-                child: Container(
-                  width: double.infinity,
-                  height: 173,
-                  decoration: BoxDecoration(
-                    color: Appcolor.appSecondaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: ctrl.selectedRole.value == 'Employee'
-                          ? Appcolor.primaryColor
-                          : Appcolor.appBorderColor,
-                      width: 1.5,
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(Iconpath.employee, height: 53, width: 53),
-                      SizedBox(height: 10),
-                      Text(
-                        "Employee",
-                        style: getTextStyle(
-                          fontSize: 20,
-                          color: Appcolor.appTextColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+              SizedBox(height: 20),
+
+              // Employee Box
+              Obx(
+                () => GestureDetector(
+                  onTap: () => ctrl.selectRole('Employee'),
+                  child: Container(
+                    width: double.infinity,
+                    height: 173,
+                    decoration: BoxDecoration(
+                      color: Appcolor.appSecondaryColor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: ctrl.selectedRole.value == 'Employee'
+                            ? Appcolor.primaryColor
+                            : Appcolor.appBorderColor,
+                        width: 1.5,
                       ),
-                    ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(Iconpath.employee, height: 53, width: 53),
+                        SizedBox(height: 10),
+                        Text(
+                          "Employee",
+                          style: getTextStyle(
+                            fontSize: 20,
+                            color: Appcolor.appTextColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            SizedBox(height: height * 0.05),
+              SizedBox(height: height * 0.05),
 
-            // ✅ Custom Button
-            Obx(() => CustomButton(buttonText: "Continue", onTap: () {})),
-          ],
+              // Custom Button
+              CustomButton(
+                buttonText: "Continue",
+                onTap: () {
+                  if (ctrl.selectedRole.value.isEmpty) {
+                  } else {
+                    Get.offAll(() => LoginScreen());
+                  }
+                },
+              ),
+
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

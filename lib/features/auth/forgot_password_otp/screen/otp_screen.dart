@@ -5,6 +5,7 @@ import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart'
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/forgot_password_otp/controller/otp_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class OTPScreen extends StatelessWidget {
   OTPScreen({super.key});
@@ -150,7 +151,12 @@ class OTPScreen extends StatelessWidget {
               ),
             ),
 
-            CustomButton(buttonText: "Verify", onTap: () {}),
+            CustomButton(
+              buttonText: "Verify",
+              onTap: () {
+                Get.toNamed(AppRoute.getcreatePasswordScreen());
+              },
+            ),
             SizedBox(height: 40),
           ],
         ),

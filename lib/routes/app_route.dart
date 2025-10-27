@@ -1,13 +1,16 @@
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 class AppRoute {
   static String roleSelectionScreen = '/roleSelectionScreen';
   static String onboardingScreen = '/onboardingScreen';
+  static String loginScreen = '/loginScreen';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
+  static String getloginScreen() => loginScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -18,6 +21,11 @@ class AppRoute {
     GetPage(
       name: onboardingScreen,
       page: () => OnboardingScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: loginScreen,
+      page: () => LoginScreen(),
       transition: Transition.fadeIn,
     ),
   ];

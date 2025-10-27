@@ -3,4 +3,5 @@ class Iconpath {
   static String employee = 'assets/icons/employee.png';
   static String google = 'assets/icons/google.png';
   static String fecebook = 'assets/icons/fecebook.png';
+  static String lock = 'assets/icons/lock.png';
 }

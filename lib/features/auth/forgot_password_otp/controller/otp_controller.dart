@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OTPController extends GetxController {
-  RxList<String> otp = List.filled(4, '').obs; // 4-digit OTP
+  RxList<String> otp = List.filled(4, '').obs;
   RxBool isButtonEnabled = false.obs;
   RxInt secondsRemaining = 60.obs;
   late final TextEditingController digit1;

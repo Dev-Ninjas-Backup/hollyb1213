@@ -4,13 +4,12 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/forgot_password_otp/controller/otp_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:hollyb1213/features/auth/verification_otp/controller/verification_conroller.dart';
 
-class OTPScreen extends StatelessWidget {
-  OTPScreen({super.key});
+class VerificationScreen extends StatelessWidget {
+  VerificationScreen({super.key});
 
-  final OTPController ctrl = Get.put(OTPController());
+  final VerificationConroller ctrl = Get.put(VerificationConroller());
 
   final FocusNode focus1 = FocusNode();
   final FocusNode focus2 = FocusNode();
@@ -34,7 +33,7 @@ class OTPScreen extends StatelessWidget {
                 CustomBackButton(),
                 Center(
                   child: Text(
-                    "Forgot Password",
+                    "Verification",
                     style: getTextStyle(
                       fontSize: width * 0.05,
                       fontWeight: FontWeight.w600,
@@ -50,7 +49,7 @@ class OTPScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Code has been sent to +1 111 ******99",
+                    "Code has been sent to user@gmail.com",
                     style: getBodyTextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
@@ -152,11 +151,13 @@ class OTPScreen extends StatelessWidget {
               ),
             ),
 
-            CustomButton(
-              buttonText: "Verify",
-              onTap: () {
-                Get.toNamed(AppRoute.getcreatePasswordScreen());
-              },
+            Obx(
+              () => CustomButton(
+                buttonText: "Verify",
+                onTap: ctrl.isButtonEnabled.value
+                    ? () => ctrl.continueAction()
+                    : null,
+              ),
             ),
             SizedBox(height: 40),
           ],

@@ -185,7 +185,9 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     Text("Don’t have an account? "),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoute.getsingUpScreen());
+                      },
                       child: Text(
                         "Signup",
                         style: getTextStyle(

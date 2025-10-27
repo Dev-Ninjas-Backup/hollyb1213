@@ -42,57 +42,79 @@ class CreatePasswordController extends GetxController {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          child: SizedBox(
-            width: 260,
-            child: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    height: 90,
-                    width: 90,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Appcolor.primaryColor,
-                        width: 30,
+          child: Stack(
+            children: [
+              // Main dialog content
+              SizedBox(
+                width: 260,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Appcolor.primaryColor,
+                            width: 30,
+                          ),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            Iconpath.vector,
+                            height: 13,
+                            width: 14,
+                            color: Appcolor.primaryColor,
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        Iconpath.vector,
-                        height: 13,
-                        width: 14,
-                        color: Appcolor.primaryColor,
+                      const SizedBox(height: 20),
+                      Text(
+                        "Congratulations!",
+                        style: getTextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Your account is ready to use",
+                        style: getBodyTextStyle(fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 30),
+                      CustomButton(
+                        buttonText: "Continue",
+                        onTap: () {
+                          Get.offAllNamed(AppRoute.getloginScreen());
+                        },
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  Text(
-                    "Congratulations!",
-                    style: getTextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Your account is ready to use",
-                    style: getBodyTextStyle(fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 30),
-                  CustomButton(
-                    buttonText: "Continue",
-                    onTap: () {
-                      Get.offAllNamed(AppRoute.getloginScreen());
-                    },
-                  ),
-                ],
+                ),
               ),
-            ),
+
+              Positioned(
+                right: 8,
+                top: 8,
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    child: const Icon(
+                      Icons.close,
+                      size: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         barrierDismissible: false,

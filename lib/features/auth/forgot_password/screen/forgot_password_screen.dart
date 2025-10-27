@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
+import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/forgot_password/controller/forgot_password_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -28,35 +30,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    height: 32,
-                    width: 32,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: IconButton(
-                      onPressed: () => Get.back(),
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Appcolor.primaryColor,
-                        size: 20,
-                      ),
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                    ),
-                  ),
-                ),
-
+                CustomBackButton(),
                 Center(
                   child: Text(
                     "Forgot Password",
@@ -107,9 +81,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ],
               ),
             ),
+
             SizedBox(height: height * 0.04),
+
             Text(
-              "Forgot Password",
+              "Email or Phone",
               style: getBodyTextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -135,10 +111,21 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             SizedBox(height: height * 0.04),
 
-            // Continue Button----------->
-            CustomButton(buttonText: "Continue", onTap: () {}),
+            Obx(() {
+              final isEnabled = ctrl.isButtonEnabled.value;
+
+              return CustomButton(
+                buttonText: "Continue",
+                onTap: isEnabled
+                    ? () {
+                        Get.toNamed(AppRoute.getotpScreen());
+                      }
+                    : () {},
+              );
+            }),
           ],
         ),
       ),

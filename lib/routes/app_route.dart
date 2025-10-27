@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hollyb1213/features/auth/forgot_password/screen/forgot_password_screen.dart';
+import 'package:hollyb1213/features/auth/forgot_password_otp/screen/otp_screen.dart';
 import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
@@ -9,11 +10,13 @@ class AppRoute {
   static String onboardingScreen = '/onboardingScreen';
   static String loginScreen = '/loginScreen';
   static String forgotPasswordScreen = '/forgotPasswordScreen';
+  static String otpScreen = '/otpScreen';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
   static String getloginScreen() => loginScreen;
   static String getforgotPasswordScreen() => forgotPasswordScreen;
+  static String getotpScreen() => otpScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -34,6 +37,11 @@ class AppRoute {
     GetPage(
       name: forgotPasswordScreen,
       page: () => ForgotPasswordScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: otpScreen,
+      page: () => OTPScreen(),
       transition: Transition.fadeIn,
     ),
   ];

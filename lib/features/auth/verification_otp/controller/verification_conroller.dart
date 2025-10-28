@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class VerificationConroller extends GetxController {
   RxList<String> otp = List.filled(4, '').obs;
@@ -56,7 +57,7 @@ class VerificationConroller extends GetxController {
           child: Stack(
             children: [
               SizedBox(
-                width: 307,
+                width: 320,
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
@@ -103,7 +104,7 @@ class VerificationConroller extends GetxController {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.back();
+                            Get.toNamed(AppRoute.getuploadProfileScreen());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Appcolor.primaryColor,

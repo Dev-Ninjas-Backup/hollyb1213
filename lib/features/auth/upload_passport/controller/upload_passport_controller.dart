@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UploadNidController extends GetxController {
+class UploadPassportController extends GetxController {
   var frontImage = Rx<File?>(null);
   var backImage = Rx<File?>(null);
 

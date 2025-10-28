@@ -7,8 +7,8 @@ import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/upload_nid/screen/upload_nid_screen.dart';
 import 'package:hollyb1213/features/auth/upload_profile/controller/upload_profile_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadProfileScreen extends StatelessWidget {
   UploadProfileScreen({super.key});
@@ -178,7 +178,7 @@ class UploadProfileScreen extends StatelessWidget {
                 buttonText: "Next",
                 onTap: ctrl.image.value != null
                     ? () {
-                        Get.to(() => UploadNidScreen());
+                        Get.toNamed(AppRoute.getuploadNidScreen());
                       }
                     : null,
               );

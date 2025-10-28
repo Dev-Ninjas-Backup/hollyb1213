@@ -6,7 +6,9 @@ import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/auth/sing_up/screen/sing_up_screen.dart';
 import 'package:hollyb1213/features/auth/upload_nid/screen/upload_nid_screen.dart';
+import 'package:hollyb1213/features/auth/upload_passport/screen/upload_passport_screen.dart';
 import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_screen.dart';
+import 'package:hollyb1213/features/auth/upload_utility_bill/screen/upload_utility_bill_screen.dart';
 import 'package:hollyb1213/features/auth/verification_otp/screen/verification_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
@@ -21,6 +23,8 @@ class AppRoute {
   static String verificationScreen = '/verificationScreen';
   static String uploadProfileScreen = '/uploadProfileScreen';
   static String uploadNidScreen = '/uploadNidScreen';
+  static String uploadPassportScreen = '/uploadPassportScreen';
+  static String uploadUtilityBillScreen = '/uploadUtilityBillScreen';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
@@ -32,6 +36,8 @@ class AppRoute {
   static String getverificationScreen() => verificationScreen;
   static String getuploadProfileScreen() => uploadProfileScreen;
   static String getuploadNidScreen() => uploadNidScreen;
+  static String getuploadPassportScreen() => uploadPassportScreen;
+  static String getuploadUtilityBillScreen() => uploadUtilityBillScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -82,6 +88,16 @@ class AppRoute {
     GetPage(
       name: uploadNidScreen,
       page: () => UploadNidScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: uploadPassportScreen,
+      page: () => UploadPassportScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: uploadUtilityBillScreen,
+      page: () => UploadUtilityBillScreen(),
       transition: Transition.fadeIn,
     ),
   ];

@@ -48,7 +48,7 @@ class CreatePasswordController extends GetxController {
               SizedBox(
                 width: 260,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -99,18 +99,14 @@ class CreatePasswordController extends GetxController {
               ),
 
               Positioned(
-                right: 8,
+                right: 10,
                 top: 8,
                 child: GestureDetector(
                   onTap: () => Get.back(),
                   child: Container(
-                    padding: const EdgeInsets.all(6),
+                    padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(shape: BoxShape.circle),
-                    child: const Icon(
-                      Icons.close,
-                      size: 18,
-                      color: Colors.black,
-                    ),
+                    child: Icon(Icons.close, size: 18, color: Colors.black),
                   ),
                 ),
               ),

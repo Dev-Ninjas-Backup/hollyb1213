@@ -6,4 +6,6 @@ class Iconpath {
   static String lock = 'assets/icons/lock.png';
   static String vector = 'assets/icons/vector.png';
   static String vector2 = 'assets/icons/vector2.png';
+  static String upload = 'assets/icons/upload.png';
+  static String nid = 'assets/icons/nid.png';
 }

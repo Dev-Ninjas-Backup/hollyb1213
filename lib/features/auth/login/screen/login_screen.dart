@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                 CustomButton(
                   buttonText: "Login",
                   onTap: () {
-                    Get.offAndToNamed(AppRoute.gethomeScreen());
+                    Get.toNamed(AppRoute.gethomeScreen());
                   },
                 ),
 

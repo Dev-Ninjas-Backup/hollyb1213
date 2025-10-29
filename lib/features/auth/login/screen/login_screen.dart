@@ -127,7 +127,12 @@ class LoginScreen extends StatelessWidget {
 
                 SizedBox(height: 60),
 
-                CustomButton(buttonText: "Login", onTap: () {}),
+                CustomButton(
+                  buttonText: "Login",
+                  onTap: () {
+                    Get.offAndToNamed(AppRoute.gethomeScreen());
+                  },
+                ),
 
                 SizedBox(height: 60),
 

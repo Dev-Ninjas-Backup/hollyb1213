@@ -8,4 +8,5 @@ class Iconpath {
   static String vector2 = 'assets/icons/vector2.png';
   static String upload = 'assets/icons/upload.png';
   static String nid = 'assets/icons/nid.png';
+  static String dot = 'assets/icons/dot.png';
 }

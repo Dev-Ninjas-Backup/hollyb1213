@@ -5,32 +5,43 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
-class CreatePasswordController extends GetxController {
-  var password = ''.obs;
-  var confirmPassword = ''.obs;
-  var isPasswordVisible = false.obs;
-  var isConfirmVisible = false.obs;
+class PaymentMethodController extends GetxController {
+  final cardHolderNameController = TextEditingController();
+  final cardNumberController = TextEditingController();
+  final expiryDateController = TextEditingController();
+  final cvvController = TextEditingController();
 
-  // Reactive bool for button enable
   var isButtonEnabled = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    everAll([password, confirmPassword], (_) {
-      isButtonEnabled.value =
-          password.value.isNotEmpty &&
-          confirmPassword.value.isNotEmpty &&
-          password.value == confirmPassword.value;
-    });
+    cardHolderNameController.addListener(_validateForm);
+    cardNumberController.addListener(_validateForm);
+    expiryDateController.addListener(_validateForm);
+    cvvController.addListener(_validateForm);
   }
 
-  void togglePasswordVisibility() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+  void _validateForm() {
+    if (cardHolderNameController.text.isNotEmpty &&
+        cardNumberController.text.isNotEmpty &&
+        expiryDateController.text.isNotEmpty &&
+        cvvController.text.isNotEmpty) {
+      isButtonEnabled.value = true;
+    } else {
+      isButtonEnabled.value = false;
+    }
   }
 
-  void toggleConfirmVisibility() {
-    isConfirmVisible.value = !isConfirmVisible.value;
+  void onPayContinue() {}
+
+  @override
+  void onClose() {
+    cardHolderNameController.dispose();
+    cardNumberController.dispose();
+    expiryDateController.dispose();
+    cvvController.dispose();
+    super.onClose();
   }
 
   void continueAction() {
@@ -64,7 +75,7 @@ class CreatePasswordController extends GetxController {
                         ),
                         child: Center(
                           child: Image.asset(
-                            Iconpath.vector,
+                            Iconpath.vector2,
                             height: 13,
                             width: 14,
                             color: Appcolor.primaryColor,
@@ -81,8 +92,11 @@ class CreatePasswordController extends GetxController {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        "Your account is ready to use",
-                        style: getBodyTextStyle(fontSize: 12),
+                        "Payment successful. Your account has been verified and activated for job access.",
+                        style: getBodyTextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 30),
@@ -91,13 +105,13 @@ class CreatePasswordController extends GetxController {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.toNamed(AppRoute.getloginScreen());
+                            Get.toNamed(AppRoute.gethomeScreen());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Appcolor.primaryColor,
                           ),
                           child: Text(
-                            'Continue',
+                            'Go to Home',
                             style: getTextStyle(
                               color: Colors.white,
                               fontSize: 12,
@@ -107,19 +121,6 @@ class CreatePasswordController extends GetxController {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-
-              Positioned(
-                right: 10,
-                top: 8,
-                child: GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Container(
-                    padding: EdgeInsets.all(6),
-                    decoration: BoxDecoration(shape: BoxShape.circle),
-                    child: Icon(Icons.close, size: 18, color: Colors.black),
                   ),
                 ),
               ),

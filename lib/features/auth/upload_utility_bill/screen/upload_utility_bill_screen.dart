@@ -6,6 +6,7 @@ import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/upload_utility_bill/controller/upload_utility_bill_controller.dart';
 import 'package:hollyb1213/features/auth/upload_utility_bill/widget/utility_bill_box_widget.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadUtilityBillScreen extends StatelessWidget {
   UploadUtilityBillScreen({super.key});
@@ -225,7 +226,7 @@ class UploadUtilityBillScreen extends StatelessWidget {
                 buttonText: "Submit",
                 onTap: isEnabled
                     ? () {
-                        // Get.toNamed(AppRoute.getuploadPassportScreen());
+                        Get.toNamed(AppRoute.getpaymentMethodScreen());
                       }
                     : null,
               );

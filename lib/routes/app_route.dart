@@ -3,6 +3,7 @@ import 'package:hollyb1213/features/auth/create_new_password/screen/create_passw
 import 'package:hollyb1213/features/auth/forgot_password/screen/forgot_password_screen.dart';
 import 'package:hollyb1213/features/auth/forgot_password_otp/screen/otp_screen.dart';
 import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
+import 'package:hollyb1213/features/auth/payment_method/screen/payment_method_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/auth/sing_up/screen/sing_up_screen.dart';
 import 'package:hollyb1213/features/auth/upload_nid/screen/upload_nid_screen.dart';
@@ -10,6 +11,7 @@ import 'package:hollyb1213/features/auth/upload_passport/screen/upload_passport_
 import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_screen.dart';
 import 'package:hollyb1213/features/auth/upload_utility_bill/screen/upload_utility_bill_screen.dart';
 import 'package:hollyb1213/features/auth/verification_otp/screen/verification_screen.dart';
+import 'package:hollyb1213/features/employee/home/screen/home_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 class AppRoute {
@@ -25,6 +27,8 @@ class AppRoute {
   static String uploadNidScreen = '/uploadNidScreen';
   static String uploadPassportScreen = '/uploadPassportScreen';
   static String uploadUtilityBillScreen = '/uploadUtilityBillScreen';
+  static String paymentMethodScreen = '/paymentMethodScreen';
+  static String homeScreen = '/homeScreen';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
@@ -38,6 +42,8 @@ class AppRoute {
   static String getuploadNidScreen() => uploadNidScreen;
   static String getuploadPassportScreen() => uploadPassportScreen;
   static String getuploadUtilityBillScreen() => uploadUtilityBillScreen;
+  static String getpaymentMethodScreen() => paymentMethodScreen;
+  static String gethomeScreen() => homeScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -98,6 +104,16 @@ class AppRoute {
     GetPage(
       name: uploadUtilityBillScreen,
       page: () => UploadUtilityBillScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: paymentMethodScreen,
+      page: () => PaymentMethodScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: homeScreen,
+      page: () => HomeScreen(),
       transition: Transition.fadeIn,
     ),
   ];

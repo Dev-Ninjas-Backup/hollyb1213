@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -18,9 +19,10 @@ class HomeScreen extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
+                CustomBackButton(),
                 Center(
                   child: Text(
-                    "Hi Holy-B ",
+                    "Hi Holy_B ",
                     style: getTextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,

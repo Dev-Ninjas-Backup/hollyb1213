@@ -12,6 +12,7 @@ import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_sc
 import 'package:hollyb1213/features/auth/upload_utility_bill/screen/upload_utility_bill_screen.dart';
 import 'package:hollyb1213/features/auth/verification_otp/screen/verification_screen.dart';
 import 'package:hollyb1213/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
+import 'package:hollyb1213/features/employee/home/job_details/screen/job_details_screen.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
@@ -31,6 +32,7 @@ class AppRoute {
   static String paymentMethodScreen = '/paymentMethodScreen';
   static String employeeBottomNavbarScreen = '/employeeBottomNavbarScreen';
   static String employeeHomeScreen = '/employeeHomeScreen';
+  static String jobDetailsScreen = '/jobDetailsScreen';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
@@ -47,6 +49,7 @@ class AppRoute {
   static String getpaymentMethodScreen() => paymentMethodScreen;
   static String getEmployeeBottomNavbarScreen() => employeeBottomNavbarScreen;
   static String getEmployeeHomeScreen() => employeeHomeScreen;
+  static String getjobDetailsScreen() => jobDetailsScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -121,6 +124,11 @@ class AppRoute {
     GetPage(
       name: employeeHomeScreen,
       page: () => EmployeHomeScreen(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: jobDetailsScreen,
+      page: () => JobDetailsScreen(),
       transition: Transition.fadeIn,
     ),
   ];

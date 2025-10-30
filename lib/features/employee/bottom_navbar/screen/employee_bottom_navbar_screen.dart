@@ -17,10 +17,10 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
     );
 
     final List<Widget> pages = [
-      const EmployeHomeScreen(),
       EmployeHomeScreen(),
-      const EmployeHomeScreen(),
-      EmployeHomeScreen(),
+      // EmployeHomeScreen(),
+      //  EmployeHomeScreen(),
+      // EmployeHomeScreen(),
     ];
 
     final List<String> icons = [

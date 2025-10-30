@@ -1,19 +1,123 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
+import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
+import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
+import 'package:hollyb1213/core/common/constants/widget/custom_text_field.dart';
+import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile_info/controller/employee_profile_info_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class EmployeeProfileInfoPage extends StatelessWidget {
-  const EmployeeProfileInfoPage({super.key});
+  final controller = Get.put(EmployeeProfileInfoController());
+  EmployeeProfileInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      body: Column(
-        children: [
-          CustomAppBar(title: "Profile Info", iconUrl: Iconpath.backIcon),
-        ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomAppBar(title: "Profile Info", iconUrl: Iconpath.backIcon),
+              SizedBox(height: 24.h),
+              Center(
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(61.r),
+                      child: Image.asset(
+                        Imagepath.profile,
+                        height: 122.w,
+                        width: 122.w,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 2,
+                      right: 1.1,
+
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Image.asset(
+                          Iconpath.editicon,
+                          height: 40.h,
+                          width: 40.w,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 20.h),
+              Text(
+                "Personal Details",
+                style: getBodyTextStyle(
+                  fontSize: sp(20),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Full name",
+                hintText: "Nicolas",
+              ),
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Phone Number",
+                hintText: "+1 (555) 123-4567",
+              ),
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Address",
+                hintText: "House #5, Dhaka Bangladesh",
+              ),
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Date of Birth",
+                hintText: "12 may 1999",
+              ),
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Date of Birth",
+                hintText: "12 may 1999",
+              ),
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Skills",
+                hintText: "Cleaning, waiter, Kitchen Assistant Kitchen Helper",
+              ),
+              SizedBox(height: 30.h),
+              CustomButton(buttonText: "Save Changes", onTap: () {}),
+              SizedBox(height: 30.h),
+              GestureDetector(
+
+onTap: (){Get.offAllNamed(AppRoute.loginScreen);},
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/icons/delete.png", height: 40.h, width: 40.w),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "Delete Account",
+                      style: getTextStyle(color: Color(0xFFFF2F2F)),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 40.h),
+            ],
+          ),
+        ),
       ),
     );
   }

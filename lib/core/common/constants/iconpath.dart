@@ -13,6 +13,12 @@ class Iconpath {
   static String job = 'assets/icons/job_icon.png';
   static String message = 'assets/icons/message_icon.png';
   static String profile = 'assets/icons/profile_icon.png';
+
+  static String search = 'assets/icons/search.png';
+  static String notification = 'assets/icons/notification.png';
+  static String job2 = 'assets/icons/job2.png';
+  static String job3 = 'assets/icons/job3.png';
+
   static String messageProfileIcon = 'assets/icons/messageIcon.png';
   static String callIcon = 'assets/icons/callIcon.png';
   static String profileActiveicon = 'assets/icons/profileActiveIcon.png';
@@ -30,4 +36,5 @@ class Iconpath {
   static String signOut = 'assets/icons/signOut.png';
   static String backIcon = 'assets/icons/backIcon.png';
   static String editicon = 'assets/icons/edit.png';
+
 }

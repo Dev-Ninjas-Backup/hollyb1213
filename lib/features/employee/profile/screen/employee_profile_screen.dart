@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_shadow_container.dart'
     show CustomShadowContainer;
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
@@ -44,6 +45,84 @@ class EmployeeProfileScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.h),
+
+              Padding(
+                padding: EdgeInsets.only(bottom: 18.h),
+                child: CustomShadowContainer(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        Iconpath.notification,
+                        height: 40.h,
+                        width: 40.w,
+                      ),
+                      SizedBox(width: 12.w),
+
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Notifications",
+                              style: getBodyTextStyle(
+                                fontSize: sp(18),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+
+                            // Row(
+                            //   children: [
+                            //     ToggleButtons(
+                            //       children: children,
+                            //       isSelected: isSelected,
+                            //     ),
+
+                            //     Text(
+                            //       item.subTitle,
+                            //       style: getBodyTextStyle(
+                            //         color: Appcolor.appTextSecondaryColor,
+                            //       ),
+                            //       textAlign: TextAlign.start,
+                            //       overflow: TextOverflow.ellipsis,
+                            //       maxLines: 2,
+                            //     ),
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      ),
+
+                      Obx(
+                        () => ToggleButtons(
+                          borderRadius: BorderRadius.circular(8),
+                          selectedColor: Colors.white,
+                          fillColor: Appcolor.primaryColor.withValues(
+                            alpha: .4,
+                          ),
+                          color: Colors.black,
+                          constraints: BoxConstraints(
+                            minHeight: 25.h,
+                            minWidth: 40.w,
+                          ),
+                          isSelected: controller.isSelected,
+                          onPressed: (index) => controller.toggle(index),
+                          children: [
+                            Text(
+                              "Enable",
+                              style: getBodyTextStyle(fontSize: sp(8)),
+                            ),
+                            Text(
+                              "Disable",
+                              style: getBodyTextStyle(fontSize: sp(8)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
               ListView.builder(
                 padding: EdgeInsets.zero,
@@ -100,48 +179,6 @@ class EmployeeProfileScreen extends StatelessWidget {
                 },
               ),
 
-              // CustomShadowContainer(
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     children: [
-              //       Image.asset(Iconpath.privacy, height: 40.h, width: 40.w),
-              //       SizedBox(width: 12.w),
-
-              //       Expanded(
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text(
-              //               "Profile Info",
-              //               style: getBodyTextStyle(
-              //                 fontSize: sp(18),
-              //                 fontWeight: FontWeight.w500,
-              //               ),
-              //             ),
-              //             Text(
-              //               "Update your name, email, or phone number",
-              //               style: getBodyTextStyle(
-              //                 color: Appcolor.appTextSecondaryColor,
-              //               ),
-              //               textAlign: TextAlign.start,
-              //               overflow: TextOverflow.ellipsis,
-              //               maxLines: 2,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-
-              //       GestureDetector(
-              //         onTap: () {},
-              //         child: Icon(
-              //           Icons.arrow_forward_ios,
-              //           size: sp(20),
-              //           color: Appcolor.appTextSecondaryColor,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               SizedBox(height: 50),
             ],
           ),

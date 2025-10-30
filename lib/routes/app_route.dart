@@ -11,7 +11,8 @@ import 'package:hollyb1213/features/auth/upload_passport/screen/upload_passport_
 import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_screen.dart';
 import 'package:hollyb1213/features/auth/upload_utility_bill/screen/upload_utility_bill_screen.dart';
 import 'package:hollyb1213/features/auth/verification_otp/screen/verification_screen.dart';
-import 'package:hollyb1213/features/employee/home/screen/home_screen.dart';
+import 'package:hollyb1213/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
+import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 class AppRoute {
@@ -28,7 +29,8 @@ class AppRoute {
   static String uploadPassportScreen = '/uploadPassportScreen';
   static String uploadUtilityBillScreen = '/uploadUtilityBillScreen';
   static String paymentMethodScreen = '/paymentMethodScreen';
-  static String homeScreen = '/homeScreen';
+  static String employeeBottomNavbarScreen = '/employeeBottomNavbarScreen';
+  static String employeeHomeScreen = '/employeeHomeScreen';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
@@ -43,7 +45,8 @@ class AppRoute {
   static String getuploadPassportScreen() => uploadPassportScreen;
   static String getuploadUtilityBillScreen() => uploadUtilityBillScreen;
   static String getpaymentMethodScreen() => paymentMethodScreen;
-  static String gethomeScreen() => homeScreen;
+  static String getEmployeeBottomNavbarScreen() => employeeBottomNavbarScreen;
+  static String getEmployeeHomeScreen() => employeeHomeScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -112,8 +115,12 @@ class AppRoute {
       transition: Transition.fadeIn,
     ),
     GetPage(
-      name: homeScreen,
-      page: () => HomeScreen(),
+      name: employeeBottomNavbarScreen,
+      page: () => EmployeeBottomNavbarScreen(),
+    ),
+    GetPage(
+      name: employeeHomeScreen,
+      page: () => EmployeHomeScreen(),
       transition: Transition.fadeIn,
     ),
   ];

@@ -9,4 +9,8 @@ class Iconpath {
   static String upload = 'assets/icons/upload.png';
   static String nid = 'assets/icons/nid.png';
   static String dot = 'assets/icons/dot.png';
+  static String home = 'assets/icons/home_icon.png';
+  static String job = 'assets/icons/job_icon.png';
+  static String message = 'assets/icons/message_icon.png';
+  static String profile = 'assets/icons/profile_icon.png';
 }

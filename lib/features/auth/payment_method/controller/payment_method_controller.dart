@@ -105,7 +105,9 @@ class PaymentMethodController extends GetxController {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.toNamed(AppRoute.gethomeScreen());
+                            Get.toNamed(
+                              AppRoute.getEmployeeBottomNavbarScreen(),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Appcolor.primaryColor,

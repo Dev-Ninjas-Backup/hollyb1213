@@ -126,7 +126,9 @@ class VerificationConroller extends GetxController {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.offAll(AppRoute.gethomeScreen());
+                            Get.offAll(
+                              AppRoute.getEmployeeBottomNavbarScreen(),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Appcolor.appSecondaryColor,

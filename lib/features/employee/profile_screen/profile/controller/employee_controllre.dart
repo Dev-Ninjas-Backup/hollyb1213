@@ -1,7 +1,10 @@
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/features/employee/profile/model/settings_model.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeProfileControllre extends GetxController {
@@ -33,6 +36,9 @@ class EmployeeProfileControllre extends GetxController {
       imageUrl: Iconpath.profile2,
       title: "Profile Info",
       subTitle: "Update your name, email, or phone number",
+      ontap: () {
+        Get.toNamed(AppRoute.getemployeeProfileInfo());
+      },
     ),
     SettingsModel(
       imageUrl: Iconpath.privacy,

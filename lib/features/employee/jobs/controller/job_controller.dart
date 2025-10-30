@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
-import 'package:hollyb1213/features/employee/bottom_navbar/jobs/model/job_model.dart';
+import 'package:hollyb1213/features/employee/jobs/model/job_model.dart';
 
 class JobController extends GetxController {
   var jobs = <JobModel>[].obs;

@@ -44,6 +44,9 @@ class EmployeeProfileControllre extends GetxController {
       imageUrl: Iconpath.privacy,
       title: "Privacy & privacy",
       subTitle: "Manage your privacy settings",
+      ontap: (){
+      
+      Get.toNamed(AppRoute.employeeprivacy);}
     ),
 
     SettingsModel(

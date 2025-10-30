@@ -24,6 +24,7 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
 
       JobScreen(),
 
+
       MessageScreen(),
       EmployeeProfileScreen(),
     ];

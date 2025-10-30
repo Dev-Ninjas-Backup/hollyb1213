@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/profile/controller/employee_controllre.dart';
-import 'package:hollyb1213/features/employee/profile/widgets/profile_upper_section.dart';
-import 'package:hollyb1213/features/employee/profile/widgets/settings.dart';
-import 'package:hollyb1213/features/employee/profile/widgets/your_stats.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/controller/employee_controllre.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_upper_section.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/settings.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/your_stats.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class EmployeeProfileScreen extends StatelessWidget {

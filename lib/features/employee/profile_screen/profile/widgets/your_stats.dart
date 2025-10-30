@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_shadow_container.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/profile/controller/employee_controllre.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/controller/employee_controllre.dart';
 
 class YourStats extends StatelessWidget {
   const YourStats({

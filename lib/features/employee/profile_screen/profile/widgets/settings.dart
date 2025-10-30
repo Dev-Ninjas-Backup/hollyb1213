@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/common/constants/appcolor.dart';
-import '../../../../core/common/constants/iconpath.dart';
-import '../../../../core/common/constants/widget/custom_shadow_container.dart';
-import '../../../../core/common/style/global_text_style.dart';
+import '../../../../../core/common/constants/appcolor.dart';
+import '../../../../../core/common/constants/iconpath.dart';
+import '../../../../../core/common/constants/widget/custom_shadow_container.dart';
+import '../../../../../core/common/style/global_text_style.dart';
 import '../controller/employee_controllre.dart';
 
 class Settings extends StatelessWidget {
-  const Settings({
-    super.key,
-    required this.controller,
-  });
+  const Settings({super.key, required this.controller});
 
   final EmployeeProfileControllre controller;
 
@@ -26,13 +23,9 @@ class Settings extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  Iconpath.notification,
-                  height: 40.h,
-                  width: 40.w,
-                ),
+                Image.asset(Iconpath.notification, height: 40.h, width: 40.w),
                 SizedBox(width: 12.w),
-    
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,14 +40,12 @@ class Settings extends StatelessWidget {
                     ],
                   ),
                 ),
-    
+
                 Obx(
                   () => ToggleButtons(
                     borderRadius: BorderRadius.circular(8),
                     selectedColor: Colors.white,
-                    fillColor: Appcolor.primaryColor.withValues(
-                      alpha: .4,
-                    ),
+                    fillColor: Appcolor.primaryColor.withValues(alpha: .4),
                     color: Colors.black,
                     constraints: BoxConstraints(
                       minHeight: 25.h,
@@ -63,14 +54,8 @@ class Settings extends StatelessWidget {
                     isSelected: controller.isSelected,
                     onPressed: (index) => controller.toggle(index),
                     children: [
-                      Text(
-                        "Enable",
-                        style: getBodyTextStyle(fontSize: sp(8)),
-                      ),
-                      Text(
-                        "Disable",
-                        style: getBodyTextStyle(fontSize: sp(8)),
-                      ),
+                      Text("Enable", style: getBodyTextStyle(fontSize: sp(8))),
+                      Text("Disable", style: getBodyTextStyle(fontSize: sp(8))),
                     ],
                   ),
                 ),
@@ -78,7 +63,7 @@ class Settings extends StatelessWidget {
             ),
           ),
         ),
-    
+
         ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
@@ -92,13 +77,9 @@ class Settings extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      item.imageUrl,
-                      height: 40.h,
-                      width: 40.w,
-                    ),
+                    Image.asset(item.imageUrl, height: 40.h, width: 40.w),
                     SizedBox(width: 12.w),
-    
+
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,9 +103,9 @@ class Settings extends StatelessWidget {
                         ],
                       ),
                     ),
-    
+
                     GestureDetector(
-                      onTap: () {},
+                      onTap: item.ontap,
                       child: Icon(
                         Icons.arrow_forward_ios,
                         size: sp(20),

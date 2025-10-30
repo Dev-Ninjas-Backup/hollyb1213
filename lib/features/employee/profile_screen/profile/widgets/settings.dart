@@ -23,7 +23,7 @@ class Settings extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(Iconpath.notification, height: 40.h, width: 40.w),
+                Image.asset(Iconpath.notificationProfile, height: 40.h, width: 40.w),
                 SizedBox(width: 12.w),
 
                 Expanded(

@@ -14,6 +14,7 @@ import 'package:hollyb1213/features/auth/verification_otp/screen/verification_sc
 import 'package:hollyb1213/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
 import 'package:hollyb1213/features/employee/home/job_details/screen/job_details_screen.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
+import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 import '../features/employee/profile_screen/profile_info/screen/employee_profile_info_page.dart';
@@ -39,6 +40,7 @@ class AppRoute {
 
   //profile
   static String employeeProfileInfo="/employee/employeeProfileInfo";
+  static String employeeprivacy="/employee/privacy";
 
 
   static String getroleSelection() => roleSelectionScreen;
@@ -60,6 +62,7 @@ class AppRoute {
   static String getjobDetailsScreen() => jobDetailsScreen;
 
   static String getemployeeProfileInfo()=>employeeProfileInfo;
+  static String getEmployreeprivacy()=>employeeprivacy;
 
 
   static List<GetPage> routes = [
@@ -144,7 +147,8 @@ class AppRoute {
       transition: Transition.fadeIn,
     ),
 
-    GetPage(name: employeeProfileInfo, page: ()=>EmployeeProfileInfoPage())
+    GetPage(name: employeeProfileInfo, page: ()=>EmployeeProfileInfoPage()),
+    GetPage(name: employeeprivacy, page: ()=>EmployeePrivacy())
 
   ];
 }

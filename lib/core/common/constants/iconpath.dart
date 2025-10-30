@@ -13,8 +13,28 @@ class Iconpath {
   static String job = 'assets/icons/job_icon.png';
   static String message = 'assets/icons/message_icon.png';
   static String profile = 'assets/icons/profile_icon.png';
+
   static String search = 'assets/icons/search.png';
   static String notification = 'assets/icons/notification.png';
   static String job2 = 'assets/icons/job2.png';
   static String job3 = 'assets/icons/job3.png';
+
+  static String messageProfileIcon = 'assets/icons/messageIcon.png';
+  static String callIcon = 'assets/icons/callIcon.png';
+  static String profileActiveicon = 'assets/icons/profileActiveIcon.png';
+  static String earnIcon = "assets/icons/earnIcon.png";
+  static String workIcon = "assets/icons/workeIcon.png";
+  static String monthCalenderIcon = "assets/icons/monthCalenderIcon.png";
+  static String jobProfileIcon = "assets/icons/jobIconProfile.png";
+  static String about = "assets/icons/about.png";
+  static String changepassword = 'assets/icons/changepassword.png';
+  static String document = 'assets/icons/document.png';
+  static String notification = 'assets/icons/notificationIcon.png';
+  static String privacy = "assets/icons/privacy.png";
+  static String profile2 = "assets/icons/profile.png";
+  static String support = "assets/icons/support.png";
+  static String signOut = 'assets/icons/signOut.png';
+  static String backIcon = 'assets/icons/backIcon.png';
+  static String editicon = 'assets/icons/edit.png';
+
 }

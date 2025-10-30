@@ -6,6 +6,7 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/screen/employee_profile_screen.dart';
 
 class EmployeeBottomNavbarScreen extends StatelessWidget {
   const EmployeeBottomNavbarScreen({super.key});
@@ -17,10 +18,18 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
     );
 
     final List<Widget> pages = [
+
       EmployeHomeScreen(),
       // EmployeHomeScreen(),
       //  EmployeHomeScreen(),
       // EmployeHomeScreen(),
+
+      const EmployeHomeScreen(),
+      EmployeHomeScreen(),
+
+      const EmployeHomeScreen(),
+      EmployeeProfileScreen(),
+
     ];
 
     final List<String> icons = [
@@ -37,17 +46,6 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
         backgroundColor: Appcolor.backgroundcolor,
         body: pages[controller.currentIndex.value],
         bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 2,
-                blurRadius: 10,
-                offset: Offset(0, -2),
-              ),
-            ],
-          ),
           padding: EdgeInsets.only(
             left: 30.w,
             right: 30.w,

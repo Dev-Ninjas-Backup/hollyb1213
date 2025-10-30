@@ -29,12 +29,11 @@ class Iconpath {
   static String about = "assets/icons/about.png";
   static String changepassword = 'assets/icons/changepassword.png';
   static String document = 'assets/icons/document.png';
-  static String notification = 'assets/icons/notificationIcon.png';
+  static String notificationicon = 'assets/icons/notificationIcon.png';
   static String privacy = "assets/icons/privacy.png";
   static String profile2 = "assets/icons/profile.png";
   static String support = "assets/icons/support.png";
   static String signOut = 'assets/icons/signOut.png';
   static String backIcon = 'assets/icons/backIcon.png';
   static String editicon = 'assets/icons/edit.png';
-
 }

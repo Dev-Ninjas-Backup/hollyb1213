@@ -13,4 +13,11 @@ class Iconpath {
   static String job = 'assets/icons/job_icon.png';
   static String message = 'assets/icons/message_icon.png';
   static String profile = 'assets/icons/profile_icon.png';
+  static String messageProfileIcon = 'assets/icons/messageIcon.png';
+  static String callIcon = 'assets/icons/callIcon.png';
+  static String profileActiveicon = 'assets/icons/profileActiveIcon.png';
+  static String earnIcon = "assets/icons/earnIcon.png";
+  static String workIcon = "assets/icons/workeIcon.png";
+  static String monthCalenderIcon = "assets/icons/monthCalenderIcon.png";
+  static String jobProfileIcon = "assets/icons/jobIconProfile.png";
 }

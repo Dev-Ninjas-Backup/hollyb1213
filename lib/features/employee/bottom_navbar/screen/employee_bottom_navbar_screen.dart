@@ -6,6 +6,7 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
+import 'package:hollyb1213/features/employee/profile/screen/employee_profile_screen.dart';
 
 class EmployeeBottomNavbarScreen extends StatelessWidget {
   const EmployeeBottomNavbarScreen({super.key});
@@ -20,7 +21,7 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
       const EmployeHomeScreen(),
       EmployeHomeScreen(),
       const EmployeHomeScreen(),
-      EmployeHomeScreen(),
+      EmployeeProfileScreen(),
     ];
 
     final List<String> icons = [

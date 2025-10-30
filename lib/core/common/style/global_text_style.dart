@@ -11,7 +11,7 @@ TextStyle getTextStyle({
   Color color = Appcolor.primaryColor,
 }) {
   return GoogleFonts.poppins(
-    fontSize: fontSize.sp,
+    fontSize: sp(fontSize),
     fontWeight: fontWeight,
     color: color,
   );
@@ -21,11 +21,16 @@ TextStyle getBodyTextStyle({
   double fontSize = 14.0,
   FontWeight fontWeight = FontWeight.w400,
   TextAlign textAlign = TextAlign.center,
-  Color color = Appcolor.appBodyColor,
+  Color color = Appcolor.appTextColor,
 }) {
-  return GoogleFonts.inter(
-    fontSize: fontSize.sp,
+  return GoogleFonts.poppins(
+    fontSize: sp(fontSize),
     fontWeight: fontWeight,
     color: color,
   );
+}
+double sp(double baseSize) {
+  double scale = ScreenUtil().screenWidth / 375;
+  if (scale > 1.2) scale = 1.2;
+  return baseSize * scale;
 }

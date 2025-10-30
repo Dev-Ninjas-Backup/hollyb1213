@@ -22,7 +22,7 @@ class YourStats extends StatelessWidget {
       scrollDirection: Axis.vertical,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 20.w,
+        crossAxisSpacing: 10.w,
         mainAxisSpacing: 20.h,
         childAspectRatio: 1.3,
       ),

@@ -20,4 +20,11 @@ class Iconpath {
   static String workIcon = "assets/icons/workeIcon.png";
   static String monthCalenderIcon = "assets/icons/monthCalenderIcon.png";
   static String jobProfileIcon = "assets/icons/jobIconProfile.png";
+  static String about = "assets/icons/about.png";
+  static String changepassword = 'assets/icons/changepassword.png';
+  static String document = 'assets/icons/document.png';
+  static String notification = 'assets/icons/notificationIcon.png';
+  static String privacy = "assets/icons/privacy.png";
+  static String profile2 = "assets/icons/profile.png";
+  static String support = "assets/icons/support.png";
 }

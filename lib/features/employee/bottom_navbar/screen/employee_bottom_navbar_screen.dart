@@ -20,6 +20,7 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
     final List<Widget> pages = [
       const EmployeHomeScreen(),
       EmployeHomeScreen(),
+
       const EmployeHomeScreen(),
       EmployeeProfileScreen(),
     ];
@@ -38,17 +39,6 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
         backgroundColor: Appcolor.backgroundcolor,
         body: pages[controller.currentIndex.value],
         bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 2,
-                blurRadius: 10,
-                offset: Offset(0, -2),
-              ),
-            ],
-          ),
           padding: EdgeInsets.only(
             left: 30.w,
             right: 30.w,

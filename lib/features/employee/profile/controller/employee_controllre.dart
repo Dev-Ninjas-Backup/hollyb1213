@@ -1,6 +1,8 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/features/employee/profile/model/settings_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployeeProfileControllre extends GetxController {
   final List<Map<String, dynamic>> statsList = [
@@ -59,4 +61,26 @@ class EmployeeProfileControllre extends GetxController {
       subTitle: "Update your login password for security",
     ),
   ];
+
+  RxList<bool> isSelected = [true, false].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadPreference();
+  }
+
+  Future<void> loadPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool enabled = prefs.getBool('notificationsEnabled') ?? true;
+    isSelected.value = enabled ? [true, false] : [false, true];
+  }
+
+  Future<void> toggle(int index) async {
+    for (int i = 0; i < isSelected.length; i++) {
+      isSelected[i] = i == index;
+    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('notificationsEnabled', index == 0);
+  }
 }

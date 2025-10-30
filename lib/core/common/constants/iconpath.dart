@@ -27,4 +27,5 @@ class Iconpath {
   static String privacy = "assets/icons/privacy.png";
   static String profile2 = "assets/icons/profile.png";
   static String support = "assets/icons/support.png";
+  static String signOut='assets/icons/signOut.png';
 }

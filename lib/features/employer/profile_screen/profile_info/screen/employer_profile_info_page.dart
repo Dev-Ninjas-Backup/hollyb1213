@@ -7,7 +7,9 @@ import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_text_field.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile_info/controller/employer_profile_info_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EmployerProfileInfoPage extends StatelessWidget {
   final controller = Get.put(EmployerProfileInfoController());
@@ -42,7 +44,9 @@ class EmployerProfileInfoPage extends StatelessWidget {
                       right: 1.1,
 
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          controller.pickImage(ImageSource.gallery);
+                        },
                         child: Image.asset(
                           Iconpath.editicon,
                           height: 40.h,
@@ -71,38 +75,33 @@ class EmployerProfileInfoPage extends StatelessWidget {
               ),
 
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.companyNameController,
                 lebelText: "Company  Name",
                 hintText: "Carter's Grill & Cafe",
               ),
 
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.phoneNumberController,
                 lebelText: "Phone Number",
                 hintText: "+1 (555) 123-4567",
               ),
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.addressController,
                 lebelText: "Address",
                 hintText: "House #5, Dhaka Bangladesh",
               ),
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.dobController,
                 lebelText: "Date of Birth",
                 hintText: "12 may 1999",
               ),
-              // CustomTextField(
-              //   controller: controller.fullNameController,
-              //   lebelText: "Date of Birth",
-              //   hintText: "12 may 1999",
-              // ),
 
               SizedBox(height: 30.h),
               CustomButton(buttonText: "Save Changes", onTap: () {}),
               SizedBox(height: 30.h),
               GestureDetector(
                 onTap: () {
-                  //  Get.offAll(RoleSelectionScreen());
+                  Get.offAll(RoleSelectionScreen());
                 },
 
                 child: Row(

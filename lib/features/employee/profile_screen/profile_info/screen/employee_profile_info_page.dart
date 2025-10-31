@@ -9,6 +9,7 @@ import 'package:hollyb1213/core/common/constants/widget/custom_text_field.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile_info/controller/employee_profile_info_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EmployeeProfileInfoPage extends StatelessWidget {
   final controller = Get.put(EmployeeProfileInfoController());
@@ -43,7 +44,9 @@ class EmployeeProfileInfoPage extends StatelessWidget {
                       right: 1.1,
 
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          controller.pickImage(ImageSource.gallery);
+                        },
                         child: Image.asset(
                           Iconpath.editicon,
                           height: 40.h,
@@ -72,22 +75,22 @@ class EmployeeProfileInfoPage extends StatelessWidget {
               ),
 
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.phoneNumberController,
                 lebelText: "Phone Number",
                 hintText: "+1 (555) 123-4567",
               ),
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.addressController,
                 lebelText: "Address",
                 hintText: "House #5, Dhaka Bangladesh",
               ),
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.dobController,
                 lebelText: "Date of Birth",
                 hintText: "12 may 1999",
               ),
               CustomTextField(
-                controller: controller.fullNameController,
+                controller: controller.skillController,
                 lebelText: "Skills",
                 hintText: "Cleaning, waiter, Kitchen Assistant Kitchen Helper",
               ),

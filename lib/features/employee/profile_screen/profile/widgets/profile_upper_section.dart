@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class ProfileUpperSection extends StatelessWidget {
   const ProfileUpperSection({
@@ -109,10 +112,18 @@ class ProfileUpperSection extends StatelessWidget {
               itemSize: sp(20),
               direction: Axis.horizontal,
             ),
-            Text(
-              "4.8 (24 review)",
-              style: getBodyTextStyle(
-                color: Appcolor.appTextSecondaryColor,
+            GestureDetector(
+
+            onTap: (){
+            
+            Get.toNamed(AppRoute.employeeReview);
+            
+            },
+              child: Text(
+                "4.8 (24 review)",
+                style: getBodyTextStyle(
+                  color: Appcolor.appTextSecondaryColor,
+                ),
               ),
             ),
           ],

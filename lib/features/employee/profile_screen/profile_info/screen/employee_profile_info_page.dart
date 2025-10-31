@@ -63,6 +63,8 @@ class EmployeeProfileInfoPage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+                            SizedBox(height: 20.h),
+
 
               CustomTextField(
                 controller: controller.fullNameController,

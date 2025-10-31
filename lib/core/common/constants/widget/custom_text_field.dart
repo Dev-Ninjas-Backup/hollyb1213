@@ -30,7 +30,7 @@ class CustomTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(lebelText, style: getTextStyle()),
+          Text(lebelText, style: getTextStyle(color: Appcolor.appTextColor,fontSize: sp(14),fontWeight: FontWeight.w500)),
 
           Container(
             margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
               color: Appcolor.appSecondaryColor,
               borderRadius: BorderRadius.circular(12.r),
 
-              border: Border.all(color: Appcolor.appBodyColor),
+             // border: Border.all(color: Appcolor.appBodyColor),
             ),
             child: Row(
               children: [

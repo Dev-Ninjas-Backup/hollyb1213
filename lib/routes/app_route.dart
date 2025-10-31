@@ -16,6 +16,7 @@ import 'package:hollyb1213/features/employee/home/job_details/screen/job_details
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
+import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 import '../features/employee/profile_screen/profile_info/screen/employee_profile_info_page.dart';
@@ -40,8 +41,10 @@ class AppRoute {
   static String jobDetailsScreen = '/jobDetailsScreen';
 
   //profile
-  static String employeeProfileInfo = "/employee/employeeProfileInfo";
-  static String employeeprivacy = "/employee/privacy";
+  static String employeeProfileInfo="/employee/employeeProfileInfo";
+  static String employeeprivacy="/employee/privacy";
+  static String employeeReview="/emplyee/employeeReview";
+
   static String employeeAvailablejobs = '/employeeAvailablejobs';
 
   static String getroleSelection() => roleSelectionScreen;
@@ -59,6 +62,7 @@ class AppRoute {
   static String getpaymentMethodScreen() => paymentMethodScreen;
   static String getEmployeeBottomNavbarScreen() => employeeBottomNavbarScreen;
   static String getEmployeeHomeScreen() => employeeHomeScreen;
+  static String getemployeeReview()=>employeeReview;
 
   static String getjobDetailsScreen() => jobDetailsScreen;
 
@@ -148,8 +152,11 @@ class AppRoute {
       transition: Transition.fadeIn,
     ),
 
-    GetPage(name: employeeProfileInfo, page: () => EmployeeProfileInfoPage()),
-    GetPage(name: employeeprivacy, page: () => EmployeePrivacy()),
+    GetPage(name: employeeProfileInfo, page: ()=>EmployeeProfileInfoPage()),
+    GetPage(name: employeeprivacy, page: ()=>EmployeePrivacy()),
+    GetPage(name: employeeReview, page: ()=>EmployeeReviewPage())
+
+
     GetPage(name: employeeAvailablejobs, page: () => JobScreen()),
   ];
 }

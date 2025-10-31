@@ -23,7 +23,11 @@ class Settings extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(Iconpath.notificationProfile, height: 40.h, width: 40.w),
+                Image.asset(
+                  Iconpath.notificationProfile,
+                  height: 40.h,
+                  width: 40.w,
+                ),
                 SizedBox(width: 12.w),
 
                 Expanded(
@@ -54,8 +58,8 @@ class Settings extends StatelessWidget {
                     isSelected: controller.isSelected,
                     onPressed: (index) => controller.toggle(index),
                     children: [
-                      Text("Enable", style: getBodyTextStyle(fontSize: sp(8))),
                       Text("Disable", style: getBodyTextStyle(fontSize: sp(8))),
+                      Text("Enable", style: getBodyTextStyle(fontSize: sp(8))),
                     ],
                   ),
                 ),

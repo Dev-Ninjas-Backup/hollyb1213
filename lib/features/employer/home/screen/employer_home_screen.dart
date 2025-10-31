@@ -5,6 +5,7 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
+import 'package:hollyb1213/features/employer/home/notification/screen/notification_screen.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_header_section.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_job_card.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_quick_actions.dart';
@@ -63,7 +64,9 @@ class EmployerHomeScreen extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(NotificationScreen());
+              },
               icon: Image.asset(
                 Iconpath.notification,
                 width: 35.w,

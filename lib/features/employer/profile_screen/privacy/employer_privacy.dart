@@ -5,8 +5,8 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 
-class EmployeePrivacy extends StatelessWidget {
-  const EmployeePrivacy({super.key});
+class EmployerPrivacy extends StatelessWidget {
+  const EmployerPrivacy({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class EmployeePrivacy extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomAppBar(
-                title: "Privacy & Policy",
+                title: "Privacy & privacy",
                 iconUrl: Iconpath.backIcon,
               ),
               SizedBox(height: 30.h),

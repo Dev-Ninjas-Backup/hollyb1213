@@ -18,16 +18,17 @@ import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.da
 import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
 import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
 import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 import '../features/employee/profile_screen/profile_info/screen/employee_profile_info_page.dart';
 
 class AppRoute {
+  //employer
+  static String employerBottomNavbarScreen = '/employerBottomNavbarScreen';
+  static String employerProfileScreen = '/employerProfileScreen';
 
-//employer
-static String employerBottomNavbarScreen ='/employerBottomNavbarScreen';
-
-//employee
+  //employee
   static String roleSelectionScreen = '/roleSelectionScreen';
   static String onboardingScreen = '/onboardingScreen';
   static String loginScreen = '/loginScreen';
@@ -47,15 +48,16 @@ static String employerBottomNavbarScreen ='/employerBottomNavbarScreen';
   static String jobDetailsScreen = '/jobDetailsScreen';
 
   //profile
-  static String employeeProfileInfo="/employee/employeeProfileInfo";
-  static String employeeprivacy="/employee/privacy";
-  static String employeeReview="/emplyee/employeeReview";
+  static String employeeProfileInfo = "/employee/employeeProfileInfo";
+  static String employeeprivacy = "/employee/privacy";
+  static String employeeReview = "/emplyee/employeeReview";
 
   static String employeeAvailablejobs = '/employeeAvailablejobs';
 
-//employer
-static String getemployerBottomNavbarScreen=employerBottomNavbarScreen;
-//employee
+  //employer
+  static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
+  static String getemployerProfileScreen() => employerProfileScreen;
+  //employee
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
   static String getloginScreen() => loginScreen;
@@ -71,7 +73,7 @@ static String getemployerBottomNavbarScreen=employerBottomNavbarScreen;
   static String getpaymentMethodScreen() => paymentMethodScreen;
   static String getEmployeeBottomNavbarScreen() => employeeBottomNavbarScreen;
   static String getEmployeeHomeScreen() => employeeHomeScreen;
-  static String getemployeeReview()=>employeeReview;
+  static String getemployeeReview() => employeeReview;
 
   static String getjobDetailsScreen() => jobDetailsScreen;
 
@@ -161,22 +163,17 @@ static String getemployerBottomNavbarScreen=employerBottomNavbarScreen;
       transition: Transition.fadeIn,
     ),
 
-    GetPage(name: employeeProfileInfo, page: ()=>EmployeeProfileInfoPage()),
-    GetPage(name: employeeprivacy, page: ()=>EmployeePrivacy()),
-    GetPage(name: employeeReview, page: ()=>EmployeeReviewPage()),
-
-
+    GetPage(name: employeeProfileInfo, page: () => EmployeeProfileInfoPage()),
+    GetPage(name: employeeprivacy, page: () => EmployeePrivacy()),
+    GetPage(name: employeeReview, page: () => EmployeeReviewPage()),
 
     GetPage(name: employeeAvailablejobs, page: () => JobScreen()),
 
-
-
-
-
-
-
-
     //employer
-    GetPage(name: employerBottomNavbarScreen, page: ()=>EmployerBottomNavbarScreen())
+    GetPage(
+      name: employerBottomNavbarScreen,
+      page: () => EmployerBottomNavbarScreen(),
+    ),
+    GetPage(name: employerProfileScreen, page: () => EmployerProfileScreen()),
   ];
 }

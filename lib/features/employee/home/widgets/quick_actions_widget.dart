@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/home/controller/employe_home_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class QuickActions extends StatelessWidget {
   const QuickActions({super.key, required this.controller});
@@ -34,7 +35,7 @@ class QuickActions extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       if (action["title"] == "Available Jobs") {
-                        // Get.toNamed("/available_jobs");
+                        Get.toNamed(AppRoute.employeeAvailablejobs);
                       } else if (action["title"] == "Applied Jobs") {
                         // Get.toNamed("/applied_jobs");
                       }

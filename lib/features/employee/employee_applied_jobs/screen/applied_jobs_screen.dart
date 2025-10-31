@@ -42,9 +42,7 @@ class AppliedJobsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // --- Tab Bar ---
             buildTabBar(controller),
-            // --- Job List ---
             Expanded(
               child: Obx(() {
                 final isActive = controller.selectedTab.value == 0;

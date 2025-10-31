@@ -3,17 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/controller/employer_controllre.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/widgets/profile_upper_section.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/widgets/settings.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/widgets/your_stats.dart';
 
-import 'package:hollyb1213/features/employee/profile_screen/profile/controller/employee_controllre.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_upper_section.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/settings.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/your_stats.dart';
 
-class EmployeeProfileScreen extends StatelessWidget {
-  final controller = Get.put(EmployeeProfileControllre());
-  EmployeeProfileScreen({super.key});
+class EmployerProfileScreen extends StatelessWidget {
+  final controller = Get.put(EmployerProfileControllre());
+  EmployerProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,10 +50,7 @@ class EmployeeProfileScreen extends StatelessWidget {
               Center(
                 child: GestureDetector(
                   onTap: () {
-
-
                      Get.offAll(RoleSelectionScreen());
-
                   },
 
                   child: Row(

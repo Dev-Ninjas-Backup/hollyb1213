@@ -7,12 +7,11 @@ import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_text_field.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile_info/controller/employee_profile_info_controller.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile_info/controller/employer_profile_info_controller.dart';
 
-class EmployeeProfileInfoPage extends StatelessWidget {
-  final controller = Get.put(EmployeeProfileInfoController());
-  EmployeeProfileInfoPage({super.key});
+class EmployerProfileInfoPage extends StatelessWidget {
+  final controller = Get.put(EmployerProfileInfoController());
+  EmployerProfileInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,13 @@ class EmployeeProfileInfoPage extends StatelessWidget {
               CustomTextField(
                 controller: controller.fullNameController,
                 lebelText: "Full name",
-                hintText: "Nicolas",
+                hintText: "Marina Budarina",
+              ),
+
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Company  Name",
+                hintText: "Carter's Grill & Cafe",
               ),
 
               CustomTextField(
@@ -86,18 +91,18 @@ class EmployeeProfileInfoPage extends StatelessWidget {
                 lebelText: "Date of Birth",
                 hintText: "12 may 1999",
               ),
-              CustomTextField(
-                controller: controller.fullNameController,
-                lebelText: "Skills",
-                hintText: "Cleaning, waiter, Kitchen Assistant Kitchen Helper",
-              ),
+              // CustomTextField(
+              //   controller: controller.fullNameController,
+              //   lebelText: "Date of Birth",
+              //   hintText: "12 may 1999",
+              // ),
 
               SizedBox(height: 30.h),
               CustomButton(buttonText: "Save Changes", onTap: () {}),
               SizedBox(height: 30.h),
               GestureDetector(
                 onTap: () {
-                  Get.offAll(RoleSelectionScreen());
+                  //  Get.offAll(RoleSelectionScreen());
                 },
 
                 child: Row(

@@ -134,7 +134,7 @@ class LoginScreen extends StatelessWidget {
                   onTap: () {
                     role.selectedRole.value == "employee"
                         ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
-                        : Get.toNamed(AppRoute.getemployerBottomNavbarScreen);
+                        : Get.toNamed(AppRoute.getemployerBottomNavbarScreen());
                   },
                 ),
 

@@ -67,8 +67,15 @@ class EmployerProfileInfoPage extends StatelessWidget {
               CustomTextField(
                 controller: controller.fullNameController,
                 lebelText: "Full name",
-                hintText: "Nicolas",
+                hintText: "Marina Budarina",
               ),
+
+              CustomTextField(
+                controller: controller.fullNameController,
+                lebelText: "Company  Name",
+                hintText: "Carter's Grill & Cafe",
+              ),
+
               CustomTextField(
                 controller: controller.fullNameController,
                 lebelText: "Phone Number",
@@ -84,22 +91,18 @@ class EmployerProfileInfoPage extends StatelessWidget {
                 lebelText: "Date of Birth",
                 hintText: "12 may 1999",
               ),
-              CustomTextField(
-                controller: controller.fullNameController,
-                lebelText: "Date of Birth",
-                hintText: "12 may 1999",
-              ),
-              CustomTextField(
-                controller: controller.fullNameController,
-                lebelText: "Skills",
-                hintText: "Cleaning, waiter, Kitchen Assistant Kitchen Helper",
-              ),
+              // CustomTextField(
+              //   controller: controller.fullNameController,
+              //   lebelText: "Date of Birth",
+              //   hintText: "12 may 1999",
+              // ),
+
               SizedBox(height: 30.h),
               CustomButton(buttonText: "Save Changes", onTap: () {}),
               SizedBox(height: 30.h),
               GestureDetector(
                 onTap: () {
-                   //  Get.offAll(RoleSelectionScreen());
+                  //  Get.offAll(RoleSelectionScreen());
                 },
 
                 child: Row(

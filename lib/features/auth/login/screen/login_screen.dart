@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LoginController ctrl = Get.put(LoginController());
-  final RoleSelectionController role = Get.put(RoleSelectionController());
+  final RoleSelectionController role = Get.find<RoleSelectionController>();
 
   @override
   Widget build(BuildContext context) {
@@ -132,9 +132,9 @@ class LoginScreen extends StatelessWidget {
                 CustomButton(
                   buttonText: "Login",
                   onTap: () {
-                    role.selectedRole.value == "Employee"
+                    role.selectedRole.value == "employee"
                         ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
-                        : Get.toNamed(AppRoute.employerBottomNavbarScreen);
+                        : Get.toNamed(AppRoute.getemployerBottomNavbarScreen);
                   },
                 ),
 

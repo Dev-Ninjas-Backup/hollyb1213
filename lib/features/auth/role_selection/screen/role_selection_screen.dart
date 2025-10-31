@@ -40,7 +40,7 @@ class RoleSelectionScreen extends StatelessWidget {
               // Employer Box
               Obx(
                 () => GestureDetector(
-                  onTap: () => ctrl.selectRole('Employer'),
+                  onTap: () => ctrl.selectRole('employer'),
                   child: Container(
                     width: double.infinity,
                     height: 173,
@@ -48,7 +48,7 @@ class RoleSelectionScreen extends StatelessWidget {
                       color: Appcolor.appSecondaryColor,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: ctrl.selectedRole.value == 'Employer'
+                        color: ctrl.selectedRole.value == 'employer'
                             ? Appcolor.primaryColor
                             : Appcolor.appBorderColor,
                         width: 1.5,
@@ -96,7 +96,7 @@ class RoleSelectionScreen extends StatelessWidget {
               // Employee Box
               Obx(
                 () => GestureDetector(
-                  onTap: () => ctrl.selectRole('Employee'),
+                  onTap: () => ctrl.selectRole('employee'),
                   child: Container(
                     width: double.infinity,
                     height: 173,
@@ -104,7 +104,7 @@ class RoleSelectionScreen extends StatelessWidget {
                       color: Appcolor.appSecondaryColor,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: ctrl.selectedRole.value == 'Employee'
+                        color: ctrl.selectedRole.value == 'employee'
                             ? Appcolor.primaryColor
                             : Appcolor.appBorderColor,
                         width: 1.5,
@@ -135,9 +135,10 @@ class RoleSelectionScreen extends StatelessWidget {
               CustomButton(
                 buttonText: "Continue",
                 onTap: () {
-                  if (ctrl.selectedRole.value.isEmpty) {
+                  if (ctrl.selectedRole.value.isNotEmpty) {
+                   Get.offAll(() => LoginScreen());
                   } else {
-                    Get.offAll(() => LoginScreen());
+                   return ;
                   }
                 },
               ),

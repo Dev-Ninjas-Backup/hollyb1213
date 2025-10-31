@@ -91,7 +91,7 @@ class CreatePasswordController extends GetxController {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Get.toNamed(AppRoute.getloginScreen());
+                            Get.toNamed(AppRoute.getroleSelection());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Appcolor.primaryColor,

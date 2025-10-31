@@ -61,13 +61,14 @@ class AppRoute {
   static String employeeReview = "/emplyee/employeeReview";
 
   static String employeeAvailablejobs = '/employeeAvailablejobs';
+  //static String employerBottomNavbarScreen="/employerBottomNavbarScreen";
 
   //employer
 
-  static String getemployerBottomNavbarScreen = employerBottomNavbarScreen;
+  static String getemployerBottomNavbarScreen()=> employerBottomNavbarScreen;
   static String getcreatePostScreen() => createPostScreen;
 
-  static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
+  //static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
   static String getemployerProfileScreen() => employerProfileScreen;
 
   //employee

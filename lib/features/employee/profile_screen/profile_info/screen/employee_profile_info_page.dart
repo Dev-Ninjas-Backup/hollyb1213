@@ -70,6 +70,7 @@ class EmployeeProfileInfoPage extends StatelessWidget {
                 lebelText: "Full name",
                 hintText: "Nicolas",
               ),
+
               CustomTextField(
                 controller: controller.fullNameController,
                 lebelText: "Phone Number",
@@ -87,14 +88,10 @@ class EmployeeProfileInfoPage extends StatelessWidget {
               ),
               CustomTextField(
                 controller: controller.fullNameController,
-                lebelText: "Date of Birth",
-                hintText: "12 may 1999",
-              ),
-              CustomTextField(
-                controller: controller.fullNameController,
                 lebelText: "Skills",
                 hintText: "Cleaning, waiter, Kitchen Assistant Kitchen Helper",
               ),
+
               SizedBox(height: 30.h),
               CustomButton(buttonText: "Save Changes", onTap: () {}),
               SizedBox(height: 30.h),

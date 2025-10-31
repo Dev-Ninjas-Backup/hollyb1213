@@ -42,7 +42,7 @@ class EmployeeProfileControllre extends GetxController {
     ),
     SettingsModel(
       imageUrl: Iconpath.privacy,
-      title: "Privacy & privacy",
+      title: "Privacy & Policy",
       subTitle: "Manage your privacy settings",
       ontap: (){
       

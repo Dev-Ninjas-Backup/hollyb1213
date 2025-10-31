@@ -68,6 +68,12 @@ class EmployerReviewPage extends StatelessWidget {
 
               SizedBox(height: 20.h),
 
+
+
+
+
+
+
               ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
@@ -78,7 +84,8 @@ class EmployerReviewPage extends StatelessWidget {
                   final item = controller.allReview[index];
                   return Padding(
                     padding: EdgeInsets.only(bottom: 25.h),
-                    child: Column(
+                    child:
+                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -134,9 +141,16 @@ class EmployerReviewPage extends StatelessWidget {
                         ),
                       ],
                     ),
+
                   );
                 },
               ),
+
+
+
+
+
+
 
               SizedBox(height: 40.h),
             ],

@@ -10,6 +10,7 @@ class CustomShadowContainer extends StatelessWidget {
   final double? blurRadius;
   final double? spreadRadius;
   final EdgeInsetsGeometry? padding;
+  final double ?width;
 
   const CustomShadowContainer({
     super.key,
@@ -21,6 +22,7 @@ class CustomShadowContainer extends StatelessWidget {
     this.blurRadius,
     this.spreadRadius,
     this.padding,
+    this.width
   });
 
   @override
@@ -28,6 +30,14 @@ class CustomShadowContainer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Container(
+
+
+
+
+
+
+
+      width: width,
         padding:
             padding ?? EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
         decoration: BoxDecoration(

@@ -20,6 +20,7 @@ import 'package:hollyb1213/features/employee/profile_screen/review/screen/employ
 import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
 
 import 'package:hollyb1213/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
+import 'package:hollyb1213/features/employer/profile_screen/review/screen/employer_review_page.dart';
 
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
@@ -28,6 +29,7 @@ import '../features/employee/profile_screen/profile_info/screen/employee_profile
 class AppRoute {
   //employer
   static String employerBottomNavbarScreen = '/employerBottomNavbarScreen';
+  static String employerReviewPage = "/employerReviewPage";
 
   static String employerProfileScreen = '/employerProfileScreen';
 
@@ -61,6 +63,7 @@ class AppRoute {
   //employer
 
   static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
+  static String getemployerReviewPage() => employerReviewPage;
 
   //static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
   static String getemployerProfileScreen() => employerProfileScreen;
@@ -185,5 +188,6 @@ class AppRoute {
     ),
 
     GetPage(name: employerProfileScreen, page: () => EmployerProfileScreen()),
+    GetPage(name: employerReviewPage, page: () => EmployerReviewPage()),
   ];
 }

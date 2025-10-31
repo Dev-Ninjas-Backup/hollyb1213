@@ -154,7 +154,7 @@ class AppRoute {
 
     GetPage(name: employeeProfileInfo, page: ()=>EmployeeProfileInfoPage()),
     GetPage(name: employeeprivacy, page: ()=>EmployeePrivacy()),
-    GetPage(name: employeeReview, page: ()=>EmployeeReviewPage())
+    GetPage(name: employeeReview, page: ()=>EmployeeReviewPage()),
 
 
     GetPage(name: employeeAvailablejobs, page: () => JobScreen()),

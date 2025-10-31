@@ -14,6 +14,7 @@ import 'package:hollyb1213/features/auth/verification_otp/screen/verification_sc
 import 'package:hollyb1213/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
 import 'package:hollyb1213/features/employee/home/job_details/screen/job_details_screen.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
+import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
 import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
@@ -44,6 +45,7 @@ class AppRoute {
   static String employeeprivacy="/employee/privacy";
   static String employeeReview="/emplyee/employeeReview";
 
+  static String employeeAvailablejobs = '/employeeAvailablejobs';
 
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
@@ -64,9 +66,9 @@ class AppRoute {
 
   static String getjobDetailsScreen() => jobDetailsScreen;
 
-  static String getemployeeProfileInfo()=>employeeProfileInfo;
-  static String getEmployreeprivacy()=>employeeprivacy;
-
+  static String getemployeeProfileInfo() => employeeProfileInfo;
+  static String getEmployreeprivacy() => employeeprivacy;
+  static String getEmployeeAvailableJobs() => employeeAvailablejobs;
 
   static List<GetPage> routes = [
     GetPage(
@@ -154,5 +156,7 @@ class AppRoute {
     GetPage(name: employeeprivacy, page: ()=>EmployeePrivacy()),
     GetPage(name: employeeReview, page: ()=>EmployeeReviewPage())
 
+
+    GetPage(name: employeeAvailablejobs, page: () => JobScreen()),
   ];
 }

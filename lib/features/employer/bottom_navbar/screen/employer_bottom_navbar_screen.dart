@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/employer/bottom_navbar/controller/employer_bottom_navbar_controller.dart';
+import 'package:hollyb1213/features/employer/home/screen/employer_home_screen.dart';
 // import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
 // import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 // import 'package:hollyb1213/features/employee/chat/screen/message_screen.dart';
@@ -22,26 +22,26 @@ class EmployerBottomNavbarScreen extends StatelessWidget {
     );
 
     final List<Widget> pages = [
-      EmployeHomeScreen(),
+      EmployerHomeScreen(),
       Center(
         child: Padding(
           padding: EdgeInsets.only(top: 60),
           child: Text(" Working on progress"),
         ),
       ),
-         Center(
+      Center(
         child: Padding(
           padding: EdgeInsets.only(top: 60),
           child: Text(" Working on progress"),
         ),
       ),
-         Center(
+      Center(
         child: Padding(
           padding: EdgeInsets.only(top: 60),
           child: Text(" Working on progress"),
         ),
       ),
-         Center(
+      Center(
         child: Padding(
           padding: EdgeInsets.only(top: 60),
           child: Text(" Working on progress"),

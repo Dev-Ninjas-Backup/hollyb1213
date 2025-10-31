@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
+
 import 'package:hollyb1213/features/employee/profile_screen/profile/controller/employee_controllre.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_upper_section.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/settings.dart';
@@ -49,7 +51,10 @@ class EmployeeProfileScreen extends StatelessWidget {
               Center(
                 child: GestureDetector(
                   onTap: () {
+
+
                      Get.offAll(RoleSelectionScreen());
+
                   },
 
                   child: Row(

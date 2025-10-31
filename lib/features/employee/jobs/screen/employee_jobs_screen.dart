@@ -5,6 +5,7 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/jobs/controller/job_controller.dart';
 import 'package:hollyb1213/features/employee/jobs/model/job_model.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class JobScreen extends StatelessWidget {
   final JobController controller = Get.put(JobController());
@@ -190,7 +191,7 @@ class JobScreen extends StatelessWidget {
             SizedBox(height: 12.h),
             GestureDetector(
               onTap: () {
-                // Handle Quick Apply action
+                Get.toNamed(AppRoute.jobDetailsScreen);
               },
               child: Container(
                 width: double.infinity,

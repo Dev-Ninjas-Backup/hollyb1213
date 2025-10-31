@@ -73,102 +73,64 @@ class EmployerHomeScreen extends StatelessWidget {
           ],
         ),
       ),
+
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            EmployerHeaderSection(controller:controller,),
-             SizedBox(height: 20.h),
+            EmployerHeaderSection(controller: controller),
+            SizedBox(height: 20.h),
 
-            // --- Quick Actions ---
-            EmployerQuickActions(controller: controller,),
+            EmployerQuickActions(controller: controller),
             SizedBox(height: 25.h),
 
-            // --- Nearby Jobs ---
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Nearby Jobs",
-                    style: getBodyTextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    "View All",
-                    style: getTextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10.h),
-
-            // --- Job Cards with Separate Buttons ---
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Obx(
-                () => Column(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    EmployerJobCard(
-                      image: controller.nearbyJobs[0]["image"],
-                      title: controller.nearbyJobs[0]["title"],
-                      subtitle: controller.nearbyJobs[0]["subtitle"],
-                      distance: controller.nearbyJobs[0]["distance"],
-                      urgent: controller.nearbyJobs[0]["urgent"],
-                      buttonText: "Quick Apply",
-                      onPressed: () {
-                        Get.toNamed(AppRoute.getjobDetailsScreen());
-                      },
-                    ),
-                    EmployerJobCard(
-                      image: controller.nearbyJobs[1]["image"],
-                      title: controller.nearbyJobs[1]["title"],
-                      subtitle: controller.nearbyJobs[1]["subtitle"],
-                      distance: controller.nearbyJobs[1]["distance"],
-                      urgent: controller.nearbyJobs[1]["urgent"],
-                      buttonText: "Quick Apply",
-                      onPressed: () {},
-                    ),
-                    EmployerJobCard(
-                      image: controller.nearbyJobs[2]["image"],
-                      title: controller.nearbyJobs[2]["title"],
-                      subtitle: controller.nearbyJobs[2]["subtitle"],
-                      distance: controller.nearbyJobs[2]["distance"],
-                      urgent: controller.nearbyJobs[2]["urgent"],
-                      buttonText: "Quick Apply",
-                      onPressed: () {},
-                    ),
+                    _buildCategoryChip(controller, 'Active'),
+                    SizedBox(width: 10.w),
+                    _buildCategoryChip(controller, 'Completed'),
                   ],
                 ),
               ),
             ),
 
-            // --- Schedule Boxes (End Section) ---
+            SizedBox(height: 20.h),
+
+            // --- Filtered Job Cards ---
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-              child: Column(
-                children: [
-                  buildScheduleBox(
-                    title: "Morning Shift - Cafe Helper",
-                    subtitle: "Sunrise Cafe",
-                    time: "8:00 AM - 12:00 PM",
-                    amount: "\$85",
-                  ),
-                  buildScheduleBox(
-                    title: "Afternoon Shift - Barista",
-                    subtitle: "Sunset Cafe",
-                    time: "1:00 PM - 5:00 PM",
-                    amount: "\$90",
-                    statusText: "Pending",
-                    statusBackground: Colors.yellow.shade100,
-                    statusColor: Colors.yellow[800]!,
-                  ),
-                ],
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Obx(
+                () => Column(
+                  children: List.generate(controller.filteredJobs.length, (
+                    index,
+                  ) {
+                    final job = controller.filteredJobs[index];
+                    final isCompleted =
+                        controller.selectedCategory.value == 'Completed';
+                    return EmployerJobCard(
+                      image: job['image'],
+                      title: job['title'],
+                      subtitle: job['subtitle'],
+                      distance: job['distance'],
+                      urgent: job['urgent'],
+                      showEdit: !isCompleted,
+                      showFavourite: isCompleted,
+                      isFavourite:
+                          job['isFavourite'], // <-- pass RxBool directly
+                      onFavouriteTap: () => controller.toggleFavourite(index),
+                      onViewDetails: () {
+                        Get.toNamed(AppRoute.getjobDetailsScreen());
+                      },
+                      onEdit: () {
+                        // handle edit
+                      },
+                    );
+                  }),
+                ),
               ),
             ),
 
@@ -179,91 +141,29 @@ class EmployerHomeScreen extends StatelessWidget {
     );
   }
 
-  // --- buildScheduleBox Widget ---
-  Widget buildScheduleBox({
-    required String title,
-    required String subtitle,
-    required String time,
-    required String amount,
-    String statusText = "Now",
-    Color statusBackground = const Color(0xFFDFF7DF),
-    Color statusColor = Colors.green,
-  }) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                decoration: BoxDecoration(
-                  color: statusBackground,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: Text(
-                  statusText,
-                  style: TextStyle(
-                    color: statusColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+  // --- Category Chip Builder ---
+  Widget _buildCategoryChip(
+    EmployerHomeController controller,
+    String category,
+  ) {
+    final isSelected = controller.selectedCategory.value == category;
+    return GestureDetector(
+      onTap: () => controller.setCategory(category),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: isSelected ? Appcolor.primaryColor : Colors.white,
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(color: Appcolor.primaryColor),
+        ),
+        child: Text(
+          category,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Appcolor.primaryColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 14.sp,
           ),
-          SizedBox(height: 4.h),
-          Text(
-            subtitle,
-            style: TextStyle(fontSize: 12.sp, color: Colors.grey[700]),
-          ),
-          SizedBox(height: 6.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-                  SizedBox(width: 4.w),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey[700]),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(Icons.attach_money, size: 14, color: Colors.grey[600]),
-                  Text(
-                    amount,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }

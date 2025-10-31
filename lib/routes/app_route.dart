@@ -17,11 +17,17 @@ import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dar
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
 import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
+import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 import '../features/employee/profile_screen/profile_info/screen/employee_profile_info_page.dart';
 
 class AppRoute {
+
+//employer
+static String employerBottomNavbarScreen ='/employerBottomNavbarScreen';
+
+//employee
   static String roleSelectionScreen = '/roleSelectionScreen';
   static String onboardingScreen = '/onboardingScreen';
   static String loginScreen = '/loginScreen';
@@ -47,6 +53,9 @@ class AppRoute {
 
   static String employeeAvailablejobs = '/employeeAvailablejobs';
 
+//employer
+static String getemployerBottomNavbarScreen=employerBottomNavbarScreen;
+//employee
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
   static String getloginScreen() => loginScreen;
@@ -157,6 +166,17 @@ class AppRoute {
     GetPage(name: employeeReview, page: ()=>EmployeeReviewPage()),
 
 
+
     GetPage(name: employeeAvailablejobs, page: () => JobScreen()),
+
+
+
+
+
+
+
+
+    //employer
+    GetPage(name: employerBottomNavbarScreen, page: ()=>EmployerBottomNavbarScreen())
   ];
 }

@@ -5,12 +5,14 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/login/controller/login_controller.dart';
+import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LoginController ctrl = Get.put(LoginController());
+  final RoleSelectionController role = Get.put(RoleSelectionController());
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +132,9 @@ class LoginScreen extends StatelessWidget {
                 CustomButton(
                   buttonText: "Login",
                   onTap: () {
-                    Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen());
+                    role.selectedRole.value == "Employee"
+                        ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
+                        : Get.toNamed(AppRoute.employerBottomNavbarScreen);
                   },
                 ),
 

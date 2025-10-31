@@ -19,8 +19,6 @@ import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_pri
 import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
 import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
 
-import 'package:hollyb1213/features/employer/create_post/screen/create_post_screen.dart';
-
 import 'package:hollyb1213/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
 
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
@@ -31,10 +29,7 @@ class AppRoute {
   //employer
   static String employerBottomNavbarScreen = '/employerBottomNavbarScreen';
 
-  static String createPostScreen = '/createPostScreen';
-
   static String employerProfileScreen = '/employerProfileScreen';
-
 
   //employee
   static String roleSelectionScreen = '/roleSelectionScreen';
@@ -65,8 +60,7 @@ class AppRoute {
 
   //employer
 
-  static String getemployerBottomNavbarScreen()=> employerBottomNavbarScreen;
-  static String getcreatePostScreen() => createPostScreen;
+  static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
 
   //static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
   static String getemployerProfileScreen() => employerProfileScreen;
@@ -101,11 +95,7 @@ class AppRoute {
       page: () => RoleSelectionScreen(),
       transition: Transition.fadeIn,
     ),
-    GetPage(
-      name: createPostScreen,
-      page: () => CreatePostScreen(),
-      transition: Transition.fadeIn,
-    ),
+
     GetPage(
       name: onboardingScreen,
       page: () => OnboardingScreen(),
@@ -194,8 +184,6 @@ class AppRoute {
       page: () => EmployerBottomNavbarScreen(),
     ),
 
-
     GetPage(name: employerProfileScreen, page: () => EmployerProfileScreen()),
-
   ];
 }

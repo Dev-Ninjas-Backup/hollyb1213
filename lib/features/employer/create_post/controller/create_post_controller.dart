@@ -1,52 +1,51 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:hollyb1213/core/common/constants/appcolor.dart';
 
 class CreatePostController extends GetxController {
-  // Text Controllers
   final jobTitleController = TextEditingController();
   final jobCategoryController = TextEditingController();
   final jobTypeController = TextEditingController(text: "Hourly");
   final jobDescriptionController = TextEditingController();
 
-  // Reactive Variables
   var isUrgent = false.obs;
-
-  // Dropdown options
   final jobTypes = ["Hourly", "Full-time", "Part-time", "Contract"].obs;
 
-  // Date fields (for 4 shadow boxes)
-  var selectedDates = List.generate(4, (index) => Rxn<DateTime>());
+  var selectedDates = List.generate(2, (index) => Rxn<DateTime>()).obs;
+  var selectedTimes = List.generate(2, (index) => Rxn<TimeOfDay>()).obs;
 
-  // Function: toggle urgent
-  void toggleUrgent(bool value) {
-    isUrgent.value = value;
-  }
+  void toggleUrgent(bool value) => isUrgent.value = value;
 
-  // Function: select date
   Future<void> pickDate(BuildContext context, int index) async {
-    final DateTime? picked = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: selectedDates[index].value ?? DateTime.now(),
       firstDate: DateTime(2024),
       lastDate: DateTime(2030),
     );
-
     if (picked != null) {
       selectedDates[index].value = picked;
     }
   }
 
-  // Save and Cancel
+  Future<void> pickTime(BuildContext context, int index) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTimes[index].value ?? TimeOfDay.now(),
+    );
+    if (picked != null) {
+      selectedTimes[index].value = picked;
+    }
+  }
+
   void saveChanges() {
     Get.snackbar(
       "Saved",
       "Your changes have been saved successfully!",
-      backgroundColor: Colors.green,
+      backgroundColor: Appcolor.primaryColor,
       colorText: Colors.white,
     );
   }
 
-  void cancelChanges() {
-    Get.back();
-  }
+  void cancelChanges() => Get.back();
 }

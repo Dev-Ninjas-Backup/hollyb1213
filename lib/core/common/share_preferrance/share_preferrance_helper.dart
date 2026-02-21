@@ -15,7 +15,6 @@ class SharedPreferenceHelper {
 
   // --- Auth & Session Management ---
 
-  /// Ekbare Token, Role ebong Status save korar jonno
   Future<void> saveAuthData({
     required String accessToken,
     required String refreshToken,
@@ -24,7 +23,7 @@ class SharedPreferenceHelper {
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Token save korar somoy 'Bearer ' prefix auto add kora thakle bhalo
+    // Token save
     await prefs.setString(_accessTokenKey, 'Bearer $accessToken');
     await prefs.setString(_refreshTokenKey, refreshToken);
     await prefs.setString(_selectedRoleKey, role);

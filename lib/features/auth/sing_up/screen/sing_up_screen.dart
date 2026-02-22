@@ -7,7 +7,6 @@ import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart'
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/sing_up/controller/sing_up_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class SingUpScreen extends StatelessWidget {
   SingUpScreen({super.key});
@@ -96,11 +95,17 @@ class SingUpScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 50.h),
-            CustomButton(
-              buttonText: "Create account",
-              onTap: () {
-                Get.toNamed(AppRoute.getverificationScreen());
-              },
+            Obx(
+              () => ctrl.isLoading.value
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: Appcolor.primaryColor,
+                      ),
+                    )
+                  : CustomButton(
+                      buttonText: "Create account",
+                      onTap: ctrl.createAccount,
+                    ),
             ),
             SizedBox(height: 30.h),
 

@@ -11,156 +11,185 @@ class VerificationScreen extends StatelessWidget {
 
   final VerificationConroller ctrl = Get.put(VerificationConroller());
 
-  final FocusNode focus1 = FocusNode();
-  final FocusNode focus2 = FocusNode();
-  final FocusNode focus3 = FocusNode();
-  final FocusNode focus4 = FocusNode();
+  final List<FocusNode> focusNodes = List.generate(6, (index) => FocusNode());
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Appcolor.backgroundcolor,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            SizedBox(height: 70),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                CustomBackButton(),
-                Center(
-                  child: Text(
-                    "Verification",
-                    style: getTextStyle(
-                      fontSize: width * 0.05,
-                      fontWeight: FontWeight.w600,
-                      color: Appcolor.primaryColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: SizedBox(
+              height: screenHeight - MediaQuery.of(context).padding.top,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "Code has been sent to user@gmail.com",
-                    style: getBodyTextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.center,
+                  const SizedBox(height: 20),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: CustomBackButton(),
+                      ),
+                      Text(
+                        "Verification",
+                        style: getTextStyle(
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.w600,
+                          color: Appcolor.primaryColor,
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(4, (index) {
-                      final controllers = [
-                        ctrl.digit1,
-                        ctrl.digit2,
-                        ctrl.digit3,
-                        ctrl.digit4,
-                      ];
-                      final focuses = [focus1, focus2, focus3, focus4];
 
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: SizedBox(
-                          width: 60,
-                          height: 65,
-                          child: TextField(
-                            controller: controllers[index],
-                            focusNode: focuses[index],
-                            keyboardType: TextInputType.number,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Obx(
+                          () => Text(
+                            "Code has been sent to ${ctrl.email.value}",
+                            style: getBodyTextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
                             textAlign: TextAlign.center,
-                            maxLength: 1,
-                            style: getTextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            decoration: InputDecoration(
-                              counterText: '',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                  color: Appcolor.primaryColor,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(
-                                  color: Appcolor.primaryColor,
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                            onChanged: (value) {
-                              ctrl.updateOTP(index, value);
-
-                              if (value.isNotEmpty && index < 3) {
-                                focuses[index + 1].requestFocus();
-                              } else if (value.isEmpty && index > 0) {
-                                focuses[index - 1].requestFocus();
-                              }
-                            },
                           ),
                         ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 20),
-                  Obx(
-                    () => TextButton(
-                      onPressed: ctrl.secondsRemaining.value == 0
-                          ? ctrl.resendCode
-                          : null,
-                      child: ctrl.secondsRemaining.value == 0
-                          ? Text(
-                              "Resend code",
-                              style: getBodyTextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            )
-                          : RichText(
-                              text: TextSpan(
-                                text: "Resend code in ",
-                                style: getBodyTextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                        const SizedBox(height: 40),
+
+                        // OTP Input Fields
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List.generate(6, (index) {
+                            final List<TextEditingController> controllers = [
+                              ctrl.digit1,
+                              ctrl.digit2,
+                              ctrl.digit3,
+                              ctrl.digit4,
+                              ctrl.digit5,
+                              ctrl.digit6,
+                            ];
+
+                            return Flexible(
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 4,
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: "${ctrl.secondsRemaining.value}s",
-                                    style: getTextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                constraints: BoxConstraints(
+                                  maxWidth: (screenWidth - 80) / 6,
+                                  maxHeight: 65,
+                                ),
+                                child: TextField(
+                                  controller: controllers[index],
+                                  focusNode: focusNodes[index],
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.center,
+                                  maxLength: 1,
+                                  style: getTextStyle(
+                                    fontSize: screenWidth < 360 ? 18 : 22,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  decoration: InputDecoration(
+                                    counterText: '',
+                                    contentPadding: EdgeInsets.zero,
+                                    filled: true,
+                                    fillColor: Appcolor.appSecondaryColor,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: Appcolor.appBorderColor,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: Appcolor.primaryColor,
+                                        width: 2,
+                                      ),
                                     ),
                                   ),
-                                ],
+                                  onChanged: (value) {
+                                    ctrl.updateOTP(index, value);
+                                    if (value.isNotEmpty && index < 5) {
+                                      focusNodes[index + 1].requestFocus();
+                                    } else if (value.isEmpty && index > 0) {
+                                      focusNodes[index - 1].requestFocus();
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
+                            );
+                          }),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        Obx(
+                          () => TextButton(
+                            onPressed: ctrl.secondsRemaining.value == 0
+                                ? () => ctrl.resendCode()
+                                : null,
+                            child: ctrl.secondsRemaining.value == 0
+                                ? Text(
+                                    "Resend code",
+                                    style: getBodyTextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Appcolor.primaryColor,
+                                    ),
+                                  )
+                                : RichText(
+                                    text: TextSpan(
+                                      text: "Resend code in ",
+                                      style: getBodyTextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "${ctrl.secondsRemaining.value}s",
+                                          style: getTextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Appcolor.primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+
+                  Obx(
+                    () => ctrl.isLoading.value
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 30),
+                            child: CircularProgressIndicator(
+                              color: Appcolor.primaryColor,
+                            ),
+                          )
+                        : CustomButton(
+                            buttonText: "Verify",
+                            onTap: ctrl.isButtonEnabled.value
+                                ? () => ctrl.continueAction()
+                                : null,
+                          ),
+                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
-
-            Obx(
-              () => CustomButton(
-                buttonText: "Verify",
-                onTap: ctrl.isButtonEnabled.value
-                    ? () => ctrl.continueAction()
-                    : null,
-              ),
-            ),
-            SizedBox(height: 40),
-          ],
+          ),
         ),
       ),
     );

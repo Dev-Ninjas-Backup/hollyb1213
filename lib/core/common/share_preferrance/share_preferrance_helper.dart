@@ -22,15 +22,16 @@ class SharedPreferenceHelper {
     String? userId,
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    // Token save
     await prefs.setString(_accessTokenKey, 'Bearer $accessToken');
     await prefs.setString(_refreshTokenKey, refreshToken);
     await prefs.setString(_selectedRoleKey, role);
     if (userId != null) await prefs.setString(_userIdKey, userId);
-
-    // Login success status
     await prefs.setBool(_isLoggedInKey, true);
+  }
+
+  Future<void> saveSelectedRole(String role) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_selectedRoleKey, role);
   }
 
   // Check if User is Logged In
@@ -39,7 +40,7 @@ class SharedPreferenceHelper {
     return prefs.getBool(_isLoggedInKey) ?? false;
   }
 
-  // --- Getters ---
+  // Getters
 
   Future<String?> getAccessToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,7 +62,7 @@ class SharedPreferenceHelper {
     return prefs.getString(_userIdKey);
   }
 
-  // --- User Profile Data (Optional/Remember Me) ---
+  // User Profile Data
 
   Future<void> saveEmailAndPassword({
     required String email,
@@ -86,13 +87,12 @@ class SharedPreferenceHelper {
   Future<String?> getSavedUserName() => _getString(_userName);
   Future<String?> getSavedPhoneNumber() => _getString(_phoneNumber);
 
-  // Private Helper to reduce code repetition
   Future<String?> _getString(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }
 
-  // --- Clear Data (Logout) ---
+  //   Logout
 
   Future<void> clearAll() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

@@ -5,15 +5,12 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/login/controller/login_controller.dart';
-import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LoginController ctrl = Get.put(LoginController());
-  final RoleSelectionController role = Get.find<RoleSelectionController>();
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -27,7 +24,6 @@ class LoginScreen extends StatelessWidget {
           child: IntrinsicHeight(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-
               children: [
                 SizedBox(height: 80),
                 Text(
@@ -55,7 +51,6 @@ class LoginScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "Enter your email or phone",
                     prefixIcon: Icon(Icons.email_outlined, color: Colors.grey),
-
                     filled: true,
                     fillColor: Appcolor.appSecondaryColor,
                     border: OutlineInputBorder(
@@ -129,13 +124,15 @@ class LoginScreen extends StatelessWidget {
 
                 SizedBox(height: 60),
 
-                CustomButton(
-                  buttonText: "Login",
-                  onTap: () {
-                    role.selectedRole.value == "employee"
-                        ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
-                        : Get.toNamed(AppRoute.getemployerBottomNavbarScreen());
-                  },
+                // ✅ পরিবর্তিত: এখন ctrl.login() call হচ্ছে, loading state handle করা হচ্ছে
+                Obx(
+                  () => ctrl.isLoading.value
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Appcolor.primaryColor,
+                          ),
+                        )
+                      : CustomButton(buttonText: "Login", onTap: ctrl.login),
                 ),
 
                 SizedBox(height: 60),
@@ -152,7 +149,6 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 40),
 
-                // Social login buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -170,7 +166,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 24),
-
                     Container(
                       width: 40,
                       height: 40,
@@ -192,7 +187,7 @@ class LoginScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don’t have an account? "),
+                    Text("Don't have an account? "),
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(AppRoute.getsingUpScreen());

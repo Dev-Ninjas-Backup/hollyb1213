@@ -3,16 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 import 'package:hollyb1213/features/employee/profile_screen/profile/controller/employee_controllre.dart';
+
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_upper_section.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/settings.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/your_stats.dart';
 
 class EmployeeProfileScreen extends StatelessWidget {
-  final controller = Get.put(EmployeeProfileControllre());
+  final controller = Get.put(EmployeeProfileController());
   EmployeeProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
@@ -47,16 +47,9 @@ class EmployeeProfileScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Settings(controller: controller),
               SizedBox(height: 20.h),
-
               Center(
                 child: GestureDetector(
-                  onTap: () {
-
-
-                     Get.offAll(RoleSelectionScreen());
-
-                  },
-
+                  onTap: () => Get.offAllNamed(AppRoute.getroleSelection()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

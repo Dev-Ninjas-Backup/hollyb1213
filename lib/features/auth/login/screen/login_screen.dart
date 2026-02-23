@@ -11,6 +11,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   final LoginController ctrl = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -124,6 +125,14 @@ class LoginScreen extends StatelessWidget {
 
                 SizedBox(height: 60),
 
+                // Login Button
+                CustomButton(
+                  buttonText: "Login",
+                  onTap: () {
+                    ctrl.role.selectedRole.value == "employee"
+                        ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
+                        : Get.toNamed(AppRoute.getemployerBottomNavbarScreen());
+                  },
                 // ✅ পরিবর্তিত: এখন ctrl.login() call হচ্ছে, loading state handle করা হচ্ছে
                 Obx(
                   () => ctrl.isLoading.value
@@ -149,6 +158,45 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 40),
 
+                Obx(
+                  () => ctrl.isLoading.value
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Appcolor.primaryColor,
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Appcolor.appBorderColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Image.asset(Iconpath.google),
+                                iconSize: 21,
+                              ),
+                            ),
+                            SizedBox(width: 24),
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Appcolor.appBorderColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                onPressed: () => ctrl.loginWithFacebook(),
+                                icon: Image.asset(Iconpath.fecebook),
+                                iconSize: 24,
+                              ),
+                            ),
+                          ],
+                        ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

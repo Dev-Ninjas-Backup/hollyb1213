@@ -11,7 +11,7 @@ import '../controller/employee_controllre.dart';
 class Settings extends StatelessWidget {
   const Settings({super.key, required this.controller});
 
-  final EmployeeProfileControllre controller;
+  final EmployeeProfileController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,6 @@ class Settings extends StatelessWidget {
                   width: 40.w,
                 ),
                 SizedBox(width: 12.w),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +43,6 @@ class Settings extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 Obx(
                   () => ToggleButtons(
                     borderRadius: BorderRadius.circular(8),
@@ -58,8 +56,8 @@ class Settings extends StatelessWidget {
                     isSelected: controller.isSelected,
                     onPressed: (index) => controller.toggle(index),
                     children: [
-                      Text("Disable", style: getBodyTextStyle(fontSize: sp(8))),
-                      Text("Enable", style: getBodyTextStyle(fontSize: sp(8))),
+                      Text("Off", style: getBodyTextStyle(fontSize: sp(10))),
+                      Text("On", style: getBodyTextStyle(fontSize: sp(10))),
                     ],
                   ),
                 ),
@@ -67,7 +65,6 @@ class Settings extends StatelessWidget {
             ),
           ),
         ),
-
         ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
@@ -83,7 +80,6 @@ class Settings extends StatelessWidget {
                   children: [
                     Image.asset(item.imageUrl, height: 40.h, width: 40.w),
                     SizedBox(width: 12.w),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +103,6 @@ class Settings extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     GestureDetector(
                       onTap: item.ontap,
                       child: Icon(

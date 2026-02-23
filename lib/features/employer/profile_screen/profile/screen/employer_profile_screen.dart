@@ -3,15 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/controller/employer_controllre.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/widgets/profile_upper_section.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/widgets/settings.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/widgets/your_stats.dart';
 
-
 class EmployerProfileScreen extends StatelessWidget {
-  final controller = Get.put(EmployerProfileControllre());
+  final controller = Get.put(EmployerProfileController());
   EmployerProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
@@ -46,13 +44,9 @@ class EmployerProfileScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Settings(controller: controller),
               SizedBox(height: 20.h),
-
               Center(
                 child: GestureDetector(
-                  onTap: () {
-                     Get.offAll(RoleSelectionScreen());
-                  },
-
+                  onTap: () => controller.signOut(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

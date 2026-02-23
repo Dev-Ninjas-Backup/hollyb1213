@@ -1,13 +1,10 @@
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class EmployeeProfileControllre extends GetxController {
+class EmployeeProfileController extends GetxController {
   final List<Map<String, dynamic>> statsList = [
     {
       "iconImage": Iconpath.jobProfileIcon,
@@ -44,11 +41,10 @@ class EmployeeProfileControllre extends GetxController {
       imageUrl: Iconpath.privacy,
       title: "Privacy & Policy",
       subTitle: "Manage your privacy settings",
-      ontap: (){
-      
-      Get.toNamed(AppRoute.employeeprivacy);}
+      ontap: () {
+        Get.toNamed(AppRoute.employeeprivacy);
+      },
     ),
-
     SettingsModel(
       imageUrl: Iconpath.document,
       title: "Documents",
@@ -71,7 +67,7 @@ class EmployeeProfileControllre extends GetxController {
     ),
   ];
 
-  RxList<bool> isSelected = [true, false].obs;
+  RxList<bool> isSelected = [false, true].obs; // Default to "On"
 
   @override
   void onInit() {
@@ -82,7 +78,7 @@ class EmployeeProfileControllre extends GetxController {
   Future<void> loadPreference() async {
     final prefs = await SharedPreferences.getInstance();
     bool enabled = prefs.getBool('notificationsEnabled') ?? true;
-    isSelected.value = enabled ? [true, false] : [false, true];
+    isSelected.value = enabled ? [false, true] : [true, false];
   }
 
   Future<void> toggle(int index) async {
@@ -90,6 +86,6 @@ class EmployeeProfileControllre extends GetxController {
       isSelected[i] = i == index;
     }
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notificationsEnabled', index == 0);
+    await prefs.setBool('notificationsEnabled', index == 1); // index 1 is "On"
   }
 }

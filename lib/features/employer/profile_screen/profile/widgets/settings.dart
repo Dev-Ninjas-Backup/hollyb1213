@@ -11,7 +11,7 @@ import '../controller/employer_controllre.dart';
 class Settings extends StatelessWidget {
   const Settings({super.key, required this.controller});
 
-  final EmployerProfileControllre controller;
+  final EmployerProfileController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,6 @@ class Settings extends StatelessWidget {
                   width: 40.w,
                 ),
                 SizedBox(width: 12.w),
-
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +43,6 @@ class Settings extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 Obx(
                   () => ToggleButtons(
                     borderRadius: BorderRadius.circular(8),
@@ -67,7 +65,6 @@ class Settings extends StatelessWidget {
             ),
           ),
         ),
-
         ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
@@ -83,7 +80,6 @@ class Settings extends StatelessWidget {
                   children: [
                     Image.asset(item.imageUrl, height: 40.h, width: 40.w),
                     SizedBox(width: 12.w),
-
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +103,6 @@ class Settings extends StatelessWidget {
                         ],
                       ),
                     ),
-
                     GestureDetector(
                       onTap: item.ontap,
                       child: Icon(

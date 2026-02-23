@@ -1,14 +1,16 @@
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
+import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile_info/screen/employer_profile_info_page.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class EmployerProfileControllre extends GetxController {
+class EmployerProfileController extends GetxController {
   final List<Map<String, dynamic>> statsList = [
     {
       "iconImage": Iconpath.jobProfileIcon,
@@ -42,14 +44,12 @@ class EmployerProfileControllre extends GetxController {
       },
     ),
     SettingsModel(
-      imageUrl: Iconpath.privacy,
-      title: "Privacy & Policy",
-      subTitle: "Manage your privacy settings",
-      ontap: (){
-      
-      Get.toNamed(AppRoute.employeeprivacy);}
-    ),
-
+        imageUrl: Iconpath.privacy,
+        title: "Privacy & Policy",
+        subTitle: "Manage your privacy settings",
+        ontap: () {
+          Get.toNamed(AppRoute.employeeprivacy);
+        }),
     SettingsModel(
       imageUrl: Iconpath.document,
       title: "Documents",
@@ -92,5 +92,15 @@ class EmployerProfileControllre extends GetxController {
     }
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('notificationsEnabled', index == 0);
+  }
+
+  Future<void> signOut() async {
+    // Sign out from Facebook
+    await FacebookAuth.instance.logOut();
+    // Clear any local user data (e.g., from SharedPreferences)
+    final prefs = await SharedPreferences.getInstance();
+    await prefs
+        .clear(); // Clears all data, be careful if you store other things
+    Get.offAll(() => RoleSelectionScreen());
   }
 }

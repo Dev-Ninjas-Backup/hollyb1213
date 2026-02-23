@@ -11,7 +11,7 @@ class YourStats extends StatelessWidget {
     required this.controller,
   });
 
-  final EmployeeProfileControllre controller;
+  final EmployeeProfileController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class YourStats extends StatelessWidget {
       itemCount: controller.statsList.length,
       itemBuilder: (BuildContext context, int index) {
         final item = controller.statsList[index];
-    
+
         return CustomShadowContainer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +38,6 @@ class YourStats extends StatelessWidget {
               SizedBox(height: 4.h),
               Text(
                 item["count"],
-    
                 style: getBodyTextStyle(
                   fontSize: sp(20),
                   fontWeight: FontWeight.w600,

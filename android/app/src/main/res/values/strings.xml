@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HollyB</string>
+    <string name="facebook_app_id">1436844084458000</string>
+    <string name="fb_login_protocol_scheme">fb1436844084458000</string>
+    <string name="facebook_client_token">e93d8565b33e6c1ae2dc7cb50801b78f</string>
+</resources>

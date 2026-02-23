@@ -4,7 +4,6 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
@@ -132,15 +131,13 @@ class RoleSelectionScreen extends StatelessWidget {
               SizedBox(height: height * 0.05),
 
               // Custom Button
-              CustomButton(
-                buttonText: "Continue",
-                onTap: () {
-                  if (ctrl.selectedRole.value.isNotEmpty) {
-                   Get.offAll(() => LoginScreen());
-                  } else {
-                   return ;
-                  }
-                },
+              Obx(
+                () => ctrl.isLoading.value
+                    ? CircularProgressIndicator(color: Appcolor.primaryColor)
+                    : CustomButton(
+                        buttonText: "Continue",
+                        onTap: ctrl.goToLogin,
+                      ),
               ),
 
               SizedBox(height: 20),

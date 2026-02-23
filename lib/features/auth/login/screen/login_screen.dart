@@ -133,6 +133,15 @@ class LoginScreen extends StatelessWidget {
                         ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
                         : Get.toNamed(AppRoute.getemployerBottomNavbarScreen());
                   },
+                // ✅ পরিবর্তিত: এখন ctrl.login() call হচ্ছে, loading state handle করা হচ্ছে
+                Obx(
+                  () => ctrl.isLoading.value
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Appcolor.primaryColor,
+                          ),
+                        )
+                      : CustomButton(buttonText: "Login", onTap: ctrl.login),
                 ),
 
                 SizedBox(height: 60),
@@ -188,6 +197,37 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Appcolor.appBorderColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Image.asset(Iconpath.google),
+                        iconSize: 21,
+                      ),
+                    ),
+                    SizedBox(width: 24),
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Appcolor.appBorderColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Image.asset(Iconpath.fecebook),
+                        iconSize: 24,
+                      ),
+                    ),
+                  ],
                 ),
 
                 SizedBox(height: 80),

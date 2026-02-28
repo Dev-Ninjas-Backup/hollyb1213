@@ -3,14 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import '../controller/applied_jobs_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
+import '../controller/employee_applied_jobs_controller.dart';
 
 class AppliedJobsScreen extends StatelessWidget {
   const AppliedJobsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AppliedJobsController());
+    final controller = Get.find<EmployeeAppliedJobsController>();
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -45,14 +46,29 @@ class AppliedJobsScreen extends StatelessWidget {
             buildTabBar(controller),
             Expanded(
               child: Obx(() {
+                if (controller.isLoading.value &&
+                    controller.appliedJobsList.isEmpty) {
+                  return Center(
+                    child:
+                        CircularProgressIndicator(color: Appcolor.primaryColor),
+                  );
+                }
+
                 final isActive = controller.selectedTab.value == 0;
-                final jobs = isActive
-                    ? controller.activeJobs
-                    : controller.completedJobs;
+                final jobs =
+                    isActive ? controller.activeJobs : controller.completedJobs;
+
+                if (jobs.isEmpty) {
+                  return Center(
+                    child: Text(
+                        "No ${isActive ? 'active' : 'completed'} jobs found."),
+                  );
+                }
+
                 return ListView.builder(
                   itemCount: jobs.length,
                   itemBuilder: (context, index) =>
-                      buildJobCard(jobs[index], isActive),
+                      buildJobCard(jobs[index], isActive, controller),
                 );
               }),
             ),
@@ -62,8 +78,7 @@ class AppliedJobsScreen extends StatelessWidget {
     );
   }
 
-  // --- Tab Bar ---
-  Widget buildTabBar(AppliedJobsController controller) {
+  Widget buildTabBar(EmployeeAppliedJobsController controller) {
     return Obx(
       () => Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +100,7 @@ class AppliedJobsScreen extends StatelessWidget {
   }
 
   Widget buildTabButton(
-    AppliedJobsController controller,
+    EmployeeAppliedJobsController controller,
     int index,
     String text,
   ) {
@@ -114,10 +129,34 @@ class AppliedJobsScreen extends StatelessWidget {
   }
 
   // --- Job Card ---
-  Widget buildJobCard(Map<String, dynamic> job, bool isActive) {
-    Color statusColor = Color(job['statusColor']);
+  Widget buildJobCard(Map<String, dynamic> job, bool isActive,
+      EmployeeAppliedJobsController controller) {
+    // Map API status to color
+    Color getStatusColor(String? status) {
+      switch (status?.toLowerCase()) {
+        case 'in progress':
+          return const Color(0xFF2ECC71);
+        case 'confirmed':
+          return const Color(0xFF3498DB);
+        case 'pending':
+          return const Color(0xFFF1C40F);
+        case 'completed':
+          return const Color(0xFF27AE60);
+        default:
+          return Colors.grey;
+      }
+    }
+
+    Color statusColor = getStatusColor(job['status']);
     return GestureDetector(
-      onTap: job['onTap'],
+      onTap: () {
+        final jobId = job['job_id'] ?? job['id'];
+        if (jobId != null) {
+          Get.toNamed(AppRoute.getjobDetailsScreen(), arguments: jobId);
+        } else {
+          Get.snackbar('Error', 'Unable to open job details.');
+        }
+      },
       child: Container(
         margin: EdgeInsets.only(bottom: 14.h),
         decoration: BoxDecoration(
@@ -131,7 +170,8 @@ class AppliedJobsScreen extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
               child: Image.asset(
-                job['image'],
+                job['company_logo'] ??
+                    'assets/images/placeholder.png', // Use a placeholder
                 width: double.infinity,
                 height: 154.h,
                 fit: BoxFit.cover,
@@ -147,7 +187,7 @@ class AppliedJobsScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          job['title'],
+                          job['title'] ?? 'No Title',
                           style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w600,
@@ -165,7 +205,7 @@ class AppliedJobsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(
-                          job['status'],
+                          job['status'] ?? 'Unknown',
                           style: TextStyle(
                             color: statusColor,
                             fontSize: 12.sp,
@@ -177,7 +217,7 @@ class AppliedJobsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    job['company'],
+                    job['company_name'] ?? 'No Company',
                     style: TextStyle(fontSize: 13.sp, color: Colors.black54),
                   ),
                   SizedBox(height: 8.h),
@@ -190,13 +230,13 @@ class AppliedJobsScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        job['distance'],
+                        job['location'] ?? 'No Location',
                         style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                       ),
                       SizedBox(width: 10.w),
                       Icon(Icons.attach_money, size: 16.sp, color: Colors.grey),
                       Text(
-                        job['rate'],
+                        job['rate'] ?? 'N/A', // Assuming a 'rate' field
                         style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                       ),
                     ],
@@ -211,12 +251,14 @@ class AppliedJobsScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        job['time'],
+                        job['shift_timing'] ??
+                            'N/A', // Assuming a 'shift_timing' field
                         style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                       ),
                     ],
                   ),
-                  if (isActive && job['progressText'] != '') ...[
+                  if (isActive &&
+                      job['status']?.toLowerCase() == 'in progress') ...[
                     SizedBox(height: 8.h),
                     Divider(height: 1, color: Colors.grey.shade300),
                     SizedBox(height: 8.h),
@@ -231,7 +273,8 @@ class AppliedJobsScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          job['progressText'],
+                          job['progress_text'] ??
+                              '', // Assuming a 'progress_text' field
                           style: TextStyle(
                             color: Appcolor.primaryColor,
                             fontSize: 12.sp,

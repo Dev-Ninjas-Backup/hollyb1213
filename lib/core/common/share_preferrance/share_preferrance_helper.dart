@@ -22,7 +22,7 @@ class SharedPreferenceHelper {
     String? userId,
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_accessTokenKey, 'Bearer $accessToken');
+    await prefs.setString(_accessTokenKey, accessToken);
     await prefs.setString(_refreshTokenKey, refreshToken);
     await prefs.setString(_selectedRoleKey, role);
     if (userId != null) await prefs.setString(_userIdKey, userId);
@@ -90,6 +90,12 @@ class SharedPreferenceHelper {
   Future<String?> _getString(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
+  }
+
+  Future<void> clearEmailAndPassword() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_emailKey);
+    await prefs.remove(_passwordKey);
   }
 
   //   Logout

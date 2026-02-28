@@ -1,220 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/jobs/controller/job_controller.dart';
-import 'package:hollyb1213/features/employee/jobs/model/job_model.dart';
+import 'package:hollyb1213/features/employee/home/widgets/job_card_widget.dart';
+import 'package:hollyb1213/features/employee/jobs/controller/employee_jobs_controller.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class JobScreen extends StatelessWidget {
-  final JobController controller = Get.put(JobController());
-
-  JobScreen({super.key});
+  const JobScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final EmployeeJobsController controller =
+        Get.find<EmployeeJobsController>();
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        title: Text(
+          "Jobs",
+          style: getTextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Appcolor.primaryColor,
+          ),
+        ),
+        backgroundColor: Appcolor.backgroundcolor,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         elevation: 0,
-        title: TextField(
-          onChanged: (value) => controller.searchText.value = value,
-          decoration: InputDecoration(
-            hintText: 'Search jobs...',
-            fillColor: Colors.grey[100],
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide.none,
-            ),
-            prefixIcon: Icon(Icons.search),
-          ),
-        ),
       ),
-      body: Column(
-        children: [
-          _buildCategoryChips(),
-          Expanded(
-            child: Obx(() {
-              final filtered = controller.jobs.where((job) {
-                if (controller.selectedCategory.value != 'All' &&
-                    job.category != controller.selectedCategory.value) {
-                  return false;
-                }
-                if (controller.searchText.value.isNotEmpty &&
-                    !job.title.toLowerCase().contains(
-                      controller.searchText.value.toLowerCase(),
-                    )) {
-                  return false;
-                }
-                return true;
-              }).toList();
+      backgroundColor: Appcolor.backgroundcolor,
+      body: Obx(() {
+        if (controller.isLoading.value && controller.jobsList.isEmpty) {
+          return Center(
+            child: CircularProgressIndicator(color: Appcolor.primaryColor),
+          );
+        }
 
-              return ListView.builder(
-                itemCount: filtered.length,
-                itemBuilder: (_, index) => _jobCard(filtered[index]),
-              );
-            }),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryChips() {
-    final categories = [
-      'All',
-      'Nearby',
-      'Urgent',
-      'High Pay',
-      'Restaurant',
-      'Delivery',
-    ];
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        height: 50.h,
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemCount: categories.length,
-          separatorBuilder: (_, __) => SizedBox(width: 8),
-          itemBuilder: (_, index) {
-            final category = categories[index];
-            return Obx(() {
-              final selected = controller.selectedCategory.value == category;
-              return GestureDetector(
-                onTap: () => controller.selectedCategory.value = category,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: selected ? Appcolor.primaryColor : Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Appcolor.primaryColor.withValues(alpha: .6),
-                      width: 1.5,
+        return RefreshIndicator(
+          onRefresh: () => controller.getJobs(),
+          child: controller.jobsList.isEmpty
+              ? SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "No jobs available at the moment.",
+                            style: getBodyTextStyle(),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Pull down to refresh",
+                            style: getBodyTextStyle(
+                                fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  child: Text(
-                    category,
-                    style: getTextStyle(
-                      color: selected ? Colors.white : Colors.black87,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  itemCount: controller.jobsList.length,
+                  itemBuilder: (context, index) {
+                    final job = controller.jobsList[index];
+                    // NOTE: It's highly recommended to create a Job model class
+                    // to parse this map and avoid using strings for keys.
+                    return JobCard(
+                      image: job['file'] ?? '',
+                      title: job['title'] ?? 'No Title',
+                      subtitle: job['company_name'] ?? 'No Company',
+                      distance: job['location'] ?? 'No Location',
+                      urgent: job['is_urgent'] ?? false,
+                      payRate: "\$${job['amount'] ?? '0'}",
+                      buttonText: "Apply Now",
+                      onPressed: () {
+                        final jobId = job['id'];
+                        if (jobId != null) {
+                          Get.toNamed(AppRoute.getjobDetailsScreen(),
+                              arguments: jobId);
+                        } else {
+                          Get.snackbar('Error', 'Unable to open job details.');
+                        }
+                      },
+                    );
+                  },
                 ),
-              );
-            });
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _jobCard(JobModel job) {
-    final Map<String, Color> categoryColors = {
-      'Nearby': Colors.green,
-      'Urgent': Colors.redAccent,
-      'High Pay': Colors.orange,
-      'Restaurant': Colors.purple,
-      'Delivery': Colors.blue,
-      'All': Colors.grey,
-    };
-
-    return Card(
-      color: Appcolor.backgroundcolor,
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-      child: Padding(
-        padding: EdgeInsets.all(16.sp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                job.imageUrl,
-                height: 150.h,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(height: 12.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    job.title,
-                    style: getTextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18.sp,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: categoryColors[job.category] ?? Colors.grey,
-                    borderRadius: BorderRadius.circular(8.sp),
-                  ),
-                  child: Text(
-                    job.category,
-                    style: getTextStyle(color: Colors.white, fontSize: 12.sp),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 4.h),
-            Row(
-              children: [
-                Icon(Icons.location_on, size: 16.sp, color: Colors.grey),
-                SizedBox(width: 4.w),
-                Text(
-                  job.location,
-                  style: getTextStyle(color: Appcolor.appTextSecondaryColor),
-                ),
-                SizedBox(width: 12.w),
-                Icon(Icons.attach_money, size: 16.sp, color: Colors.grey),
-                SizedBox(width: 4.w),
-                Text(
-                  job.pay,
-                  style: getTextStyle(color: Appcolor.appTextSecondaryColor),
-                ),
-              ],
-            ),
-            SizedBox(height: 12.h),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoute.jobDetailsScreen);
-              },
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: Appcolor.primaryColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    'Quick Apply',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employee/home/controller/employe_home_controller.dart';
+import 'package:hollyb1213/features/employee/jobs/controller/employee_jobs_controller.dart';
 import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/chat/screen/message_screen.dart';
@@ -15,15 +17,12 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EmployeeBottomNavbarController controller = Get.put(
-      EmployeeBottomNavbarController(),
-    );
+    final EmployeeBottomNavbarController controller =
+        Get.find<EmployeeBottomNavbarController>();
 
     final List<Widget> pages = [
       EmployeHomeScreen(),
-
-      JobScreen(),
-
+      const JobScreen(),
       MessageScreen(),
       EmployeeProfileScreen(),
     ];
@@ -66,7 +65,18 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
               children: List.generate(icons.length, (index) {
                 bool isSelected = controller.currentIndex.value == index;
                 return GestureDetector(
-                  onTap: () => controller.changeIndex(index),
+                  onTap: () {
+                    // Only trigger actions if the index is changing
+                    if (controller.currentIndex.value != index) {
+                      controller.changeIndex(index);
+                      // Refresh data when switching to a tab
+                      if (index == 0) {
+                        Get.find<EmployeHomeController>().getLatestJobs();
+                      } else if (index == 1) {
+                        Get.find<EmployeeJobsController>().getJobs();
+                      }
+                    }
+                  },
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
@@ -78,9 +88,8 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
                           icons[index],
                           width: 26.w,
                           height: 26.h,
-                          color: isSelected
-                              ? Appcolor.primaryColor
-                              : Colors.grey,
+                          color:
+                              isSelected ? Appcolor.primaryColor : Colors.grey,
                         ),
                         SizedBox(height: 4.h),
                         Text(

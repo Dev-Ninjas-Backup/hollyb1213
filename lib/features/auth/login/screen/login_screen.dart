@@ -46,7 +46,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 70),
-
                 TextField(
                   onChanged: (value) => ctrl.emailOrPhone.value = value,
                   decoration: InputDecoration(
@@ -61,7 +60,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 16),
-
                 Obx(
                   () => TextField(
                     onChanged: (value) => ctrl.password.value = value,
@@ -88,7 +86,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -122,18 +119,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 SizedBox(height: 60),
-
-                // Login Button
-                CustomButton(
-                  buttonText: "Login",
-                  onTap: () {
-                    ctrl.role.selectedRole.value == "employee"
-                        ? Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen())
-                        : Get.toNamed(AppRoute.getemployerBottomNavbarScreen());
-                  },
-                // ✅ পরিবর্তিত: এখন ctrl.login() call হচ্ছে, loading state handle করা হচ্ছে
                 Obx(
                   () => ctrl.isLoading.value
                       ? Center(
@@ -143,9 +129,7 @@ class LoginScreen extends StatelessWidget {
                         )
                       : CustomButton(buttonText: "Login", onTap: ctrl.login),
                 ),
-
                 SizedBox(height: 60),
-
                 Row(
                   children: [
                     Expanded(child: Divider(thickness: 1)),
@@ -157,7 +141,6 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 40),
-
                 Obx(
                   () => ctrl.isLoading.value
                       ? Center(
@@ -197,41 +180,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Appcolor.appBorderColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Image.asset(Iconpath.google),
-                        iconSize: 21,
-                      ),
-                    ),
-                    SizedBox(width: 24),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Appcolor.appBorderColor,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Image.asset(Iconpath.fecebook),
-                        iconSize: 24,
-                      ),
-                    ),
-                  ],
                 ),
-
                 SizedBox(height: 80),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

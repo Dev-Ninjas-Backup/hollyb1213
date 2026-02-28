@@ -6,8 +6,6 @@ import 'package:hollyb1213/app.dart';
 void main() {
   runZonedGuarded(() {
     WidgetsFlutterBinding.ensureInitialized();
-    // Forward Flutter framework errors to the zone handler so they are
-    // printed when running `flutter run`.
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.dumpErrorToConsole(details);
     };
@@ -15,8 +13,6 @@ void main() {
     configEasyLoading();
     runApp(const MyApp());
   }, (error, stack) {
-    // Print uncaught errors and stack traces to the console/log.
-    // This helps find crashes that otherwise silently exit.
     debugPrint('UNCAUGHT ERROR: $error');
     debugPrintStack(stackTrace: stack);
   });

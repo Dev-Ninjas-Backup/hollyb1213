@@ -1,50 +1,71 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:hollyb1213/features/employee/home/widgets/employee_home_service.dart';
 
 class EmployeHomeController extends GetxController {
-  // Header
-  final headerTitle = "Hi Nicolas, ready to work today?".obs;
-  final headerSubtitle = "Explore nearby opportunities & activities".obs;
+  final EmployeeHomeService service = Get.put(EmployeeHomeService());
+  final SharedPreferenceHelper prefs = SharedPreferenceHelper();
+  var isLoading = false.obs;
+  var latestJobs = <dynamic>[].obs;
+  var quickActions = <Map<String, dynamic>>[].obs;
 
-  final quickActions = <Map<String, dynamic>>[
-    {
-      "icon": Iconpath.job3,
-      "title": "Available Jobs",
-      "subtitle": "12 Nearby",
-      "height": 40.0,
-      "width": 40.0,
-    },
-    {
-      "icon": Iconpath.job3,
-      "title": "Applied Jobs",
-      "subtitle": "2 Confirmed",
-      "height": 40.0,
-      "width": 40.0,
-    },
-  ].obs;
+  var headerTitle = "Find Your Perfect Job".obs;
+  var headerSubtitle = "Explore thousands of job opportunities".obs;
 
-  final nearbyJobs = <Map<String, dynamic>>[
-    {
-      "image": Imagepath.imagefst,
-      "title": "Restaurant Assistant",
-      "subtitle": "Burger Palace",
-      "distance": "1.2 Km away",
-      "urgent": true,
-    },
-    {
-      "image": Imagepath.image1,
-      "title": "Event Coordinator",
-      "subtitle": "Cultural Hall",
-      "distance": "2.5 Km away",
-      "urgent": false,
-    },
-    {
-      "image": Imagepath.image2,
-      "title": "Museum Guide",
-      "subtitle": "Heritage Museum",
-      "distance": "0.8 Km away",
-      "urgent": true,
-    },
-  ].obs;
+  @override
+  void onInit() {
+    super.onInit();
+    _initQuickActions();
+    getLatestJobs();
+  }
+
+  void _initQuickActions({int available = 0, int applied = 0}) {
+    quickActions.assignAll([
+      {
+        "title": "Available Jobs",
+        "subtitle": "$available Jobs",
+        "icon": Iconpath.job,
+        "height": 50.0,
+        "width": 50.0
+      },
+      {
+        "title": "Applied Jobs",
+        "subtitle": "$applied Jobs",
+        "icon": Iconpath.job,
+        "height": 50.0,
+        "width": 50.0
+      },
+    ]);
+  }
+
+  Future<void> getLatestJobs() async {
+    isLoading.value = true;
+    try {
+      final response = await service.getLatestJobs();
+      if (response.statusCode == 200) {
+        final body = response.body;
+        if (body['success'] == true) {
+          latestJobs.value = body['data'] ?? [];
+          final stats = body['stats'];
+          if (stats != null) {
+            _initQuickActions(
+              available: stats['availableJobs'] ?? 0,
+              applied: stats['appliedJobs'] ?? 0,
+            );
+          }
+        }
+      } else if (response.statusCode == 401) {
+        // print("Unauthorized access - 401 received. Logging out.");
+        // await _prefs.clearAll();
+        // Get.offAllNamed(AppRoute.loginScreen);
+      } else {
+        print('Failed to fetch latest jobs: ${response.statusText}');
+      }
+    } catch (e) {
+      print('Error fetching latest jobs: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

@@ -1,9 +1,10 @@
-// ignore_for_file: avoid_print
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
+import 'package:hollyb1213/features/auth/login/facebook_login/facebook_login_services.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/auth/login/services/login_service.dart';
+import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class LoginController extends GetxController {
@@ -18,28 +19,32 @@ class LoginController extends GetxController {
   var facebookUserData = {}.obs;
   var isFacebookLoggedIn = false.obs;
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  // Access RoleSelectionController to determine navigation path
   RoleSelectionController get role => Get.find<RoleSelectionController>();
 
   @override
   void onInit() {
     super.onInit();
+    _loadSavedCredentials();
     checkFacebookLoginStatus();
   }
 
-  // Check if user is already logged in with Facebook
+  Future<void> _loadSavedCredentials() async {
+    final email = await _prefs.getSavedEmail();
+    final pass = await _prefs.getSavedPassword();
+    if (email != null && pass != null) {
+      emailOrPhone.value = email;
+      password.value = pass;
+      rememberMe.value = true;
+    }
+  }
+
   Future<void> checkFacebookLoginStatus() async {
-    final accessToken = await FacebookAuth.instance.accessToken;
-    if (accessToken != null) {
-      final userData = await FacebookAuth.instance.getUserData(
-        fields: "name,email,picture.width(200)",
-      );
-      facebookUserData.value = userData;
-      isFacebookLoggedIn.value = true;
-      // Optionally, you can navigate the user directly to the home screen here
+    if (await FacebookLoginServices.isLoggedIn()) {
+      final data = await FacebookLoginServices.getUserData();
+      if (data != null) {
+        facebookUserData.value = data;
+        isFacebookLoggedIn.value = true;
+      }
     }
   }
 
@@ -54,26 +59,50 @@ class LoginController extends GetxController {
   Future<void> loginWithFacebook() async {
     try {
       isLoading.value = true;
-      // Request specific permissions for email and profile
-      final LoginResult result = await FacebookAuth.instance.login(
-        permissions: ['email', 'public_profile'],
-      );
+      final result = await FacebookLoginServices.loginWithFacebook();
 
-      if (result.status == LoginStatus.success) {
-        // Get user data if login is successful
-        final userData = await FacebookAuth.instance.getUserData(
-          fields: "name,email,picture.width(200)",
-        );
+      if (result != null) {
+        final userData = result['userData'] as Map<String, dynamic>;
+        final accessToken = result['accessToken'] as String;
+
         facebookUserData.value = userData;
+        isFacebookLoggedIn.value = true;
 
+        // Persist session to handle app restarts
+        await _prefs.saveAuthData(
+          accessToken: accessToken,
+          refreshToken:
+              '', // Facebook client-side login doesn't provide a refresh token
+          role: role.selectedRole.value,
+          userId: userData['id'],
+        );
+
+        print('''
+{
+  "idToken": "$accessToken",
+  "role": "${role.selectedRole.value}"
+}
+''');
         Get.snackbar('Success', 'Welcome ${userData['name']}!');
 
-        // Navigate to the correct screen based on the selected role, and clear previous screens
-        if (role.selectedRole.value == "employee") {
-  Future<void> login() async {
-    print('===== LOGIN CALLED =====');
-    print('Email: ${emailOrPhone.value}');
+        final route = role.selectedRole.value == "employee"
+            ? AppRoute.getEmployeeBottomNavbarScreen()
+            : AppRoute.getemployerBottomNavbarScreen();
+        Get.offAllNamed(route);
+      } else {
+        Get.snackbar(
+          'Login Failed',
+          'Facebook login was cancelled or failed.',
+        );
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
+  Future<void> login() async {
     // Validation
     if (emailOrPhone.value.isEmpty || password.value.isEmpty) {
       Get.snackbar(
@@ -109,30 +138,29 @@ class LoginController extends GetxController {
       if (body['success'] == true || body['success'] == 'true') {
         print('Login Successful!');
 
-        final accessToken = body['data']['accessToken'];
-        final refreshToken = body['data']['refreshToken'];
-        final user = body['data']['user'];
+        final data = body['data'];
+        final accessToken = data['accessToken'];
+        final refreshToken = data['refreshToken'];
+        final user = data['user'];
         final role = user['role'];
-        final userId = user['id'];
+        final userId = user['id'].toString();
 
-        print('role: $role, userId: $userId');
+        print('Saving Auth Data: Token: $accessToken, Role: $role');
 
         await _prefs.saveAuthData(
           accessToken: accessToken,
-          refreshToken: refreshToken,
+          refreshToken: refreshToken ?? '',
           role: role,
           userId: userId,
         );
 
         if (rememberMe.value) {
           await _prefs.saveEmailAndPassword(
-            email: emailOrPhone.value,
-            password: password.value,
-          );
-          print('Email & password saved for Remember Me');
+              email: emailOrPhone.value, password: password.value);
+        } else {
+          // If remember me is not checked, clear any previously saved credentials.
+          await _prefs.clearEmailAndPassword();
         }
-
-        print('Auth data saved — role: $role, userId: $userId');
 
         if (role == 'employee') {
           Get.offAllNamed(AppRoute.getEmployeeBottomNavbarScreen());
@@ -140,21 +168,6 @@ class LoginController extends GetxController {
           Get.offAllNamed(AppRoute.getemployerBottomNavbarScreen());
         }
       } else {
-        Get.snackbar('Login Failed',
-            result.message ?? 'Facebook login was cancelled or failed.');
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  // Facebook Logout
-  Future<void> logoutFacebook() async {
-    await FacebookAuth.instance.logOut();
-    facebookUserData.value = {};
-    isFacebookLoggedIn.value = false;
         final message = body['message'] ?? 'Login failed';
         print('API Error: $message');
         Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
@@ -169,14 +182,33 @@ class LoginController extends GetxController {
       );
     } finally {
       isLoading.value = false;
-      print('===== DONE =====');
     }
   }
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
+  Future<void> logoutFacebook() async {
+    await FacebookLoginServices.logoutFromFacebook();
+    facebookUserData.value = {};
+    isFacebookLoggedIn.value = false;
   }
+
+  Future<void> logout() async {
+    isLoading.value = true;
+    try {
+      // Also logout from Facebook if logged in
+      if (isFacebookLoggedIn.value) {
+        await logoutFacebook();
+      }
+
+      // Clear auth data from SharedPreferences
+      await _prefs.clearAll();
+
+      Get.offAllNamed(AppRoute.getloginScreen());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // @override
+  //void onClose() {
+  //super.onClose();
 }

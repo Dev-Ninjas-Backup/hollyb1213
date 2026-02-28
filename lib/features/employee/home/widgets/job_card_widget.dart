@@ -12,6 +12,7 @@ class JobCard extends StatelessWidget {
     required this.urgent,
     required this.buttonText,
     required this.onPressed,
+    this.payRate = "N/A",
   });
 
   final String image;
@@ -20,6 +21,7 @@ class JobCard extends StatelessWidget {
   final String distance;
   final bool urgent;
   final String buttonText;
+  final String payRate;
   final VoidCallback onPressed;
 
   @override
@@ -38,12 +40,34 @@ class JobCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(12.r)),
-            child: Image.asset(
-              image,
-              height: 140.h,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+            child: (image.isNotEmpty)
+                ? (image.startsWith('http')
+                    ? Image.network(
+                        image,
+                        height: 140.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          height: 140.h,
+                          width: double.infinity,
+                          color: Colors.grey[200],
+                          child: Icon(Icons.broken_image,
+                              color: Colors.grey[400], size: 50),
+                        ),
+                      )
+                    : Image.asset(
+                        image,
+                        height: 140.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ))
+                : Container(
+                    height: 140.h,
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    child: Icon(Icons.work_outline,
+                        color: Colors.grey[400], size: 50),
+                  ),
           ),
           Padding(
             padding: EdgeInsets.all(12.w),
@@ -105,7 +129,7 @@ class JobCard extends StatelessWidget {
                     SizedBox(width: 10.w),
                     Icon(Icons.attach_money, color: Colors.black, size: 18),
                     Text(
-                      "\$18/hour",
+                      payRate,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13.sp,

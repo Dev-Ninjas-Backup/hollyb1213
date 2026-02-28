@@ -16,7 +16,7 @@ class EmployeHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(EmployeHomeController());
+    final controller = Get.find<EmployeHomeController>();
 
     return Scaffold(
       backgroundColor: Appcolor.backgroundcolor,
@@ -94,7 +94,7 @@ class EmployeHomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Nearby Jobs",
+                    "Latest Jobs",
                     style: getBodyTextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
@@ -116,62 +116,96 @@ class EmployeHomeScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Obx(
-                () => Column(
-                  children: [
-                    JobCard(
-                      image: controller.nearbyJobs[0]["image"],
-                      title: controller.nearbyJobs[0]["title"],
-                      subtitle: controller.nearbyJobs[0]["subtitle"],
-                      distance: controller.nearbyJobs[0]["distance"],
-                      urgent: controller.nearbyJobs[0]["urgent"],
-                      buttonText: "Quick Apply",
-                      onPressed: () {
-                        Get.toNamed(AppRoute.getjobDetailsScreen());
-                      },
-                    ),
-                    JobCard(
-                      image: controller.nearbyJobs[1]["image"],
-                      title: controller.nearbyJobs[1]["title"],
-                      subtitle: controller.nearbyJobs[1]["subtitle"],
-                      distance: controller.nearbyJobs[1]["distance"],
-                      urgent: controller.nearbyJobs[1]["urgent"],
-                      buttonText: "Quick Apply",
-                      onPressed: () {},
-                    ),
-                    JobCard(
-                      image: controller.nearbyJobs[2]["image"],
-                      title: controller.nearbyJobs[2]["title"],
-                      subtitle: controller.nearbyJobs[2]["subtitle"],
-                      distance: controller.nearbyJobs[2]["distance"],
-                      urgent: controller.nearbyJobs[2]["urgent"],
-                      buttonText: "Quick Apply",
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
+                () {
+                  if (controller.isLoading.value &&
+                      controller.latestJobs.isEmpty) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (controller.latestJobs.isEmpty) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text("No latest jobs available."),
+                      ),
+                    );
+                  }
+
+                  return Column(
+                    children: controller.latestJobs.map((job) {
+                      // NOTE: Assuming the structure of the job object from the API.
+                      // You may need to adjust these keys to match your API response.
+                      return JobCard(
+                        image: job['file'] ?? '',
+                        title: job['title'] ?? 'No Title',
+                        subtitle: job['company_name'] ?? 'No Company',
+                        distance: job['location'] ?? 'No Location',
+                        urgent: job['is_urgent'] ?? false,
+                        payRate: "\$${job['amount'] ?? '0'}",
+                        buttonText: "Quick Apply",
+                        onPressed: () {
+                          final jobId = job['id'];
+                          if (jobId != null) {
+                            Get.toNamed(AppRoute.getjobDetailsScreen(),
+                                arguments: jobId);
+                          } else {
+                            Get.snackbar(
+                                'Error', 'Unable to open job details.');
+                          }
+                        },
+                      );
+                    }).toList(),
+                  );
+                },
               ),
             ),
 
+            // --- Schedule Boxes (End Section) ---
             // --- Schedule Boxes (End Section) ---
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               child: Column(
                 children: [
-                  buildScheduleBox(
-                    title: "Morning Shift - Cafe Helper",
-                    subtitle: "Sunrise Cafe",
-                    time: "8:00 AM - 12:00 PM",
-                    amount: "\$85",
-                  ),
-                  buildScheduleBox(
-                    title: "Afternoon Shift - Barista",
-                    subtitle: "Sunset Cafe",
-                    time: "1:00 PM - 5:00 PM",
-                    amount: "\$90",
-                    statusText: "Pending",
-                    statusBackground: Colors.yellow.shade100,
-                    statusColor: Colors.yellow[800]!,
-                  ),
+                  // Dummy data for scheduled jobs. In a real app, this would come from the controller.
+                  ...[
+                    {
+                      'title': "Morning Shift - Cafe Helper",
+                      'subtitle': "Sunrise Cafe",
+                      'time': "8:00 AM - 12:00 PM",
+                      'amount': "\$85",
+                      'statusText': "Now", // Default status
+                      'statusBackground': const Color(0xFFDFF7DF),
+                      'statusColor': Colors.green,
+                    },
+                    {
+                      'title': "Afternoon Shift - Barista",
+                      'subtitle': "Sunset Cafe",
+                      'time': "1:00 PM - 5:00 PM",
+                      'amount': "\$90",
+                      'statusText': "Pending",
+                      'statusBackground': Colors.yellow.shade100,
+                      'statusColor': Colors.yellow[800]!,
+                    },
+                    {
+                      'title': "Evening Shift - Kitchen Assistant",
+                      'subtitle': "The Grand Restaurant",
+                      'time': "6:00 PM - 10:00 PM",
+                      'amount': "\$110",
+                      'statusText': "Upcoming",
+                      'statusBackground': Colors.blue.shade100,
+                      'statusColor': Colors.blue[800]!,
+                    },
+                  ].map((job) {
+                    return buildScheduleBox(
+                      title: job['title'] as String,
+                      subtitle: job['subtitle'] as String,
+                      time: job['time'] as String,
+                      amount: job['amount'] as String,
+                      statusText: job['statusText'] as String,
+                      statusBackground: job['statusBackground'] as Color,
+                      statusColor: job['statusColor'] as Color,
+                    );
+                  }),
                 ],
               ),
             ),

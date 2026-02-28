@@ -1,5 +1,6 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hollyb1213/features/auth/create_new_password/screen/create_password_screen.dart';
+import 'package:hollyb1213/features/employee/jobs/screen/employee_bottom_navbar_binding.dart';
 import 'package:hollyb1213/features/auth/forgot_password/screen/forgot_password_screen.dart';
 import 'package:hollyb1213/features/auth/forgot_password_otp/screen/otp_screen.dart';
 import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
@@ -162,6 +163,7 @@ class AppRoute {
     GetPage(
       name: employeeBottomNavbarScreen,
       page: () => EmployeeBottomNavbarScreen(),
+      binding: EmployeeBottomNavbarBinding(),
     ),
     GetPage(
       name: employeeHomeScreen,

@@ -1,34 +1,66 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_service.dart';
 
-class JobDetailsController extends ChangeNotifier {
-  final String title = "Restaurant Helper";
-  final String company = "Bella Vista Restaurant";
-  final String payRate = "\$18/hr";
-  final String location = "1313 Downtown Street, City Center, LA 12345";
-  final String startDate = "Oct 26, 2025";
-  final String endDate = "Oct 30, 2025";
-  final String workTime = "7:00 AM - 3:00 PM";
+class JobDetailsController extends GetxController {
+  final EmployeeJobsService _service = EmployeeJobsService();
+  var isLoading = true.obs;
+  var jobData = <String, dynamic>{}.obs;
 
-  final String about =
-      "We are looking for a restaurant helper to assist with various kitchen and front-of-house tasks. Must be energetic, friendly, and ready to join a busy team environment. Previous experience is an asset but not required. Training provided.";
+  @override
+  void onInit() {
+    super.onInit();
+    final jobId = Get.arguments;
+    if (jobId != null) {
+      getJobDetails(jobId);
+    }
+  }
 
-  final List<String> responsibilities = [
-    "Assist chefs in basic food preparation and kitchen cleaning",
-    "Bring food from the kitchen to dining areas",
-    "Clean tables and arrange dining areas",
-    "Assist with deliveries and storage of food",
-    "Provide friendly service to guests",
-  ];
+  Future<void> getJobDetails(String id) async {
+    isLoading.value = true;
+    try {
+      final response = await _service.getJobDetails(id);
+      if (response.statusCode == 200) {
+        final body = response.body;
+        if (body['success'] == true) {
+          jobData.value = body['data'];
+        }
+      }
+    } catch (e) {
+      print('Error fetching job details: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
-  final List<String> requirements = [
-    "Friendly attitude, eager to learn",
-    "Able to stand for long hours (6+ hours/shift)",
-    "Good communication skills",
-    "Able to follow instructions and work as part of a team",
-  ];
+  String get title => jobData['title'] ?? '';
+  String get payRate => "\$${jobData['amount'] ?? '0'}";
+  String get company => jobData['company_name'] ?? '';
+  String get location => jobData['location'] ?? '';
 
-  final List<String> additionalDetails = [
-    'Work Type: Same-Day Shift',
-    'Posted: 6 hours ago',
-  ];
+  String get startDate {
+    final date = jobData['job_date'];
+    return date != null ? date.toString().split('T')[0] : '';
+  }
+
+  String get endDate {
+    final date = jobData['expire_date'];
+    return date != null ? date.toString().split('T')[0] : '';
+  }
+
+  String get workTime =>
+      "${jobData['start_time'] ?? ''} - ${jobData['end_time'] ?? ''}";
+
+  String get about => jobData['description'] ?? '';
+
+  List<String> get responsibilities {
+    final res = jobData['job_responsibilities'];
+    return res != null ? [res.toString()] : [];
+  }
+
+  List<String> get requirements {
+    final req = jobData['requirements'];
+    return req != null ? [req.toString()] : [];
+  }
+
+  List<String> get additionalDetails => [];
 }

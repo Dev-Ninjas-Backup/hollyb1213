@@ -9,7 +9,7 @@ class FacebookLoginServices {
 
       if (result.status == LoginStatus.success) {
         final userData = await FacebookAuth.instance.getUserData(
-          fields: "name,email,picture.width(200)",
+          fields: "id,name,email,picture.width(200)",
         );
 
         print('Facebook Login Success');
@@ -17,7 +17,10 @@ class FacebookLoginServices {
         print('Email: ${userData['email']}');
         print('Picture: ${userData['picture']['data']['url']}');
 
-        return userData;
+        return {
+          'userData': userData,
+          'accessToken': result.accessToken!.token,
+        };
       } else if (result.status == LoginStatus.cancelled) {
         print('Facebook Login Cancelled');
         return null;

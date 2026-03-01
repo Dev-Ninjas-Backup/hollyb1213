@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/endpoint.dart';
+import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 
 class SingupService extends GetConnect {
   Future<Response> register({
@@ -9,7 +9,7 @@ class SingupService extends GetConnect {
     String role = 'employee',
   }) async {
     final response = await post(
-      '${Endpoint.baseUrl}/auth/register',
+      '${ApiEndpoint.baseUrl}/auth/register',
       {
         'fullName': fullName,
         'email': email,

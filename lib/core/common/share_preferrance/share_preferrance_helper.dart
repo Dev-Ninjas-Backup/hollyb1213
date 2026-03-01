@@ -40,8 +40,6 @@ class SharedPreferenceHelper {
     return prefs.getBool(_isLoggedInKey) ?? false;
   }
 
-  // Getters
-
   Future<String?> getAccessToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(_accessTokenKey);
@@ -61,8 +59,6 @@ class SharedPreferenceHelper {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(_userIdKey);
   }
-
-  // User Profile Data
 
   Future<void> saveEmailAndPassword({
     required String email,
@@ -97,8 +93,6 @@ class SharedPreferenceHelper {
     await prefs.remove(_emailKey);
     await prefs.remove(_passwordKey);
   }
-
-  //   Logout
 
   Future<void> clearAll() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

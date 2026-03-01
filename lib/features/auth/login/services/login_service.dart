@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/endpoint.dart';
+import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 
 class LoginService extends GetConnect {
   // final String _baseUrl =
@@ -10,7 +10,7 @@ class LoginService extends GetConnect {
     required String password,
   }) async {
     final response = await post(
-      '${Endpoint.baseUrl}/auth/login',
+      '${ApiEndpoint.baseUrl}/auth/login',
       {'email': email, 'password': password},
       headers: {'Content-Type': 'application/json'},
     );

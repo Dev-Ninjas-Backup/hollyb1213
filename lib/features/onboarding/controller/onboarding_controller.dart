@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class OnboardingController extends GetxController {
   var currentPage = 0.obs;
+  final PageController pageController = PageController();
 
   final List<Map<String, String>> onboardingData = [
     {
@@ -26,11 +28,30 @@ class OnboardingController extends GetxController {
     },
   ];
 
+  bool get isLastPage => currentPage.value == onboardingData.length - 1;
+
   void skip() {
-    Get.offNamed(AppRoute.getroleSelection());
+    Get.offAllNamed(AppRoute.getroleSelection());
+  }
+
+  void nextPage() {
+    if (isLastPage) {
+      skip();
+    } else {
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   void updatePage(int index) {
     currentPage.value = index;
+  }
+
+  @override
+  void onClose() {
+    pageController.dispose();
+    super.onClose();
   }
 }

@@ -176,11 +176,8 @@ class UploadProfileScreen extends StatelessWidget {
             Obx(() {
               return CustomButton(
                 buttonText: "Next",
-                onTap: ctrl.image.value != null
-                    ? () {
-                        Get.toNamed(AppRoute.getuploadNidScreen());
-                      }
-                    : null,
+                onTap:
+                    ctrl.image.value != null ? ctrl.uploadProfilePhoto : null,
               );
             }),
           ],

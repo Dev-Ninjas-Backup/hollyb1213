@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/endpoint.dart';
+import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 
 class VerificationService extends GetConnect {
   // final String _baseUrl =
@@ -12,7 +12,7 @@ class VerificationService extends GetConnect {
     required String code,
   }) async {
     final response = await post(
-      '${Endpoint.baseUrl}/auth/verify-otp',
+      '${ApiEndpoint.baseUrl}/auth/verify-otp',
       {'email': email, 'code': code},
       headers: {'Content-Type': 'application/json'},
     );
@@ -22,7 +22,7 @@ class VerificationService extends GetConnect {
 
   Future<Response> resendOtp({required String email}) async {
     final response = await post(
-      '${Endpoint.baseUrl}/auth/resend-otp',
+      '${ApiEndpoint.baseUrl}/auth/resend-otp',
       {'email': email},
       headers: {'Content-Type': 'application/json'},
     );

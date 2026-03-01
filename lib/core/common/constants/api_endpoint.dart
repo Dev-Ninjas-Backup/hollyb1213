@@ -1,6 +1,6 @@
 class ApiEndpoint {
   static const String baseUrl =
-      'https://wiley-half-nonhabitably.ngrok-free.dev/api/v1/'; // CHANGE THIS to your real API URL
+      'https://wiley-half-nonhabitably.ngrok-free.dev/api/v1';
 
   // Auth
   static const String login = 'auth/login';

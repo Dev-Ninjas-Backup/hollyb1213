@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_service.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class EmployeeJobsController extends GetxController {
   final EmployeeJobsService _service = EmployeeJobsService();

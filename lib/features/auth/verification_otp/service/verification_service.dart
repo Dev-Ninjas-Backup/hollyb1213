@@ -4,9 +4,6 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 
 class VerificationService extends GetConnect {
-  // final String _baseUrl =
-  //     'https://wiley-half-nonhabitably.ngrok-free.dev/api/v1';
-
   Future<Response> verifyOtp({
     required String email,
     required String code,

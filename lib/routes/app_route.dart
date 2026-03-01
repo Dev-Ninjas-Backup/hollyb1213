@@ -1,9 +1,9 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hollyb1213/features/auth/create_new_password/screen/create_password_screen.dart';
+import 'package:hollyb1213/features/auth/login/services/screen/login_screen.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_bottom_navbar_binding.dart';
 import 'package:hollyb1213/features/auth/forgot_password/screen/forgot_password_screen.dart';
 import 'package:hollyb1213/features/auth/forgot_password_otp/screen/otp_screen.dart';
-import 'package:hollyb1213/features/auth/login/screen/login_screen.dart';
 import 'package:hollyb1213/features/auth/payment_method/screen/payment_method_screen.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/auth/sing_up/screen/sing_up_screen.dart';

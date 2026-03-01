@@ -45,8 +45,11 @@ class EmployeHomeController extends GetxController {
       final response = await service.getLatestJobs();
       if (response.statusCode == 200) {
         final body = response.body;
-        if (body['success'] == true) {
-          latestJobs.value = body['data'] ?? [];
+        if (body != null && body['success'] == true) {
+          var jobs = body['data'];
+          if (jobs != null && jobs is List) {
+            latestJobs.assignAll(jobs);
+          }
           final stats = body['stats'];
           if (stats != null) {
             _initQuickActions(

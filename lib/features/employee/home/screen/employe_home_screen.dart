@@ -133,8 +133,6 @@ class EmployeHomeScreen extends StatelessWidget {
 
                   return Column(
                     children: controller.latestJobs.map((job) {
-                      // NOTE: Assuming the structure of the job object from the API.
-                      // You may need to adjust these keys to match your API response.
                       return JobCard(
                         image: job['file'] ?? '',
                         title: job['title'] ?? 'No Title',

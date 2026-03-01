@@ -1,52 +1,41 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadProfileController extends GetxController {
+  final UploadProfileService _service = Get.put(UploadProfileService());
   var image = Rx<File?>(null);
   final ImagePicker _picker = ImagePicker();
 
-  // Pick image from camera or gallery
   Future<void> pickImage() async {
-    Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Take Photo'),
-              onTap: () async {
-                final pickedFile = await _picker.pickImage(
-                  source: ImageSource.camera,
-                );
-                if (pickedFile != null) {
-                  image.value = File(pickedFile.path);
-                }
-                Get.back();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Choose from Gallery'),
-              onTap: () async {
-                final pickedFile = await _picker.pickImage(
-                  source: ImageSource.gallery,
-                );
-                if (pickedFile != null) {
-                  image.value = File(pickedFile.path);
-                }
-                Get.back();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      image.value = File(pickedFile.path);
+    }
+  }
+
+  Future<void> uploadProfilePhoto() async {
+    if (image.value == null) return;
+
+    try {
+      EasyLoading.show(status: 'Uploading...');
+
+      final response = await _service.uploadProfilePhoto(image.value!);
+
+      if (response.statusCode == 200 && response.body['success'] == true) {
+        EasyLoading.showSuccess(
+            response.body['message'] ?? 'Uploaded successfully');
+        Get.toNamed(AppRoute.getuploadNidScreen());
+      } else {
+        EasyLoading.showError(response.body['message'] ?? 'Upload failed');
+      }
+    } catch (e) {
+      EasyLoading.showError('Something went wrong');
+    } finally {
+      EasyLoading.dismiss();
+    }
   }
 }

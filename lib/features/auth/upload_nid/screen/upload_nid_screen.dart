@@ -8,7 +8,6 @@ import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/upload_nid/controller/upload_nid_controller.dart';
 import 'package:hollyb1213/features/auth/upload_nid/widgets/nid_box_widget.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadNidScreen extends StatelessWidget {
   UploadNidScreen({super.key});
@@ -129,6 +128,12 @@ class UploadNidScreen extends StatelessWidget {
 
             // Next Button
             Obx(() {
+              return ctrl.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Next",
+                      onTap: ctrl.isBothSelected ? ctrl.uploadNid : null,
+                    );
               return CustomButton(
                 buttonText: "Next",
                 onTap: ctrl.isBothSelected

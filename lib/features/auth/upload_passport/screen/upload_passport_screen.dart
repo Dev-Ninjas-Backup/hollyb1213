@@ -130,6 +130,12 @@ class UploadPassportScreen extends StatelessWidget {
             const SizedBox(height: 110),
 
             Obx(() {
+              return ctrl.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Next",
+                      onTap: ctrl.isBothSelected ? ctrl.uploadPassport : null,
+                    );
               return CustomButton(
                 buttonText: "Next",
                 onTap: ctrl.image.value != null

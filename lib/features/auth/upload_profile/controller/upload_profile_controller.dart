@@ -1,14 +1,16 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_service.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:hollyb1213/core/common/constants/upload_profile_service.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadProfileController extends GetxController {
-  final UploadProfileService _service = Get.put(UploadProfileService());
-  var image = Rx<File?>(null);
+  final UploadProfileService _service = UploadProfileService();
   final ImagePicker _picker = ImagePicker();
+  var image = Rx<File?>(null);
 
   Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -20,22 +22,21 @@ class UploadProfileController extends GetxController {
   Future<void> uploadProfilePhoto() async {
     if (image.value == null) return;
 
+    EasyLoading.show(status: 'Uploading...');
     try {
-      EasyLoading.show(status: 'Uploading...');
-
       final response = await _service.uploadProfilePhoto(image.value!);
+      print("Upload API Response: ${response.body}");
+      EasyLoading.dismiss();
 
-      if (response.statusCode == 200 && response.body['success'] == true) {
-        EasyLoading.showSuccess(
-            response.body['message'] ?? 'Uploaded successfully');
-        Get.toNamed(AppRoute.getuploadNidScreen());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar("Success", "Profile photo uploaded successfully");
+        Get.offNamed(AppRoute.uploadNidScreen);
       } else {
-        EasyLoading.showError(response.body['message'] ?? 'Upload failed');
+        Get.snackbar("Error", response.body['message'] ?? "Upload failed");
       }
     } catch (e) {
-      EasyLoading.showError('Something went wrong');
-    } finally {
       EasyLoading.dismiss();
+      Get.snackbar("Error", "Something went wrong: $e");
     }
   }
 }

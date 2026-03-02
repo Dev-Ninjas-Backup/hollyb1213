@@ -43,6 +43,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   shared_preferences: ^2.5.3
   flutter_facebook_auth: ^6.0.0
+  mime: ^1.0.5
 
 
 dev_dependencies:

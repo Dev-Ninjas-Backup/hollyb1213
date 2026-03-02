@@ -183,14 +183,6 @@ class UploadProfileScreen extends StatelessWidget {
                           ? ctrl.uploadProfilePhoto
                           : null,
                     );
-              return CustomButton(
-                buttonText: "Next",
-                onTap: ctrl.image.value != null
-                    ? () async {
-                        await ctrl.uploadProfilePhoto();
-                      }
-                    : null,
-              );
             }),
           ],
         ),

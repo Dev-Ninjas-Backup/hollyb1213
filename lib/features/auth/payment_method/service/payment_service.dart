@@ -14,12 +14,15 @@ class PaymentService extends GetConnect {
     );
   }
 
-  Future<Response> processPayment({required String paymentMethodId}) async {
+  Future<Response> processPayment({
+    required String paymentMethodId,
+    required String planType,
+  }) async {
     final token = await SharedPreferenceHelper().getAccessToken();
     return await post(
       ApiEndpoint.stripePayment,
       {
-        'planType': 'employer_premium',
+        'planType': planType,
         'paymentMethodId': paymentMethodId,
       },
       headers: {

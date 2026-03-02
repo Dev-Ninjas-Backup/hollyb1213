@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hollyb1213/features/auth/upload_passport/service/upload_passport_service.dart';
@@ -11,23 +14,29 @@ class UploadPassportController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
   final UploadPassportService _service = UploadPassportService();
+import 'package:hollyb1213/core/common/constants/upload_passport_service.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
-  Future<void> pickFrontImage() async {
+class UploadPassportController extends GetxController {
+  final UploadPassportService _service = UploadPassportService();
+  final ImagePicker _picker = ImagePicker();
+  var image = Rx<File?>(null);
+
+  Future<void> pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      frontImage.value = File(pickedFile.path);
+      image.value = File(pickedFile.path);
     }
   }
 
-  Future<void> pickBackImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      backImage.value = File(pickedFile.path);
-    }
-  }
+  Future<void> uploadPassport() async {
+    if (image.value == null) return;
 
-  void removeFrontImage() => frontImage.value = null;
-  void removeBackImage() => backImage.value = null;
+    EasyLoading.show(status: 'Uploading Passport...');
+    try {
+      final response = await _service.uploadPassport(image.value!);
+      print("Passport Upload API Response: ${response.body}");
+      EasyLoading.dismiss();
 
   bool get isFrontImageSelected => frontImage.value != null;
   bool get isBackImageSelected => backImage.value != null;
@@ -68,6 +77,16 @@ class UploadPassportController extends GetxController {
       );
     } finally {
       isLoading.value = false;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar("Success", "Passport uploaded successfully");
+        // Navigate to the main dashboard, removing all previous routes
+        Get.offAllNamed('/employee/dashboard');
+      } else {
+        Get.snackbar("Error", response.body['message'] ?? "Upload failed");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      Get.snackbar("Error", "Something went wrong: $e");
     }
   }
 }

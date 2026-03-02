@@ -1,8 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hollyb1213/features/auth/upload_profile/service/upload_profile_service.dart';
+import 'package:hollyb1213/routes/app_route.dart';
+import 'package:hollyb1213/core/common/constants/upload_profile_service.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadProfileController extends GetxController {
@@ -11,47 +15,32 @@ class UploadProfileController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   final UploadProfileService _service = UploadProfileService();
 
-  // Pick image from camera or gallery
   Future<void> pickImage() async {
-    Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Take Photo'),
-              onTap: () async {
-                final pickedFile = await _picker.pickImage(
-                  source: ImageSource.camera,
-                );
-                if (pickedFile != null) {
-                  image.value = File(pickedFile.path);
-                }
-                Get.back();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Choose from Gallery'),
-              onTap: () async {
-                final pickedFile = await _picker.pickImage(
-                  source: ImageSource.gallery,
-                );
-                if (pickedFile != null) {
-                  image.value = File(pickedFile.path);
-                }
-                Get.back();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      image.value = File(pickedFile.path);
+    }
+  }
+
+  Future<void> uploadProfilePhoto() async {
+    if (image.value == null) return;
+
+    EasyLoading.show(status: 'Uploading...');
+    try {
+      final response = await _service.uploadProfilePhoto(image.value!);
+      print("Upload API Response: ${response.body}");
+      EasyLoading.dismiss();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar("Success", "Profile photo uploaded successfully");
+        Get.offNamed(AppRoute.uploadNidScreen);
+      } else {
+        Get.snackbar("Error", response.body['message'] ?? "Upload failed");
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      Get.snackbar("Error", "Something went wrong: $e");
+    }
   }
 
   Future<void> uploadProfilePhoto() async {

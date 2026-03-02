@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/onboarding/controller/onboarding_controller.dart';
 import 'package:hollyb1213/features/onboarding/widgets/slider_box_widget.dart';
 import 'package:hollyb1213/features/onboarding/widgets/title_style_widget.dart';
 
 class OnboardingScreen extends StatelessWidget {
   final OnboardingController controller = Get.put(OnboardingController());
-  final PageController pageController = PageController();
 
   OnboardingScreen({super.key});
 
@@ -25,17 +25,9 @@ class OnboardingScreen extends StatelessWidget {
           Expanded(
             flex: 6,
             child: PageView.builder(
-              controller: pageController,
+              controller: controller.pageController,
               itemCount: controller.onboardingData.length,
-              onPageChanged: (index) {
-                controller.updatePage(index);
-
-                if (index == controller.onboardingData.length - 1) {
-                  Future.delayed(Duration(milliseconds: 500), () {
-                    Get.off(() => RoleSelectionScreen());
-                  });
-                }
-              },
+              onPageChanged: controller.updatePage,
               itemBuilder: (context, index) {
                 final data = controller.onboardingData[index];
                 return Container(
@@ -56,30 +48,29 @@ class OnboardingScreen extends StatelessWidget {
                         top: height * 0.04,
                         right: width * 0.04,
                       ),
-                      child: TextButton(
-                        onPressed: controller.skip,
-                        child: Text(
-                          'Skip',
-                          style: getTextStyle(
-                            color: Colors.white,
-                            fontSize: width * 0.040,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+                      child: Obx(() => Visibility(
+                            visible: !controller.isLastPage,
+                            child: TextButton(
+                              onPressed: controller.skip,
+                              child: Text(
+                                'Skip',
+                                style: getTextStyle(
+                                  color: Colors.white,
+                                  fontSize: width * 0.040,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )),
                     ),
                   ),
                 );
               },
             ),
           ),
-
           SizedBox(height: height * 0.05),
-
           TitleStyle(controller: controller, width: width, height: height),
-
           SizedBox(height: height * 0.02),
-
           Obx(() {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -93,8 +84,33 @@ class OnboardingScreen extends StatelessWidget {
               ),
             );
           }),
-
-          SizedBox(height: height * 0.07),
+          SizedBox(height: height * 0.04),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            child: Obx(() => SizedBox(
+                  width: double.infinity,
+                  height: 50.h,
+                  child: ElevatedButton(
+                    onPressed: controller.nextPage,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Appcolor.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: Text(
+                      controller.isLastPage ? "Get Started" : "Next",
+                      style: getTextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                )),
+          ),
+          SizedBox(height: height * 0.03),
         ],
       ),
     );

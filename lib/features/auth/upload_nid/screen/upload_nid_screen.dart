@@ -132,8 +132,8 @@ class UploadNidScreen extends StatelessWidget {
               return CustomButton(
                 buttonText: "Next",
                 onTap: ctrl.isBothSelected
-                    ? () {
-                        Get.toNamed(AppRoute.getuploadPassportScreen());
+                    ? () async {
+                        await ctrl.uploadNid();
                       }
                     : null,
               );

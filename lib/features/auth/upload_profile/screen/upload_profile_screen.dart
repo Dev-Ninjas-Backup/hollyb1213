@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -176,8 +178,11 @@ class UploadProfileScreen extends StatelessWidget {
             Obx(() {
               return CustomButton(
                 buttonText: "Next",
-                onTap:
-                    ctrl.image.value != null ? ctrl.uploadProfilePhoto : null,
+                onTap: ctrl.image.value != null
+                    ? () async {
+                        await ctrl.uploadProfilePhoto();
+                      }
+                    : null,
               );
             }),
           ],

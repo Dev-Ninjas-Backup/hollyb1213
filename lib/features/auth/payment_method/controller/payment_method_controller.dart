@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/auth/payment_method/service/payment_service.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
@@ -66,9 +67,16 @@ class PaymentMethodController extends GetxController {
       final paymentMethodId = paymentMethod.id;
       print('PaymentMethod ID: $paymentMethodId');
 
+      // Determine plan type based on selected role
+      final role = await SharedPreferenceHelper().getSelectedRole();
+      final planType = role == 'employee'
+          ? 'employee_premium'
+          : 'employer_premium';
+
       // Send to backend
       final response = await _service.processPayment(
         paymentMethodId: paymentMethodId,
+        planType: planType,
       );
 
       print('Payment Response: ${response.statusCode}');

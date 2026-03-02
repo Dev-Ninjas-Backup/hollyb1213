@@ -21,11 +21,6 @@ class ApiEndpoint {
   static const String getStripePublishKey =
       '$baseUrl/subscription/payment/config';
   static const String stripePayment = '$baseUrl/subscription/payment/process';
-  static const String login = '/auth/login';
-  static const String employeeJobs = '/employee/jobs';
-  static const String employeeLatestJobs = '/employee/latest-jobs';
-  static const String employeeAppliedJobs = '/employee/jobs/applied';
-  static String employeeJobDetails(String jobId) => '/employee/jobs/$jobId';
   static const String profilePhoto = '/profile/documents/profile-photo';
   static const String uploadNid = '/profile/documents/nid';
   static const String uploadPassport = '/profile/documents/passport';

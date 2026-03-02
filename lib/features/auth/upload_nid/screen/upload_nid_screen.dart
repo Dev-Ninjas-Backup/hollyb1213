@@ -134,14 +134,6 @@ class UploadNidScreen extends StatelessWidget {
                       buttonText: "Next",
                       onTap: ctrl.isBothSelected ? ctrl.uploadNid : null,
                     );
-              return CustomButton(
-                buttonText: "Next",
-                onTap: ctrl.isBothSelected
-                    ? () async {
-                        await ctrl.uploadNid();
-                      }
-                    : null,
-              );
             }),
           ],
         ),

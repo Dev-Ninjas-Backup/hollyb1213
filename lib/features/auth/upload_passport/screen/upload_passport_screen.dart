@@ -129,14 +129,12 @@ class UploadPassportScreen extends StatelessWidget {
 
             // Next Button
             Obx(() {
-              return CustomButton(
-                buttonText: "Next",
-                onTap: ctrl.isBothSelected
-                    ? () {
-                        Get.toNamed(AppRoute.getuploadUtilityBillScreen());
-                      }
-                    : null,
-              );
+              return ctrl.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Next",
+                      onTap: ctrl.isBothSelected ? ctrl.uploadPassport : null,
+                    );
             }),
             SizedBox(height: 20),
             Container(

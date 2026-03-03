@@ -12,9 +12,12 @@ class EmployerJobCard extends StatelessWidget {
     required this.subtitle,
     required this.distance,
     required this.urgent,
+    required this.status,
     this.showEdit = true,
     this.showFavourite = false,
     this.isFavourite,
+    this.applicants = 0,
+    this.amount = '0',
     required this.onViewDetails,
     this.onEdit,
     this.onFavouriteTap,
@@ -25,9 +28,12 @@ class EmployerJobCard extends StatelessWidget {
   final String subtitle;
   final String distance;
   final bool urgent;
+  final String status;
   final bool showEdit;
   final bool showFavourite;
   final RxBool? isFavourite;
+  final int applicants;
+  final String amount;
   final VoidCallback onViewDetails;
   final VoidCallback? onEdit;
   final VoidCallback? onFavouriteTap;
@@ -58,12 +64,7 @@ class EmployerJobCard extends StatelessWidget {
                   topLeft: Radius.circular(16.r),
                   topRight: Radius.circular(16.r),
                 ),
-                child: Image.asset(
-                  image,
-                  width: double.infinity,
-                  height: 160.h,
-                  fit: BoxFit.cover,
-                ),
+                child: _buildImage(image),
               ),
               // --- Badge ---
               Positioned(
@@ -72,17 +73,13 @@ class EmployerJobCard extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
-                    color: showEdit
-                        ? const Color(0xFFDFF7DF) // active (green bg)
-                        : const Color(0xFFDDE9FF), // completed (blue bg)
+                    color: _getStatusBadgeColor()['background'],
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
-                    showEdit ? "Active" : "Completed",
+                    _getStatusDisplayName(),
                     style: TextStyle(
-                      color: showEdit
-                          ? Colors.green[700]
-                          : Colors.blueAccent[700],
+                      color: _getStatusBadgeColor()['text'],
                       fontWeight: FontWeight.w600,
                       fontSize: 12.sp,
                     ),
@@ -143,6 +140,8 @@ class EmployerJobCard extends StatelessWidget {
                     SizedBox(width: 4.w),
                     Text(
                       subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: Colors.grey[700],
@@ -163,7 +162,7 @@ class EmployerJobCard extends StatelessWidget {
                     ),
                     SizedBox(width: 4.w),
                     Text(
-                      "\$18/hour",
+                      "\$$amount",
                       style: TextStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
@@ -178,7 +177,7 @@ class EmployerJobCard extends StatelessWidget {
                     ),
                     SizedBox(width: 4.w),
                     Text(
-                      "12 Applied",
+                      "$applicants Applied",
                       style: TextStyle(
                         fontSize: 13.sp,
                         color: Colors.grey[700],
@@ -263,6 +262,109 @@ class EmployerJobCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  /// Helper method to get status display name
+  String _getStatusDisplayName() {
+    switch (status) {
+      case 'open':
+        return 'Open';
+      case 'assigned':
+        return 'Assigned';
+      case 'completed':
+        return 'Completed';
+      case 'cancelled':
+        return 'Cancelled';
+      case 'closed':
+        return 'Closed';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  /// Helper method to get status badge colors
+  Map<String, Color> _getStatusBadgeColor() {
+    switch (status) {
+      case 'open':
+        return {
+          'background': const Color(0xFFDFF7DF),
+          'text': Colors.green[700]!,
+        };
+      case 'assigned':
+        return {
+          'background': const Color(0xFFFFF3CD),
+          'text': Colors.orange[700]!,
+        };
+      case 'completed':
+        return {
+          'background': const Color(0xFFDDE9FF),
+          'text': Colors.blueAccent[700]!,
+        };
+      case 'cancelled':
+        return {
+          'background': const Color(0xFFFFE5E5),
+          'text': Colors.red[700]!,
+        };
+      case 'closed':
+        return {
+          'background': const Color(0xFFE8E8E8),
+          'text': Colors.grey[700]!,
+        };
+      default:
+        return {
+          'background': const Color(0xFFE8E8E8),
+          'text': Colors.grey[700]!,
+        };
+    }
+  }
+
+  /// Helper method to build image widget
+  Widget _buildImage(String imagePath) {
+    if (imagePath.isEmpty ||
+        imagePath.contains('null') ||
+        imagePath == 'assets/images/job_placeholder.png') {
+      return Container(
+        width: double.infinity,
+        height: 160.h,
+        color: Colors.grey[300],
+        child: Icon(Icons.image_not_supported,
+            size: 48.sp, color: Colors.grey[600]),
+      );
+    }
+
+    if (imagePath.startsWith('http')) {
+      return Image.network(
+        imagePath,
+        width: double.infinity,
+        height: 160.h,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: double.infinity,
+            height: 160.h,
+            color: Colors.grey[300],
+            child: Icon(Icons.image_not_supported,
+                size: 48.sp, color: Colors.grey[600]),
+          );
+        },
+      );
+    }
+
+    return Image.asset(
+      imagePath,
+      width: double.infinity,
+      height: 160.h,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          width: double.infinity,
+          height: 160.h,
+          color: Colors.grey[300],
+          child: Icon(Icons.image_not_supported,
+              size: 48.sp, color: Colors.grey[600]),
+        );
+      },
     );
   }
 }

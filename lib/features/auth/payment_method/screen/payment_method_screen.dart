@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
@@ -90,7 +91,6 @@ class PaymentMethodScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Text(
                         "Stripe",
                         style: getTextStyle(
@@ -112,156 +112,40 @@ class PaymentMethodScreen extends StatelessWidget {
 
             SizedBox(height: 20),
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Cardholder Name",
-                  style: getBodyTextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+            // Stripe Card Form
+            Obx(() {
+              if (!controller.isStripeReady.value) {
+                return Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 40),
+                    child: Center(child: CircularProgressIndicator()),
                   ),
+                );
+              }
+              return CardFormField(
+                controller: controller.cardFormController,
+                style: CardFormStyle(
+                  borderColor: Appcolor.primaryColor,
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  textColor: Colors.black,
+                  placeholderColor: Colors.grey,
                 ),
-                SizedBox(height: 8),
-                TextField(
-                  controller: controller.cardHolderNameController,
-                  decoration: InputDecoration(
-                    hintText: "******** ********",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Appcolor.primaryColor,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              );
+            }),
 
-            SizedBox(height: 30),
-
-            // Card Number
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Card Number",
-                  style: getBodyTextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(height: 8),
-                TextField(
-                  controller: controller.cardNumberController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: "******** ********",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
-                        color: Appcolor.primaryColor,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 30),
-
-            // Expiry & CVV
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Expiry Date",
-                        style: getBodyTextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      TextField(
-                        controller: controller.expiryDateController,
-                        keyboardType: TextInputType.number,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: "00/00",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: Appcolor.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 30),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "CVV",
-                        style: getBodyTextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      TextField(
-                        controller: controller.cvvController,
-                        keyboardType: TextInputType.number,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: "****",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(
-                              color: Appcolor.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
             SizedBox(height: 70),
 
             // Pay Button
             Obx(
-              () => CustomButton(
-                buttonText: "Pay & Continue",
-                onTap: controller.isButtonEnabled.value
-                    ? controller.continueAction
-                    : null,
-              ),
+              () => controller.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Pay & Continue",
+                      onTap: controller.isButtonEnabled.value
+                          ? controller.continueAction
+                          : null,
+                    ),
             ),
           ],
         ),

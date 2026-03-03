@@ -37,6 +37,7 @@ class EmployerHomeController extends GetxController {
       "subtitle": "Burger Palace",
       "distance": "1.2 Km away",
       "urgent": false,
+      "status": "open",
       "isFavourite": false.obs,
     },
     {
@@ -45,6 +46,7 @@ class EmployerHomeController extends GetxController {
       "subtitle": "Cultural Hall",
       "distance": "2.5 Km away",
       "urgent": false,
+      "status": "open",
       "isFavourite": false.obs,
     },
   ].obs;
@@ -57,6 +59,7 @@ class EmployerHomeController extends GetxController {
       "subtitle": "Heritage Museum",
       "distance": "0.8 Km away",
       "urgent": false,
+      "status": "completed",
       "isFavourite": true.obs,
     },
     {
@@ -65,6 +68,7 @@ class EmployerHomeController extends GetxController {
       "subtitle": "LogiX Depot",
       "distance": "3.4 Km away",
       "urgent": false,
+      "status": "completed",
       "isFavourite": false.obs,
     },
   ].obs;

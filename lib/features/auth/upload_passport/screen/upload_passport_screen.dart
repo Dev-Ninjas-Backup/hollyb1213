@@ -6,7 +6,6 @@ import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/upload_nid/widgets/nid_box_widget.dart';
 import 'package:hollyb1213/features/auth/upload_passport/controller/upload_passport_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadPassportScreen extends StatelessWidget {
   UploadPassportScreen({super.key});
@@ -99,13 +98,25 @@ class UploadPassportScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
 
-            // Passport Upload Box
+            // Front Passport Upload Box
             Obx(
               () => BoxNid(
-                image: ctrl.image.value,
-                onPick: ctrl.pickImage,
-                onRemove: () => ctrl.image.value = null,
-                label: 'Upload a clear photo of your passport\'s\n main page.',
+                image: ctrl.frontImage.value,
+                onPick: ctrl.pickFrontImage,
+                onRemove: () => ctrl.frontImage.value = null,
+                label: 'Upload a clear photo of your passport\'s\n main page (front).',
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Back Passport Upload Box
+            Obx(
+              () => BoxNid(
+                image: ctrl.backImage.value,
+                onPick: ctrl.pickBackImage,
+                onRemove: () => ctrl.backImage.value = null,
+                label: 'Upload the back page of your passport.',
               ),
             ),
 
@@ -130,14 +141,12 @@ class UploadPassportScreen extends StatelessWidget {
             const SizedBox(height: 110),
 
             Obx(() {
-              return CustomButton(
-                buttonText: "Next",
-                onTap: ctrl.image.value != null
-                    ? () async {
-                        await ctrl.uploadPassport();
-                      }
-                    : null,
-              );
+              return ctrl.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Next",
+                      onTap: ctrl.isBothSelected ? ctrl.uploadPassport : null,
+                    );
             }),
           ],
         ),

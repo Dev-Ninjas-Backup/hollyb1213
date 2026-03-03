@@ -10,7 +10,6 @@ import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart'
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/upload_profile/controller/upload_profile_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadProfileScreen extends StatelessWidget {
   UploadProfileScreen({super.key});
@@ -176,14 +175,14 @@ class UploadProfileScreen extends StatelessWidget {
 
             // Next Button (enabled only if image uploaded)
             Obx(() {
-              return CustomButton(
-                buttonText: "Next",
-                onTap: ctrl.image.value != null
-                    ? () async {
-                        await ctrl.uploadProfilePhoto();
-                      }
-                    : null,
-              );
+              return ctrl.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Next",
+                      onTap: ctrl.image.value != null
+                          ? ctrl.uploadProfilePhoto
+                          : null,
+                    );
             }),
           ],
         ),

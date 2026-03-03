@@ -6,7 +6,6 @@ import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/upload_utility_bill/controller/upload_utility_bill_controller.dart';
 import 'package:hollyb1213/features/auth/upload_utility_bill/widget/utility_bill_box_widget.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadUtilityBillScreen extends StatelessWidget {
   UploadUtilityBillScreen({super.key});
@@ -135,85 +134,6 @@ class UploadUtilityBillScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Reference",
-                        style: getBodyTextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        "Optional",
-                        style: getBodyTextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-
-                  /// Reference Name
-                  TextField(
-                    controller: refNameController,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.person_outline,
-                        color: Colors.grey,
-                      ),
-                      hintText: "Enter Reference Name…..",
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Appcolor.primaryColor),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 14),
-
-                  /// Reference Number
-                  TextField(
-                    controller: refNumberController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.phone_outlined,
-                        color: Colors.grey,
-                      ),
-                      hintText: "Enter Reference Number…..",
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.grey.shade300),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Appcolor.primaryColor),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -221,15 +141,13 @@ class UploadUtilityBillScreen extends StatelessWidget {
             SizedBox(height: 40),
 
             Obx(() {
-              final isEnabled = ctrl.isSubmitEnabled;
-              return CustomButton(
-                buttonText: "Submit",
-                onTap: isEnabled
-                    ? () {
-                        Get.toNamed(AppRoute.getpaymentMethodScreen());
-                      }
-                    : null,
-              );
+              return ctrl.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : CustomButton(
+                      buttonText: "Submit",
+                      onTap:
+                          ctrl.isSubmitEnabled ? ctrl.uploadUtilityBill : null,
+                    );
             }),
           ],
         ),

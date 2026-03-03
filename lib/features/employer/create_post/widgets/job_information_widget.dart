@@ -6,8 +6,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employer/create_post/controller/create_post_controller.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/drop_down_field_widget.dart';
 import 'package:hollyb1213/features/employer/create_post/widgets/text_field_widget.dart';
+import 'package:hollyb1213/features/employer/create_post/widgets/dynamic_list_field_widget.dart';
 
 class JobInformation extends StatelessWidget {
   const JobInformation({super.key, required this.controller});
@@ -47,56 +47,117 @@ class JobInformation extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
 
+          /// Job Title
           TextFielld(
             title: "Job Title",
             controller: controller.jobTitleController,
             hintText: "Restaurant Helper",
           ),
 
-          /// Job Category
+          /// Company Name
           TextFielld(
-            title: "Job Category",
-            controller: controller.jobCategoryController,
-            hintText: "Helper",
+            title: "Company Name",
+            controller: controller.companyNameController,
+            hintText: "Enter company name",
           ),
 
-          /// Job Type Dropdown
-          DropDownField(controller: controller),
+          /// Job Category Dropdown
+          Padding(
+            padding: EdgeInsets.only(bottom: 16.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Job Category",
+                  style: getBodyTextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: Obx(
+                    () => DropdownButton<String>(
+                      value: controller.selectedCategory.value,
+                      hint: Text("Select Job Category"),
+                      isExpanded: true,
+                      underline: SizedBox(),
+                      items: controller.jobCategories
+                          .map(
+                            (cat) => DropdownMenuItem(
+                              value: cat,
+                              child: Text(controller.categoryDisplayName(cat)),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.selectedCategory.value = value;
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-          SizedBox(height: 16.h),
+          /// Job Description
+          SizedBox(height: 8.h),
           Text(
             "Job Description",
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+            style: getBodyTextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16.sp,
+            ),
           ),
           SizedBox(height: 8.h),
           Container(
-            padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: Colors.grey[300],
               borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: Colors.grey.shade300),
             ),
-            child: Text(
-              "We’re looking for a dedicated and hardworking Restaurant Helper to assist in daily kitchen and dining operations. Your responsibilities will include helping chefs.",
-              style: TextStyle(fontSize: 14.sp, color: Colors.black87),
+            child: TextField(
+              controller: controller.jobDescriptionController,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText:
+                    "Describe the job responsibilities and what you're looking for...",
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 14.w,
+                  vertical: 14.h,
+                ),
+                border: InputBorder.none,
+              ),
             ),
           ),
 
-          SizedBox(height: 16.h),
-          Text(
-            "Skills Required",
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          /// Job Responsibilities (dynamic list)
+          SizedBox(height: 20.h),
+          DynamicListField(
+            title: "Job Responsibilities",
+            controllers: controller.responsibilities,
+            hintText: "e.g. Assist in daily kitchen operations",
+            onAdd: controller.addResponsibility,
+            onRemove: controller.removeResponsibility,
           ),
-          SizedBox(height: 8.h),
-          Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Text(
-              "We’re looking for a dedicated and hardworking Restaurant Helper to assist in daily kitchen and dining operations. Your responsibilities will include helping chefs.",
-              style: TextStyle(fontSize: 14.sp, color: Colors.black87),
-            ),
+
+          /// Requirements (dynamic list)
+          SizedBox(height: 16.h),
+          DynamicListField(
+            title: "Requirements",
+            controllers: controller.requirements,
+            hintText: "e.g. Must have food safety certificate",
+            onAdd: controller.addRequirement,
+            onRemove: controller.removeRequirement,
           ),
 
           /// Urgent Switch

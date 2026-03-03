@@ -15,19 +15,25 @@ class EmployeeJobsService extends GetConnect {
     super.onInit();
   }
 
-  Future<Response> getJobs() async {
+  Future<Response<dynamic>> getJobs() async {
     final token = await SharedPreferenceHelper().getAccessToken();
-    return await get(
+    final response = await get(
       ApiEndpoint.employeeJobs,
       headers: {'Authorization': 'Bearer ${token ?? ''}'},
     );
+    // ignore: avoid_print
+    print('Get Jobs API Response: ${response.body}');
+    return response;
   }
 
   Future<Response> getJobDetails(String jobId) async {
     final token = await SharedPreferenceHelper().getAccessToken();
-    return await get(
+    final response = await get(
       ApiEndpoint.employeeJobDetails(jobId),
       headers: {'Authorization': 'Bearer ${token ?? ''}'},
     );
+    // ignore: avoid_print
+    print('Get Job Details API Response for job $jobId: ${response.body}');
+    return response;
   }
 }

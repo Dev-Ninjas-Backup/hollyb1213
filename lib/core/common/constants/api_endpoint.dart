@@ -3,6 +3,10 @@ class ApiEndpoint {
       'https://wiley-half-nonhabitably.ngrok-free.dev/api/v1';
 
   // Auth
+  static const String uploadUtilityBill = "/profile/documents/utility-bill";
+  static const String register = "/auth/register";
+  static const String verifyOtp = "/auth/verify-otp";
+  static const String resendOtp = "/auth/resend-otp";
   static const String login = 'auth/login';
   static const String employeeJobs = 'employee/jobs';
   static const String employeeLatestJobs = 'employee/latest-jobs';
@@ -16,17 +20,12 @@ class ApiEndpoint {
   static const String employerUploadNidPhoto = '$baseUrl/profile/documents/nid';
   static const String employerUploadPassportPhoto =
       '$baseUrl/profile/documents/passport';
-  static const String employerUploadUtilityBill =
-      '$baseUrl/profile/documents/utility-bill';
   static const String getStripePublishKey =
       '$baseUrl/subscription/payment/config';
   static const String stripePayment = '$baseUrl/subscription/payment/process';
   static const String profilePhoto = '/profile/documents/profile-photo';
   static const String uploadNid = '/profile/documents/nid';
   static const String uploadPassport = '/profile/documents/passport';
-  static const String register = '/auth/register';
-  static const String verifyOtp = '/auth/verify-otp';
-  static const String resendOtp = '/auth/resend-otp';
   static const String createJobPost = '/employer/job/create';
 
   static String getMyPostedJobs(

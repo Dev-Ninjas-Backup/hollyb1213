@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
+import 'package:hollyb1213/features/employer/jobs/controller/employer_jobs_controller.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_job_card.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
@@ -12,7 +12,7 @@ class EmployerJobsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(EmployerHomeController());
+    final controller = Get.put(EmployerJobsController());
 
     return Scaffold(
       backgroundColor: Appcolor.backgroundcolor,
@@ -30,83 +30,236 @@ class EmployerJobsScreen extends StatelessWidget {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildCategoryChip(controller, 'Active'),
-                  SizedBox(width: 12.w),
-                  _buildCategoryChip(controller, 'Completed'),
-                ],
-              ),
-            ),
-            SizedBox(height: 20.h),
+      body: GetBuilder<EmployerJobsController>(
+        init: controller,
+        builder: (ctrl) {
+          return ctrl.isLoading.value
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Appcolor.primaryColor,
+                  ),
+                )
+              : SingleChildScrollView(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildCategoryChip(ctrl, 'Open', 'open'),
+                            SizedBox(width: 12.w),
+                            _buildCategoryChip(ctrl, 'Assigned', 'assigned'),
+                            SizedBox(width: 12.w),
+                            _buildCategoryChip(ctrl, 'Completed', 'completed'),
+                            SizedBox(width: 12.w),
+                            _buildCategoryChip(ctrl, 'Cancelled', 'cancelled'),
+                            SizedBox(width: 12.w),
+                            _buildCategoryChip(ctrl, 'Closed', 'closed'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16.h),
 
-            /// --- Job Cards (Dynamic) ---
-            Obx(
-              () => Column(
-                children: List.generate(controller.filteredJobs.length, (
-                  index,
-                ) {
-                  final job = controller.filteredJobs[index];
-                  final isCompleted =
-                      controller.selectedCategory.value == 'Completed';
+                      /// --- Urgent Filter Toggle ---
+                      Obx(
+                        () => Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => ctrl.toggleUrgentFilter(),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w, vertical: 10.h),
+                                  decoration: BoxDecoration(
+                                    color: !ctrl.isUrgentFilter.value
+                                        ? Appcolor.primaryColor
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                    border: Border.all(
+                                        color: Appcolor.primaryColor),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'NOt Urgent',
+                                      style: TextStyle(
+                                        color: !ctrl.isUrgentFilter.value
+                                            ? Colors.white
+                                            : Appcolor.primaryColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 12.w),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => ctrl.toggleUrgentFilter(),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w, vertical: 10.h),
+                                  decoration: BoxDecoration(
+                                    color: ctrl.isUrgentFilter.value
+                                        ? Appcolor.primaryColor
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                    border: Border.all(
+                                        color: Appcolor.primaryColor),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'Urgent',
+                                      style: TextStyle(
+                                        color: ctrl.isUrgentFilter.value
+                                            ? Colors.white
+                                            : Appcolor.primaryColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
 
-                  return EmployerJobCard(
-                    image: job['image'],
-                    title: job['title'],
-                    subtitle: job['subtitle'],
-                    distance: job['distance'],
-                    urgent: job['urgent'],
-                    showEdit: !isCompleted,
-                    showFavourite: isCompleted,
-                    isFavourite: job['isFavourite'], // <-- pass RxBool directly
-                    onFavouriteTap: () => controller.toggleFavourite(index),
-                    onViewDetails: () {
-                      Get.toNamed(AppRoute.getjobDetailsScreen());
-                    },
-                    onEdit: () {
-                      // handle edit
-                    },
-                  );
-                }),
-              ),
-            ),
-          ],
-        ),
+                      /// --- Job Cards (Dynamic) ---
+                      if (ctrl.filteredJobs.isEmpty)
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(32.w),
+                            child: Column(
+                              children: [
+                                Icon(Icons.work_off,
+                                    size: 64.sp, color: Colors.grey[400]),
+                                SizedBox(height: 16.h),
+                                Text(
+                                  'No jobs found',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      else
+                        Column(
+                          children: List.generate(
+                            ctrl.filteredJobs.length,
+                            (index) {
+                              final job = ctrl.filteredJobs[index];
+                              final formattedJob = ctrl.formatJobForUI(job);
+
+                              return EmployerJobCard(
+                                image: formattedJob['image'],
+                                title: formattedJob['title'],
+                                subtitle: formattedJob['subtitle'],
+                                distance: formattedJob['distance'],
+                                urgent: formattedJob['urgent'],
+                                status: formattedJob['status'],
+                                showEdit: formattedJob['status'] == 'open',
+                                showFavourite:
+                                    formattedJob['status'] == 'completed',
+                                isFavourite: formattedJob['isFavourite'],
+                                applicants: formattedJob['applicants'],
+                                amount: formattedJob['amount'],
+                                onFavouriteTap: () =>
+                                    ctrl.toggleFavourite(job['id']),
+                                onViewDetails: () {
+                                  Get.toNamed(
+                                    AppRoute.getEmployerJobDetailsScreen(),
+                                    arguments: job['id'],
+                                  );
+                                },
+                                onEdit: () {
+                                  // handle edit
+                                },
+                              );
+                            },
+                          ),
+                        ),
+
+                      // Load More Button (pagination)
+                      if (ctrl.filteredJobs.isNotEmpty &&
+                          ctrl.currentPage.value < ctrl.totalPages.value)
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
+                          child: ElevatedButton(
+                            onPressed: ctrl.isLoadingMore.value
+                                ? null
+                                : ctrl.loadMoreJobs,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Appcolor.primaryColor,
+                              minimumSize: Size(double.infinity, 48.h),
+                            ),
+                            child: ctrl.isLoadingMore.value
+                                ? SizedBox(
+                                    height: 24.h,
+                                    width: 24.h,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.white),
+                                    ),
+                                  )
+                                : Text(
+                                    'Load More',
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+        },
       ),
     );
   }
 
   /// --- Category Chip Widget ---
   Widget _buildCategoryChip(
-    EmployerHomeController controller,
-    String category,
+    EmployerJobsController controller,
+    String displayName,
+    String status,
   ) {
-    final isSelected = controller.selectedCategory.value == category;
-    return GestureDetector(
-      onTap: () => controller.setCategory(category),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 8.h),
-        decoration: BoxDecoration(
-          color: isSelected ? Appcolor.primaryColor : Colors.white,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: Appcolor.primaryColor),
-        ),
-        child: Text(
-          category,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Appcolor.primaryColor,
-            fontWeight: FontWeight.w600,
-            fontSize: 14.sp,
+    return Obx(
+      () {
+        final isSelected = controller.selectedCategory.value == status;
+        return GestureDetector(
+          onTap: () => controller.setCategory(status),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: isSelected ? Appcolor.primaryColor : Colors.white,
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(color: Appcolor.primaryColor),
+            ),
+            child: Text(
+              displayName,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Appcolor.primaryColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

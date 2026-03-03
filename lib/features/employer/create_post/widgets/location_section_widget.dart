@@ -2,9 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/create_post/controller/create_post_controller.dart';
 
 class LocationSection extends StatelessWidget {
-  const LocationSection({super.key});
+  const LocationSection({super.key, required this.controller});
+
+  final CreatePostController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,10 @@ class LocationSection extends StatelessWidget {
         children: [
           Text(
             "Location",
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+            style: getBodyTextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           SizedBox(height: 4.h),
           Text(
@@ -35,31 +42,32 @@ class LocationSection extends StatelessWidget {
             style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),
           ),
           SizedBox(height: 16.h),
-
           Text(
             "Job Location",
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.sp),
+            style: getBodyTextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16.sp,
+            ),
           ),
           SizedBox(height: 8.h),
-
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(color: Colors.grey.shade300),
             ),
-            child: Row(
-              children: [
-                Icon(Icons.location_on, color: Colors.grey[700]),
-                SizedBox(width: 8.w),
-                Expanded(
-                  child: Text(
-                    "125 Downtown Avenue, City Centre\n(1.2 Km away)",
-                    style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),
-                  ),
+            child: TextField(
+              controller: controller.locationController,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.location_on, color: Colors.grey[700]),
+                hintText: "Enter job location",
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 14.h,
                 ),
-              ],
+                border: InputBorder.none,
+              ),
             ),
           ),
         ],

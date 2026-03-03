@@ -39,86 +39,106 @@ class TimeSection extends StatelessWidget {
           ),
           SizedBox(height: 4.h),
           Text(
-            "Select the dates and times for this job",
+            "Select the date and times for this job",
             style: TextStyle(fontSize: 14.sp, color: Colors.grey[700]),
           ),
           SizedBox(height: 20.h),
 
-          /// Fields
-          Column(
-            children: List.generate(4, (index) {
-              final fieldTitles = [
-                "Start Date",
-                "End Date",
-                "Start Time",
-                "End Time",
-              ];
-              final isDateField = index < 2;
+          /// Job Date
+          _buildPickerField(
+            context: context,
+            title: "Job Date",
+            icon: Icons.calendar_today,
+            hintText: "YYYY-MM-DD",
+            valueWidget: Obx(
+              () => Text(
+                controller.selectedJobDate.value != null
+                    ? "${controller.selectedJobDate.value!.day}/${controller.selectedJobDate.value!.month}/${controller.selectedJobDate.value!.year}"
+                    : "",
+                style: TextStyle(fontSize: 14.sp),
+              ),
+            ),
+            onTap: () => controller.pickJobDate(context),
+          ),
+          SizedBox(height: 14.h),
 
-              return Obx(
-                () => Padding(
-                  padding: EdgeInsets.only(bottom: 14.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Title above field
-                      Text(
-                        fieldTitles[index] + (index == 1 ? " (Optional)" : ""),
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.sp,
-                        ),
-                      ),
-                      SizedBox(height: 6.h),
+          /// Start Time
+          _buildPickerField(
+            context: context,
+            title: "Start Time",
+            icon: Icons.access_time,
+            hintText: "HH:MM (e.g. 10:30 AM)",
+            valueWidget: Obx(
+              () => Text(
+                controller.startTime.value != null
+                    ? controller.startTime.value!.format(context)
+                    : "",
+                style: TextStyle(fontSize: 14.sp),
+              ),
+            ),
+            onTap: () => controller.pickStartTime(context),
+          ),
+          SizedBox(height: 14.h),
 
-                      // Input Field
-                      TextField(
-                        readOnly: true,
-                        controller: TextEditingController(
-                          text: isDateField
-                              ? (controller.selectedDates[index % 2].value !=
-                                        null
-                                    ? "${controller.selectedDates[index % 2].value!.day}/${controller.selectedDates[index % 2].value!.month}/${controller.selectedDates[index % 2].value!.year}"
-                                    : "")
-                              : (controller.selectedTimes[index % 2].value !=
-                                        null
-                                    ? controller.selectedTimes[index % 2].value!
-                                          .format(context)
-                                    : ""),
-                        ),
-                        onTap: () => isDateField
-                            ? controller.pickDate(context, index % 2)
-                            : controller.pickTime(context, index % 2),
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            isDateField
-                                ? Icons.calendar_today
-                                : Icons.access_time,
-                            size: 22.sp,
-                          ),
-                          hintText: isDateField
-                              ? "DD/MM/YYYY"
-                              : "HH:MM (e.g. 10:30 AM)",
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                            borderSide: BorderSide(color: Colors.grey.shade300),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 12.h,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
+          /// End Time
+          _buildPickerField(
+            context: context,
+            title: "End Time",
+            icon: Icons.access_time,
+            hintText: "HH:MM (e.g. 06:00 PM)",
+            valueWidget: Obx(
+              () => Text(
+                controller.endTime.value != null
+                    ? controller.endTime.value!.format(context)
+                    : "",
+                style: TextStyle(fontSize: 14.sp),
+              ),
+            ),
+            onTap: () => controller.pickEndTime(context),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPickerField({
+    required BuildContext context,
+    required String title,
+    required IconData icon,
+    required String hintText,
+    required Widget valueWidget,
+    required VoidCallback onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 15.sp,
+          ),
+        ),
+        SizedBox(height: 6.h),
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: Row(
+              children: [
+                Icon(icon, size: 22.sp, color: Colors.grey[700]),
+                SizedBox(width: 10.w),
+                Expanded(child: valueWidget),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

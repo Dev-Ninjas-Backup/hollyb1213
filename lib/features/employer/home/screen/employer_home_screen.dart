@@ -76,7 +76,6 @@ class EmployerHomeScreen extends StatelessWidget {
           ],
         ),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,13 +119,17 @@ class EmployerHomeScreen extends StatelessWidget {
                       subtitle: job['subtitle'],
                       distance: job['distance'],
                       urgent: job['urgent'],
+                      status: job['status'] ?? 'open',
                       showEdit: !isCompleted,
                       showFavourite: isCompleted,
                       isFavourite:
                           job['isFavourite'], // <-- pass RxBool directly
                       onFavouriteTap: () => controller.toggleFavourite(index),
                       onViewDetails: () {
-                        Get.toNamed(AppRoute.getjobDetailsScreen());
+                        Get.toNamed(
+                          AppRoute.getEmployerJobDetailsScreen(),
+                          arguments: job['id'],
+                        );
                       },
                       onEdit: () {
                         // handle edit

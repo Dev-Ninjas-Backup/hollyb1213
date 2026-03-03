@@ -36,12 +36,25 @@ class UploadNidController extends GetxController {
   Future<void> uploadNid() async {
     if (!isBothSelected) return;
 
+    // Store the images locally to prevent null issues from async operations
+    final front = frontImage.value;
+    final back = backImage.value;
+
+    if (front == null || back == null) {
+      Get.snackbar(
+        'Error',
+        'Please select both images before uploading.',
+        snackPosition: SnackPosition.TOP,
+      );
+      return;
+    }
+
     isLoading.value = true;
     EasyLoading.show(status: 'Uploading NID...');
     try {
       final response = await _service.uploadNid(
-        frontImage: frontImage.value!,
-        backImage: backImage.value!,
+        frontImage: front,
+        backImage: back,
       );
 
       print('NID Upload Status: ${response.statusCode}');

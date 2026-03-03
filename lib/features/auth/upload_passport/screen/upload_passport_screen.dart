@@ -6,6 +6,7 @@ import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/auth/upload_nid/widgets/nid_box_widget.dart';
 import 'package:hollyb1213/features/auth/upload_passport/controller/upload_passport_controller.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class UploadPassportScreen extends StatelessWidget {
   UploadPassportScreen({super.key});
@@ -104,7 +105,8 @@ class UploadPassportScreen extends StatelessWidget {
                 image: ctrl.frontImage.value,
                 onPick: ctrl.pickFrontImage,
                 onRemove: () => ctrl.frontImage.value = null,
-                label: 'Upload a clear photo of your passport\'s\n main page (front).',
+                label:
+                    'Upload a clear photo of your passport\'s\n main page (front).',
               ),
             ),
 
@@ -125,8 +127,8 @@ class UploadPassportScreen extends StatelessWidget {
             // Skip button
             TextButton(
               onPressed: () {
-                // Navigate to the main dashboard, removing all previous routes
-                Get.offAllNamed('/employee/dashboard');
+                // Navigate to the employee bottom navbar, removing all previous routes
+                Get.toNamed(AppRoute.getuploadUtilityBillScreen());
               },
               child: Text(
                 "I don't have a passport",

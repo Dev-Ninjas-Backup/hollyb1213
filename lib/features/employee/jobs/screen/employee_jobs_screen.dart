@@ -69,24 +69,19 @@ class JobScreen extends StatelessWidget {
                   itemCount: controller.jobsList.length,
                   itemBuilder: (context, index) {
                     final job = controller.jobsList[index];
-                    // NOTE: It's highly recommended to create a Job model class
-                    // to parse this map and avoid using strings for keys.
                     return JobCard(
-                      image: job['file'] ?? '',
-                      title: job['title'] ?? 'No Title',
-                      subtitle: job['company_name'] ?? 'No Company',
-                      distance: job['location'] ?? 'No Location',
-                      urgent: job['is_urgent'] ?? false,
-                      payRate: "\$${job['amount'] ?? '0'}",
+                      image: job.fileUrl ?? '',
+                      title: job.title,
+                      subtitle: job.companyName,
+                      distance: job.location,
+                      urgent: job.isUrgent,
+                      payRate: "\$${job.amount}",
                       buttonText: "Apply Now",
                       onPressed: () {
-                        final jobId = job['id'];
-                        if (jobId != null) {
-                          Get.toNamed(AppRoute.getjobDetailsScreen(),
-                              arguments: jobId);
-                        } else {
-                          Get.snackbar('Error', 'Unable to open job details.');
-                        }
+                        Get.toNamed(
+                          AppRoute.getjobDetailsScreen(),
+                          arguments: job.id,
+                        );
                       },
                     );
                   },

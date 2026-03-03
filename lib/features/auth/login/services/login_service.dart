@@ -14,6 +14,8 @@ class LoginService extends GetConnect {
       {'email': email, 'password': password},
       headers: {'Content-Type': 'application/json'},
     );
+    // ignore: avoid_print
+    print('Login API Response: ${response.body}');
     return response;
   }
 }

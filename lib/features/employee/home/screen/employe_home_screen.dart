@@ -5,6 +5,9 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/employee_notification/screen/employee_notification_screen.dart';
+import 'package:hollyb1213/features/employee/home/screen/schedule_card.dart';
+import 'package:hollyb1213/features/employee/home/screen/schedule_model.dart';
+import 'package:hollyb1213/features/employee/home/screen/job_model.dart';
 import 'package:hollyb1213/features/employee/home/widgets/header_section_widget.dart';
 import 'package:hollyb1213/features/employee/home/widgets/job_card_widget.dart';
 import 'package:hollyb1213/features/employee/home/widgets/quick_actions_widget.dart';
@@ -79,15 +82,10 @@ class EmployeHomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // --- Header Section ---
             HeaderSection(controller: controller),
             SizedBox(height: 20.h),
-
-            // --- Quick Actions ---
             QuickActions(controller: controller),
             SizedBox(height: 25.h),
-
-            // --- Nearby Jobs ---
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
@@ -111,8 +109,6 @@ class EmployeHomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10.h),
-
-            // --- Job Cards with Separate Buttons ---
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Obx(
@@ -132,24 +128,21 @@ class EmployeHomeScreen extends StatelessWidget {
                   }
 
                   return Column(
-                    children: controller.latestJobs.map((job) {
+                    children: controller.latestJobs.map<Widget>((element) {
+                      final Job job = element as Job;
                       return JobCard(
-                        image: job['file'] ?? '',
-                        title: job['title'] ?? 'No Title',
-                        subtitle: job['company_name'] ?? 'No Company',
-                        distance: job['location'] ?? 'No Location',
-                        urgent: job['is_urgent'] ?? false,
-                        payRate: "\$${job['amount'] ?? '0'}",
-                        buttonText: "Quick Apply",
+                        image: job.fileUrl ?? '',
+                        title: job.title,
+                        subtitle: job.companyName,
+                        distance: job.location,
+                        urgent: job.isUrgent,
+                        payRate: "\$${job.amount}",
+                        buttonText: "Apply Now",
                         onPressed: () {
-                          final jobId = job['id'];
-                          if (jobId != null) {
-                            Get.toNamed(AppRoute.getjobDetailsScreen(),
-                                arguments: jobId);
-                          } else {
-                            Get.snackbar(
-                                'Error', 'Unable to open job details.');
-                          }
+                          Get.toNamed(
+                            AppRoute.getjobDetailsScreen(),
+                            arguments: job.id,
+                          );
                         },
                       );
                     }).toList(),
@@ -157,149 +150,46 @@ class EmployeHomeScreen extends StatelessWidget {
                 },
               ),
             ),
-
-            // --- Schedule Boxes (End Section) ---
-            // --- Schedule Boxes (End Section) ---
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Dummy data for scheduled jobs. In a real app, this would come from the controller.
-                  ...[
-                    {
-                      'title': "Morning Shift - Cafe Helper",
-                      'subtitle': "Sunrise Cafe",
-                      'time': "8:00 AM - 12:00 PM",
-                      'amount': "\$85",
-                      'statusText': "Now", // Default status
-                      'statusBackground': const Color(0xFFDFF7DF),
-                      'statusColor': Colors.green,
-                    },
-                    {
-                      'title': "Afternoon Shift - Barista",
-                      'subtitle': "Sunset Cafe",
-                      'time': "1:00 PM - 5:00 PM",
-                      'amount': "\$90",
-                      'statusText': "Pending",
-                      'statusBackground': Colors.yellow.shade100,
-                      'statusColor': Colors.yellow[800]!,
-                    },
-                    {
-                      'title': "Evening Shift - Kitchen Assistant",
-                      'subtitle': "The Grand Restaurant",
-                      'time': "6:00 PM - 10:00 PM",
-                      'amount': "\$110",
-                      'statusText': "Upcoming",
-                      'statusBackground': Colors.blue.shade100,
-                      'statusColor': Colors.blue[800]!,
-                    },
-                  ].map((job) {
-                    return buildScheduleBox(
-                      title: job['title'] as String,
-                      subtitle: job['subtitle'] as String,
-                      time: job['time'] as String,
-                      amount: job['amount'] as String,
-                      statusText: job['statusText'] as String,
-                      statusBackground: job['statusBackground'] as Color,
-                      statusColor: job['statusColor'] as Color,
+                  Text(
+                    "Upcoming Schedule",
+                    style: getBodyTextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Obx(() {
+                    if (controller.isSchedulesLoading.value &&
+                        controller.schedules.isEmpty) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (controller.schedules.isEmpty) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text("No upcoming schedule."),
+                        ),
+                      );
+                    }
+
+                    return Column(
+                      children: controller.schedules.map((Schedule schedule) {
+                        return ScheduleCard(schedule: schedule);
+                      }).toList(),
                     );
                   }),
                 ],
               ),
             ),
-
             SizedBox(height: 20.h),
           ],
         ),
-      ),
-    );
-  }
-
-  // --- buildScheduleBox Widget ---
-  Widget buildScheduleBox({
-    required String title,
-    required String subtitle,
-    required String time,
-    required String amount,
-    String statusText = "Now",
-    Color statusBackground = const Color(0xFFDFF7DF),
-    Color statusColor = Colors.green,
-  }) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.r),
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-                decoration: BoxDecoration(
-                  color: statusBackground,
-                  borderRadius: BorderRadius.circular(4.r),
-                ),
-                child: Text(
-                  statusText,
-                  style: TextStyle(
-                    color: statusColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            subtitle,
-            style: TextStyle(fontSize: 12.sp, color: Colors.grey[700]),
-          ),
-          SizedBox(height: 6.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-                  SizedBox(width: 4.w),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 12.sp, color: Colors.grey[700]),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(Icons.attach_money, size: 14, color: Colors.grey[600]),
-                  Text(
-                    amount,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

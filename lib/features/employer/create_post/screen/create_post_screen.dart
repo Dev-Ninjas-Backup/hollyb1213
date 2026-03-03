@@ -10,6 +10,7 @@ import 'package:hollyb1213/features/employer/create_post/widgets/job_information
 import 'package:hollyb1213/features/employer/create_post/widgets/location_section_widget.dart';
 import 'package:hollyb1213/features/employer/create_post/widgets/payment_section_widget.dart';
 import 'package:hollyb1213/features/employer/create_post/widgets/time_section_widget.dart';
+import 'package:hollyb1213/features/employer/create_post/widgets/image_upload_section_widget.dart';
 import '../controller/create_post_controller.dart';
 
 class CreatePostScreen extends StatelessWidget {
@@ -39,7 +40,6 @@ class CreatePostScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.w),
         child: Column(
@@ -54,12 +54,17 @@ class CreatePostScreen extends StatelessWidget {
             SizedBox(height: 16.h),
 
             /// Payment Section
-            PaymentSection(),
+            PaymentSection(controller: controller),
 
             SizedBox(height: 25.h),
 
             /// Location Section
-            LocationSection(),
+            LocationSection(controller: controller),
+
+            SizedBox(height: 25.h),
+
+            /// Image Upload Section
+            ImageUploadSection(controller: controller),
 
             SizedBox(height: 30.h),
 

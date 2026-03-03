@@ -1,6 +1,6 @@
 class ApiEndpoint {
   static const String baseUrl =
-      'https://wiley-half-nonhabitably.ngrok-free.dev/api/v1'; // CHANGE THIS to your real API URL
+      'https://wiley-half-nonhabitably.ngrok-free.dev/api/v1';
 
   // Auth
   static const String login = 'auth/login';
@@ -27,4 +27,10 @@ class ApiEndpoint {
   static const String register = '/auth/register';
   static const String verifyOtp = '/auth/verify-otp';
   static const String resendOtp = '/auth/resend-otp';
+  static const String createJobPost = '/employer/job/create';
+
+  static String getMyPostedJobs(
+          String status, bool isUrgent, int page, int limit) =>
+      '/employer/jobs?status=$status&is_urgent=$isUrgent&page=$page&limit=$limit';
+  static String getJobDetails(String id) => '/employer/jobs/$id';
 }

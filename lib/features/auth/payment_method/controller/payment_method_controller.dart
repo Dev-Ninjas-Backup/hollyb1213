@@ -69,9 +69,8 @@ class PaymentMethodController extends GetxController {
 
       // Determine plan type based on selected role
       final role = await SharedPreferenceHelper().getSelectedRole();
-      final planType = role == 'employee'
-          ? 'employee_premium'
-          : 'employer_premium';
+      final planType =
+          role == 'employee' ? 'employee_premium' : 'employer_premium';
 
       // Send to backend
       final response = await _service.processPayment(
@@ -84,7 +83,7 @@ class PaymentMethodController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.body['success'] == true) {
-          _showSuccessDialog();
+          _showSuccessDialog(role ?? 'employee');
         } else {
           final message =
               response.body['message'] ?? 'Payment failed. Please try again.';
@@ -116,7 +115,7 @@ class PaymentMethodController extends GetxController {
     }
   }
 
-  void _showSuccessDialog() {
+  void _showSuccessDialog(String role) {
     Get.dialog(
       Dialog(
         backgroundColor: Appcolor.backgroundcolor,
@@ -173,7 +172,13 @@ class PaymentMethodController extends GetxController {
                       height: 48,
                       child: ElevatedButton(
                         onPressed: () {
-                          Get.toNamed(AppRoute.getEmployeeBottomNavbarScreen());
+                          if (role == 'employee') {
+                            Get.offAllNamed(
+                                AppRoute.getEmployeeBottomNavbarScreen());
+                          } else {
+                            Get.offAllNamed(
+                                AppRoute.getemployerBottomNavbarScreen());
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Appcolor.primaryColor,

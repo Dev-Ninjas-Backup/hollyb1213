@@ -26,11 +26,24 @@ class UploadUtilityBillController extends GetxController {
   Future<void> uploadUtilityBill() async {
     if (!isSubmitEnabled) return;
 
+    // Store values locally to prevent null issues from async operations
+    final image = backImage.value;
+    final addr = address.value;
+
+    if (image == null || addr.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please select an image and enter an address before uploading.',
+        snackPosition: SnackPosition.TOP,
+      );
+      return;
+    }
+
     isLoading.value = true;
     try {
       final response = await _service.uploadUtilityBill(
-        imageFile: backImage.value!,
-        address: address.value,
+        imageFile: image,
+        address: addr,
       );
 
       print('Utility Bill Upload Status: ${response.statusCode}');

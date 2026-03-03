@@ -18,6 +18,10 @@ class UploadPassportService extends GetConnect {
   }) async {
     final token = await SharedPreferenceHelper().getAccessToken();
 
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token not found. Please log in again.');
+    }
+
     final frontBytes = await frontImage.readAsBytes();
     final frontName = frontImage.path.split('/').last;
 
@@ -41,7 +45,7 @@ class UploadPassportService extends GetConnect {
       ApiEndpoint.employerUploadPassportPhoto,
       formData,
       headers: {
-        'Authorization': 'Bearer ${token ?? ''}',
+        'Authorization': 'Bearer $token',
         'accept': '*/*',
       },
     );

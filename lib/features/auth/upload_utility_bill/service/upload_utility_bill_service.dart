@@ -17,6 +17,11 @@ class UploadUtilityBillService extends GetConnect {
     required String address,
   }) async {
     final token = await SharedPreferenceHelper().getAccessToken();
+
+    if (token == null || token.isEmpty) {
+      throw Exception('Authentication token not found. Please log in again.');
+    }
+
     final bytes = await imageFile.readAsBytes();
     final fileName = imageFile.path.split('/').last;
 
@@ -33,7 +38,7 @@ class UploadUtilityBillService extends GetConnect {
       ApiEndpoint.employerUploadUtilityBill,
       formData,
       headers: {
-        'Authorization': 'Bearer ${token ?? ''}',
+        'Authorization': 'Bearer $token',
         'accept': '*/*',
       },
     );

@@ -36,12 +36,25 @@ class UploadPassportController extends GetxController {
   Future<void> uploadPassport() async {
     if (!isBothSelected) return;
 
+    // Store the images locally to prevent null issues from async operations
+    final front = frontImage.value;
+    final back = backImage.value;
+
+    if (front == null || back == null) {
+      Get.snackbar(
+        'Error',
+        'Please select both images before uploading.',
+        snackPosition: SnackPosition.TOP,
+      );
+      return;
+    }
+
     isLoading.value = true;
     EasyLoading.show(status: 'Uploading Passport...');
     try {
       final response = await _service.uploadPassport(
-        frontImage: frontImage.value!,
-        backImage: backImage.value!,
+        frontImage: front,
+        backImage: back,
       );
 
       print('Passport Upload Status: ${response.statusCode}');
@@ -50,7 +63,7 @@ class UploadPassportController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.snackbar('Success', 'Passport uploaded successfully');
-        Get.offNamed(AppRoute.getuploadUtilityBillScreen());
+        Get.toNamed(AppRoute.getuploadUtilityBillScreen());
       } else {
         final message =
             response.body?['message'] ?? 'Upload failed. Please try again.';

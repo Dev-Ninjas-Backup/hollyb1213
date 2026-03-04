@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
 
 import '../../../../../core/common/constants/appcolor.dart';
 import '../../../../../core/common/constants/iconpath.dart';
 import '../../../../../core/common/constants/widget/custom_shadow_container.dart';
 import '../../../../../core/common/style/global_text_style.dart';
-import '../controller/employee_controllre.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key, required this.controller});

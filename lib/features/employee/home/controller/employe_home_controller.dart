@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employee/home/models/latest_job_model.dart';
+import 'package:hollyb1213/features/employee/home/screen/job_model.dart';
 import 'package:hollyb1213/features/employee/home/screen/schedule_model.dart';
 import 'package:hollyb1213/features/employee/home/widgets/employee_home_service.dart';
 
@@ -10,7 +10,7 @@ class EmployeHomeController extends GetxController {
   final SharedPreferenceHelper prefs = SharedPreferenceHelper();
   var isLoading = false.obs;
   var isSchedulesLoading = false.obs;
-  var latestJobs = <LatestJob>[].obs;
+  var latestJobs = <Job>[].obs;
   var schedules = <Schedule>[].obs;
   var quickActions = <Map<String, dynamic>>[].obs;
 
@@ -76,7 +76,8 @@ class EmployeHomeController extends GetxController {
         if (body != null && body['success'] == true) {
           var jobsData = body['data'];
           if (jobsData != null && jobsData is List) {
-            latestJobs.assignAll(jobsData.map((job) => LatestJob.fromJson(job)).toList());
+            latestJobs
+                .assignAll(jobsData.map((job) => Job.fromJson(job)).toList());
           }
           final stats = body['stats'];
           if (stats != null) {

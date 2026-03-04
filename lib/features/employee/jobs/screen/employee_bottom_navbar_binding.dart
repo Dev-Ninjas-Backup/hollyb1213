@@ -3,7 +3,7 @@ import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_b
 import 'package:hollyb1213/features/employee/chat/controller/chat_message_controller.dart';
 import 'package:hollyb1213/features/employee/home/controller/employe_home_controller.dart';
 import 'package:hollyb1213/features/employee/jobs/controller/employee_jobs_controller.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/controller/employee_controllre.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
 
 class EmployeeBottomNavbarBinding extends Bindings {
   @override

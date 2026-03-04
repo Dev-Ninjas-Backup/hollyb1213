@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/employer/create_post/service/create_post_service.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreatePostController extends GetxController {
@@ -165,6 +167,36 @@ class CreatePostController extends GetxController {
           snackPosition: SnackPosition.TOP);
       return false;
     }
+    if (selectedCategory.value == null || selectedCategory.value!.isEmpty) {
+      Get.snackbar('Validation', 'Please select a job category',
+          snackPosition: SnackPosition.TOP);
+      return false;
+    }
+    if (amountController.text.trim().isEmpty) {
+      Get.snackbar('Validation', 'Amount is required',
+          snackPosition: SnackPosition.TOP);
+      return false;
+    }
+    if (locationController.text.trim().isEmpty) {
+      Get.snackbar('Validation', 'Location is required',
+          snackPosition: SnackPosition.TOP);
+      return false;
+    }
+    if (selectedJobDate.value == null) {
+      Get.snackbar('Validation', 'Please select a job date',
+          snackPosition: SnackPosition.TOP);
+      return false;
+    }
+    if (startTime.value == null) {
+      Get.snackbar('Validation', 'Please select a start time',
+          snackPosition: SnackPosition.TOP);
+      return false;
+    }
+    if (endTime.value == null) {
+      Get.snackbar('Validation', 'Please select an end time',
+          snackPosition: SnackPosition.TOP);
+      return false;
+    }
     return true;
   }
 
@@ -218,6 +250,25 @@ class CreatePostController extends GetxController {
           final message = response.body['message'] ?? 'Failed to create post.';
           Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
         }
+      } else if (response.statusCode == 403) {
+        // Handle subscription required error
+        final message = response.body?['message'] ??
+            'Subscription required to create job posts.';
+        Get.snackbar(
+          'Subscription Required',
+          message,
+          backgroundColor: Colors.orange,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,
+          duration: const Duration(seconds: 3),
+        );
+
+        // Redirect to payment screen after 2 seconds
+        Future.delayed(const Duration(seconds: 2), () {
+          final role = SharedPreferenceHelper().getSelectedRole();
+          print('Redirecting to payment screen for role: $role');
+          Get.offNamed(AppRoute.paymentMethodScreen);
+        });
       } else {
         final message = response.body?['message'] ?? 'Failed to create post.';
         Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);

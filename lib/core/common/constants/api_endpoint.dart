@@ -36,4 +36,6 @@ class ApiEndpoint {
   static String getJobDetails(String id) => '/employer/jobs/$id';
 
   static const String employerProfile = '/profile/get-me';
+  static const String employerStats = '/employer/stats';
+  static const String updateEmployerProfile = '/profile/update-me';
 }

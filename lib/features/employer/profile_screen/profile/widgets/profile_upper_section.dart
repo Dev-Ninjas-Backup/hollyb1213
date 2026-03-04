@@ -31,22 +31,22 @@ class ProfileUpperSection extends StatelessWidget {
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(61.r),
-                child:
-                    controller.employerProfile.value?.profile.profilePhotoUrl !=
-                            null
-                        ? Image.network(
-                            controller
-                                .employerProfile.value!.profile.profilePhotoUrl,
-                            height: 122.w,
-                            width: 122.w,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(Imagepath.profile,
-                                  height: 122.w, width: 122.w);
-                            },
-                          )
-                        : Image.asset(Imagepath.profile,
-                            height: 122.w, width: 122.w),
+                child: controller
+                            .employerProfile.value?.profile?.profilePhotoUrl !=
+                        null
+                    ? Image.network(
+                        controller
+                            .employerProfile.value!.profile!.profilePhotoUrl!,
+                        height: 122.w,
+                        width: 122.w,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(Imagepath.profile,
+                              height: 122.w, width: 122.w);
+                        },
+                      )
+                    : Image.asset(Imagepath.profile,
+                        height: 122.w, width: 122.w),
               ),
             ),
             SizedBox(height: 10.h),
@@ -69,7 +69,7 @@ class ProfileUpperSection extends StatelessWidget {
             ),
             SizedBox(height: 6.h),
             Text(
-              controller.employerProfile.value?.profile.companyName ??
+              controller.employerProfile.value?.profile?.companyName ??
                   "Company Name",
               style: getBodyTextStyle(),
             ),
@@ -80,7 +80,7 @@ class ProfileUpperSection extends StatelessWidget {
                 Icon(Icons.location_on_outlined, size: sp(20)),
                 SizedBox(width: 12.w),
                 Text(
-                  controller.employerProfile.value?.profile.address ??
+                  controller.employerProfile.value?.profile?.address ??
                       "Location",
                   style: getBodyTextStyle(),
                   overflow: TextOverflow.ellipsis,

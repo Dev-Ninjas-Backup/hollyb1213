@@ -5,6 +5,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:hollyb1213/features/auth/login/services/screen/login_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
@@ -13,31 +14,36 @@ import 'package:hollyb1213/routes/app_route.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/model/employer_profile_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/model/employer_stats_model.dart';
 import 'dart:convert';
 
 class EmployerProfileController extends GetxController {
-  final List<Map<String, dynamic>> statsList = [
+  final List<Map<String, dynamic>> initialStatsList = [
     {
       "iconImage": Iconpath.jobProfileIcon,
-      "count": "6",
+      "count": "0",
       "completedMsg": "Active Jobs",
     },
     {
       "iconImage": "assets/icons/checkmark.png",
-      "count": "20",
+      "count": "0",
       "completedMsg": "Completed Jobs",
     },
     {
       "iconImage": Iconpath.favourite,
-      "count": "10",
+      "count": "0",
       "completedMsg": "Favorite Workers",
     },
     {
       "iconImage": Iconpath.dualPerson,
-      "count": "40",
+      "count": "0",
       "completedMsg": "Total Hires",
     },
   ];
+
+  RxList<Map<String, dynamic>> statsList = <Map<String, dynamic>>[].obs;
+  Rx<EmployerStatsData?> employerStats = Rx<EmployerStatsData?>(null);
+  RxBool isLoadingStats = false.obs;
 
   final List<SettingsModel> settingsitems = [
     SettingsModel(
@@ -91,6 +97,9 @@ class EmployerProfileController extends GetxController {
     super.onInit();
     loadPreference();
     fetchEmployerProfile();
+    fetchEmployerStats();
+    // Initialize with default values
+    statsList.value = List.from(initialStatsList);
   }
 
   Future<void> loadPreference() async {
@@ -139,9 +148,6 @@ class EmployerProfileController extends GetxController {
           employerProfile.value = profileResponse.data;
           print('Profile Data: ${employerProfile.value}');
           print('Profile Name: ${employerProfile.value?.fullName}');
-          print('Company: ${employerProfile.value?.profile.companyName}');
-          print(
-              'Profile Photo: ${employerProfile.value?.profile.profilePhotoUrl}');
         } else {
           print('Error: ${profileResponse.message}');
           Get.snackbar('Error', profileResponse.message);
@@ -164,6 +170,78 @@ class EmployerProfileController extends GetxController {
     // Clear any local user data (e.g., from SharedPreferences)
     final preferenceHelper = SharedPreferenceHelper();
     await preferenceHelper.clearAll();
-    Get.offAll(() => RoleSelectionScreen());
+    Get.offAll(() => LoginScreen());
+  }
+
+  Future<void> fetchEmployerStats() async {
+    print('[EmployerProfileController] fetchEmployerStats() started');
+    try {
+      isLoadingStats.value = true;
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      print('[EmployerProfileController] Access Token for Stats: $accessToken');
+
+      if (accessToken == null) {
+        print('Error: Access token not found');
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerStats),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Stats Response Status Code: ${response.statusCode}');
+      print('Stats Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print('Parsed Stats JSON: $jsonResponse');
+        final statsResponse = EmployerStatsResponse.fromJson(jsonResponse);
+
+        if (statsResponse.success) {
+          employerStats.value = statsResponse.data;
+          print('Stats Data: ${employerStats.value}');
+          print('Active Jobs: ${employerStats.value?.activeJobs}');
+          print('Completed Jobs: ${employerStats.value?.completedJobs}');
+          print('Favorite Workers: ${employerStats.value?.favoriteWorkers}');
+          print('Total Hires: ${employerStats.value?.totalHires}');
+
+          // Update statsList with actual data
+          statsList.value = [
+            {
+              "iconImage": Iconpath.jobProfileIcon,
+              "count": employerStats.value?.activeJobs.toString() ?? "0",
+              "completedMsg": "Active Jobs",
+            },
+            {
+              "iconImage": "assets/icons/checkmark.png",
+              "count": employerStats.value?.completedJobs.toString() ?? "0",
+              "completedMsg": "Completed Jobs",
+            },
+            {
+              "iconImage": Iconpath.favourite,
+              "count": employerStats.value?.favoriteWorkers.toString() ?? "0",
+              "completedMsg": "Favorite Workers",
+            },
+            {
+              "iconImage": Iconpath.dualPerson,
+              "count": employerStats.value?.totalHires.toString() ?? "0",
+              "completedMsg": "Total Hires",
+            },
+          ];
+        } else {
+          print('Error: ${statsResponse.message}');
+        }
+      } else {
+        print('Failed to fetch stats with status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception in fetchEmployerStats: $e');
+    } finally {
+      isLoadingStats.value = false;
+    }
   }
 }

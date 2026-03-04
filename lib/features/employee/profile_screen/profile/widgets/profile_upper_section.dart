@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/user_profile_model.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class ProfileUpperSection extends StatelessWidget {
+  final UserProfile userProfile;
   const ProfileUpperSection({
+    required this.userProfile,
     super.key,
   });
 
@@ -28,29 +29,29 @@ class ProfileUpperSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 24.h),
-    
-        ClipRRect(
-          borderRadius: BorderRadius.circular(61.r),
-          child: Image.asset(
-            Imagepath.profile,
-            height: 122.w,
-            width: 122.w,
-          ),
+        CircleAvatar(
+          radius: 61.r,
+          backgroundColor: Appcolor.appSecondaryColor,
+          backgroundImage: userProfile.profile.profilePhotoUrl != null
+              ? NetworkImage(userProfile.profile.profilePhotoUrl!)
+              : null,
+          child: userProfile.profile.profilePhotoUrl == null
+              ? Icon(Icons.person, size: 60.r, color: Colors.grey)
+              : null,
         ),
         SizedBox(height: 10.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 10.w,
           children: [
             Text(
-              "Nicolas",
+              userProfile.fullName,
               style: getTextStyle(
                 fontSize: sp(22),
                 fontWeight: FontWeight.w600,
                 color: Appcolor.appTextColor,
               ),
             ),
-            // SizedBox(height: 20.w,),
+            SizedBox(width: 10.w),
             Image.asset(
               Iconpath.profileActiveicon,
               height: 30.h,
@@ -61,7 +62,6 @@ class ProfileUpperSection extends StatelessWidget {
         SizedBox(height: 6.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    
           children: [
             Row(
               children: [
@@ -72,15 +72,16 @@ class ProfileUpperSection extends StatelessWidget {
                 ),
                 SizedBox(width: 6.w),
                 Text(
-                  "nicolas@email.com",
+                  userProfile.email,
                   style: getBodyTextStyle(
                     color: Appcolor.appTextSecondaryColor,
                   ),
                 ),
               ],
             ),
-    
-            Row(
+
+            // Phone number is not available in the get-me API response.
+            /* Row(
               children: [
                 Image.asset(
                   Iconpath.callIcon,
@@ -95,12 +96,11 @@ class ProfileUpperSection extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
+            ), */
           ],
         ),
         SizedBox(height: 12.h),
         Row(
-          spacing: 10.w,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RatingBarIndicator(
@@ -112,13 +112,11 @@ class ProfileUpperSection extends StatelessWidget {
               itemSize: sp(20),
               direction: Axis.horizontal,
             ),
+            SizedBox(width: 10.w),
             GestureDetector(
-
-            onTap: (){
-            
-            Get.toNamed(AppRoute.employeeReview);
-            
-            },
+              onTap: () {
+                Get.toNamed(AppRoute.employeeReview);
+              },
               child: Text(
                 "4.8 (24 review)",
                 style: getBodyTextStyle(

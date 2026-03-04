@@ -128,8 +128,7 @@ class EmployeHomeScreen extends StatelessWidget {
                   }
 
                   return Column(
-                    children: controller.latestJobs.map<Widget>((element) {
-                      final Job job = element as Job;
+                    children: controller.latestJobs.map<Widget>((job) {
                       return JobCard(
                         image: job.fileUrl ?? '',
                         title: job.title,

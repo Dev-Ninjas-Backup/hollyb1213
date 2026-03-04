@@ -25,7 +25,7 @@ class EmployerProfileScreen extends StatelessWidget {
               ProfileUpperSection(),
               SizedBox(height: 30.h),
               Text(
-                "Your Stats",
+                "Account Overview",
                 style: getBodyTextStyle(
                   fontSize: sp(20),
                   fontWeight: FontWeight.w600,

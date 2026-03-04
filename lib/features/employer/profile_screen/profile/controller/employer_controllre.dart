@@ -14,23 +14,23 @@ class EmployerProfileController extends GetxController {
   final List<Map<String, dynamic>> statsList = [
     {
       "iconImage": Iconpath.jobProfileIcon,
+      "count": "6",
+      "completedMsg": "Active Jobs",
+    },
+    {
+      "iconImage": "assets/icons/checkmark.png",
+      "count": "20",
+      "completedMsg": "Completed Jobs",
+    },
+    {
+      "iconImage": Iconpath.favourite,
+      "count": "10",
+      "completedMsg": "Favorite Workers",
+    },
+    {
+      "iconImage": Iconpath.dualPerson,
       "count": "40",
-      "completedMsg": "Jobs Completed",
-    },
-    {
-      "iconImage": Iconpath.workIcon,
-      "count": "120",
-      "completedMsg": "Hours Worked",
-    },
-    {
-      "iconImage": Iconpath.earnIcon,
-      "count": "\$5.832",
-      "completedMsg": "Total Earned",
-    },
-    {
-      "iconImage": Iconpath.monthCalenderIcon,
-      "count": "12",
-      "completedMsg": "This Month",
+      "completedMsg": "Total Hires",
     },
   ];
 

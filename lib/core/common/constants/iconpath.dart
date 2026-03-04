@@ -38,5 +38,7 @@ class Iconpath {
   static String backIcon = 'assets/icons/backIcon.png';
   static String editicon = 'assets/icons/edit.png';
   static String applicants = 'assets/icons/applicants.png';
-  static String favourite = 'assets/icons/favourite_workers.png';
+  static String favourite = 'assets/icons/favorite.png';
+  static String dualPerson = 'assets/icons/dual_person.png';
+  static String checkmark = 'assets/icons/checkmark.png';
 }

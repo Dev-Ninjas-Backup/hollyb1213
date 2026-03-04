@@ -30,7 +30,7 @@ class UploadUtilityBillService extends GetConnect {
     });
 
     return await post(
-      ApiEndpoint.employerUploadUtilityBill,
+      ApiEndpoint.uploadUtilityBill,
       formData,
       headers: {
         'Authorization': 'Bearer ${token ?? ''}',

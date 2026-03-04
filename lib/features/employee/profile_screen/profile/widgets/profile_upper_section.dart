@@ -61,7 +61,7 @@ class ProfileUpperSection extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [

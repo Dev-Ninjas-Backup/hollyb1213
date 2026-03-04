@@ -34,4 +34,6 @@ class ApiEndpoint {
           String status, bool isUrgent, int page, int limit) =>
       '/employer/jobs?status=$status&is_urgent=$isUrgent&page=$page&limit=$limit';
   static String getJobDetails(String id) => '/employer/jobs/$id';
+
+  static const String employerProfile = '/profile/get-me';
 }

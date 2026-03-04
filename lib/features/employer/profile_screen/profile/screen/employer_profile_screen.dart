@@ -22,7 +22,7 @@ class EmployerProfileScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 63.h),
-              ProfileUpperSection(),
+              ProfileUpperSection(controller: controller),
               SizedBox(height: 30.h),
               Text(
                 "Account Overview",

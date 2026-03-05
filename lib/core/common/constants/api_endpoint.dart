@@ -38,4 +38,9 @@ class ApiEndpoint {
   static const String employerProfile = '/profile/get-me';
   static const String employerStats = '/employer/stats';
   static const String updateEmployerProfile = '/profile/update-me';
+  static const String employerSubscriptionStatus =
+      '/subscription/my-subscriptions/current';
+  static const String employerRenewSubscription = '/subscription/renew';
+  static String getMyPostedJobsHomeScreen(String status, int page, int limit) =>
+      '$baseUrl/employer/jobs?status=$status&page=$page&limit=$limit';
 }

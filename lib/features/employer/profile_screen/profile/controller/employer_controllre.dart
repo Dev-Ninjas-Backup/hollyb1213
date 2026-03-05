@@ -8,13 +8,14 @@ import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helpe
 import 'package:hollyb1213/features/auth/login/services/screen/login_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile_info/screen/employer_profile_info_page.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/model/employer_profile_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/model/employer_stats_model.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/model/subscription_status_model.dart';
+import 'package:hollyb1213/features/employer/profile_screen/profile/service/renew_subscription_service.dart';
 import 'dart:convert';
 
 class EmployerProfileController extends GetxController {
@@ -86,6 +87,12 @@ class EmployerProfileController extends GetxController {
   RxList<bool> isSelected = [true, false].obs;
   Rx<EmployerProfileData?> employerProfile = Rx<EmployerProfileData?>(null);
   RxBool isLoadingProfile = false.obs;
+  Rx<SubscriptionStatusData?> subscriptionStatus =
+      Rx<SubscriptionStatusData?>(null);
+  RxBool isLoadingSubscription = false.obs;
+  RxBool isRenewingSubscription = false.obs;
+
+  final RenewSubscriptionService _renewService = RenewSubscriptionService();
 
   EmployerProfileController() {
     print('[EmployerProfileController] Constructor called');
@@ -98,6 +105,7 @@ class EmployerProfileController extends GetxController {
     loadPreference();
     fetchEmployerProfile();
     fetchEmployerStats();
+    fetchSubscriptionStatus();
     // Initialize with default values
     statsList.value = List.from(initialStatsList);
   }
@@ -242,6 +250,142 @@ class EmployerProfileController extends GetxController {
       print('Exception in fetchEmployerStats: $e');
     } finally {
       isLoadingStats.value = false;
+    }
+  }
+
+  Future<void> fetchSubscriptionStatus() async {
+    print('[EmployerProfileController] fetchSubscriptionStatus() started');
+    try {
+      isLoadingSubscription.value = true;
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      print(
+          '[EmployerProfileController] Access Token for Subscription: $accessToken');
+
+      if (accessToken == null) {
+        print('Error: Access token not found');
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerSubscriptionStatus),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Subscription Response Status Code: ${response.statusCode}');
+      print('Subscription Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print('Parsed Subscription JSON: $jsonResponse');
+        final subscriptionResponse =
+            SubscriptionStatusResponse.fromJson(jsonResponse);
+
+        if (subscriptionResponse.success) {
+          subscriptionStatus.value = subscriptionResponse.data;
+          print('Subscription Data: ${subscriptionStatus.value}');
+          print(
+              'Has Subscription: ${subscriptionStatus.value?.hasSubscription}');
+          print(
+              'Has Active Subscription: ${subscriptionStatus.value?.hasActiveSubscription}');
+          print(
+              'Plan Type: ${subscriptionStatus.value?.subscription?.planType}');
+        } else {
+          print('Error: ${subscriptionResponse.message}');
+        }
+      } else {
+        print(
+            'Failed to fetch subscription with status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Exception in fetchSubscriptionStatus: $e');
+    } finally {
+      isLoadingSubscription.value = false;
+    }
+  }
+
+  Future<void> handleRenewSubscription() async {
+    print('[EmployerProfileController] handleRenewSubscription() started');
+
+    if (subscriptionStatus.value?.subscription == null) {
+      Get.snackbar('Error', 'No subscription found to renew');
+      return;
+    }
+
+    // Navigate to payment screen with renewal context
+    Get.toNamed(
+      AppRoute.paymentMethodScreen,
+      arguments: {
+        'isRenewal': true,
+        'subscriptionId': subscriptionStatus.value!.subscription!.id,
+      },
+    );
+  }
+
+  Future<void> renewSubscription({
+    required String paymentMethodId,
+  }) async {
+    print('[EmployerProfileController] renewSubscription() started');
+    try {
+      isRenewingSubscription.value = true;
+
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      final subscriptionId = subscriptionStatus.value?.subscription?.id;
+
+      if (accessToken == null) {
+        Get.snackbar('Error', 'Access token not found');
+        return;
+      }
+
+      if (subscriptionId == null) {
+        Get.snackbar('Error', 'Unable to retrieve subscription details');
+        return;
+      }
+
+      print('[EmployerProfileController] Calling renewal service');
+      final response = await _renewService.renewSubscription(
+        accessToken: accessToken,
+        subscriptionId: subscriptionId,
+        paymentMethodId: paymentMethodId,
+      );
+
+      print('Renewal Response Status Code: ${response.statusCode}');
+      print('Renewal Response Body: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['success'] == true) {
+          Get.snackbar(
+            'Success',
+            'Subscription renewed successfully!',
+            snackPosition: SnackPosition.TOP,
+            duration: const Duration(seconds: 2),
+          );
+          // Refresh subscription status
+          await Future.delayed(const Duration(seconds: 1));
+          await fetchSubscriptionStatus();
+        } else {
+          final message =
+              jsonResponse['message'] ?? 'Failed to renew subscription';
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        }
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final message =
+            jsonResponse['message'] ?? 'Failed to renew subscription';
+        Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+      }
+    } catch (e) {
+      print('Exception in renewSubscription: $e');
+      Get.snackbar(
+        'Error',
+        'Error renewing subscription: $e',
+        snackPosition: SnackPosition.TOP,
+      );
+    } finally {
+      isRenewingSubscription.value = false;
     }
   }
 }

@@ -172,7 +172,7 @@ class EmployerJobsScreen extends StatelessWidget {
                                 showFavourite:
                                     formattedJob['status'] == 'completed',
                                 isFavourite: formattedJob['isFavourite'],
-                                applicants: formattedJob['applicants'],
+                                applicants: formattedJob['applicants'] ?? 0,
                                 amount: formattedJob['amount'],
                                 onFavouriteTap: () =>
                                     ctrl.toggleFavourite(job['id']),

@@ -48,29 +48,23 @@ class ProfileUpperSection extends StatelessWidget {
             ),
             SizedBox(height: 24.h),
             // for demo it will nevigate different tab
-            GestureDetector(
-              onTap: () {
-                Get.to(EmployerWorkerProfile());
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(61.r),
-                child: controller
-                            .employerProfile.value?.profile?.profilePhotoUrl !=
-                        null
-                    ? Image.network(
-                        controller
-                            .employerProfile.value!.profile!.profilePhotoUrl!,
-                        height: 122.w,
-                        width: 122.w,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(Imagepath.profile,
-                              height: 122.w, width: 122.w);
-                        },
-                      )
-                    : Image.asset(Imagepath.profile,
-                        height: 122.w, width: 122.w),
-              ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(61.r),
+              child: controller
+                          .employerProfile.value?.profile?.profilePhotoUrl !=
+                      null
+                  ? Image.network(
+                      controller
+                          .employerProfile.value!.profile!.profilePhotoUrl!,
+                      height: 122.w,
+                      width: 122.w,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(Imagepath.profile,
+                            height: 122.w, width: 122.w);
+                      },
+                    )
+                  : Image.asset(Imagepath.profile, height: 122.w, width: 122.w),
             ),
             SizedBox(height: 10.h),
             Row(

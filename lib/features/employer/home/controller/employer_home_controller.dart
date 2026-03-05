@@ -94,15 +94,27 @@ class EmployerHomeController extends GetxController {
         if (jsonResponse['success'] == true) {
           final List<dynamic> jobsList = jsonResponse['data'] ?? [];
           activeJobs.value = jobsList.map((job) {
+            // Handle file which can be null, a string, or a Map with url
+            String imageUrl = 'assets/images/job_placeholder.png';
+            final file = job['file'];
+            if (file != null) {
+              if (file is Map) {
+                imageUrl = file['url'] ?? 'assets/images/job_placeholder.png';
+              } else if (file is String) {
+                imageUrl = file;
+              }
+            }
+
             return {
               'id': job['id'] ?? '',
-              'image': job['imageUrl'] ?? '',
+              'image': imageUrl,
               'title': job['title'] ?? 'Job Title',
-              'subtitle': job['companyName'] ?? 'Company',
+              'subtitle': job['company_name'] ?? 'Company',
               'distance': job['location'] ?? 'Location',
-              'urgent': job['isUrgent'] ?? false,
+              'urgent': job['is_urgent'] ?? false,
               'status': job['status'] ?? 'open',
-              'applicants': job['applicantsCount'] ?? 0,
+              '_count': job['_count'] ?? {},
+              'applicants': job['_count']?['job_applications'] ?? 0,
               'amount': job['amount'] ?? '0',
               'isFavourite': false.obs,
             };
@@ -153,15 +165,27 @@ class EmployerHomeController extends GetxController {
         if (jsonResponse['success'] == true) {
           final List<dynamic> jobsList = jsonResponse['data'] ?? [];
           completedJobs.value = jobsList.map((job) {
+            // Handle file which can be null, a string, or a Map with url
+            String imageUrl = 'assets/images/job_placeholder.png';
+            final file = job['file'];
+            if (file != null) {
+              if (file is Map) {
+                imageUrl = file['url'] ?? 'assets/images/job_placeholder.png';
+              } else if (file is String) {
+                imageUrl = file;
+              }
+            }
+
             return {
               'id': job['id'] ?? '',
-              'image': job['imageUrl'] ?? '',
+              'image': imageUrl,
               'title': job['title'] ?? 'Job Title',
-              'subtitle': job['companyName'] ?? 'Company',
+              'subtitle': job['company_name'] ?? 'Company',
               'distance': job['location'] ?? 'Location',
-              'urgent': job['isUrgent'] ?? false,
+              'urgent': job['is_urgent'] ?? false,
               'status': job['status'] ?? 'completed',
-              'applicants': job['applicantsCount'] ?? 0,
+              '_count': job['_count'] ?? {},
+              'applicants': job['_count']?['job_applications'] ?? 0,
               'amount': job['amount'] ?? '0',
               'isFavourite': false.obs,
             };

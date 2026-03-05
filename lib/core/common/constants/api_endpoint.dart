@@ -43,4 +43,6 @@ class ApiEndpoint {
   static const String employerRenewSubscription = '/subscription/renew';
   static String getMyPostedJobsHomeScreen(String status, int page, int limit) =>
       '$baseUrl/employer/jobs?status=$status&page=$page&limit=$limit';
+  static String seeFavoriteEmployeeList(int page, int limit) =>
+      '$baseUrl/employer/favorites?page=$page&limit=$limit';
 }

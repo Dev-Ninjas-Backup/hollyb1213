@@ -123,7 +123,7 @@ class EmployerHomeScreen extends StatelessWidget {
                       showEdit: !isCompleted,
                       showFavourite: isCompleted,
                       isFavourite: job['isFavourite'],
-                      applicants: job['applicants'] ?? 0,
+                      applicants: job['_count']?['job_applications'] ?? 0,
                       amount: job['amount'] ?? '0',
                       onFavouriteTap: () => controller.toggleFavourite(index),
                       onViewDetails: () {

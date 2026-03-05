@@ -214,7 +214,14 @@ class JobDetailsScreen extends StatelessWidget {
                     SizedBox(height: 20),
 
                     // --- Apply Button ---
-                    CustomButton(buttonText: "Apply Now", onTap: () {}),
+                    Obx(() => CustomButton(
+                          buttonText: controller.isApplying.value
+                              ? "Applying..."
+                              : "Apply Now",
+                          onTap: controller.isApplying.value
+                              ? null
+                              : () => _showApplyDialog(context, controller),
+                        )),
                     SizedBox(height: 70),
                   ],
                 ),
@@ -223,6 +230,83 @@ class JobDetailsScreen extends StatelessWidget {
           ),
         );
       }),
+    );
+  }
+
+  void _showApplyDialog(BuildContext context, JobDetailsController controller) {
+    final TextEditingController noteController = TextEditingController();
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Apply for Job",
+                style: getTextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 16),
+              Text(
+                "Cover Note",
+                style:
+                    getBodyTextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: noteController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: "Briefly describe why you are a good fit...",
+                  hintStyle: getBodyTextStyle(color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                ),
+              ),
+              SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Get.back(),
+                    child: Text("Cancel", style: TextStyle(color: Colors.grey)),
+                  ),
+                  SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (noteController.text.trim().isNotEmpty) {
+                        Get.back(); // Close dialog
+                        controller.applyJob(noteController.text.trim());
+                      } else {
+                        Get.snackbar("Required", "Please enter a cover note",
+                            snackPosition: SnackPosition.TOP);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Appcolor.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      "Submit",
+                      style: getTextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

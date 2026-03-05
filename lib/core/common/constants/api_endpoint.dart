@@ -12,6 +12,7 @@ class ApiEndpoint {
   static const String employeeAppliedJobs = '/employee/jobs/applied';
 
   static String employeeJobDetails(String jobId) => '/employee/jobs/$jobId';
+  static String applyJob(String jobId) => '/employee/jobs/$jobId/apply';
 
   // Employer
   static const String employerUploadProfilePhoto =

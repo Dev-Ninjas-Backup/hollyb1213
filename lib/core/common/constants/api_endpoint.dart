@@ -46,4 +46,6 @@ class ApiEndpoint {
       '$baseUrl/employer/jobs?status=$status&page=$page&limit=$limit';
   static String seeFavoriteEmployeeList(int page, int limit) =>
       '$baseUrl/employer/favorites?page=$page&limit=$limit';
+  static String addEmployeeAsFavorite = '$baseUrl/employer/favorites';
+  static String rateJob(String id) => '$baseUrl/employer/review/create/$id';
 }

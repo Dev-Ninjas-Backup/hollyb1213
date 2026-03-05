@@ -13,6 +13,8 @@ class JobModel {
   final String? endTime;
   final String? jobDate;
   final String? expireDate;
+  final String? assignedEmployeeId;
+  final dynamic review;
 
   JobModel({
     required this.id,
@@ -29,6 +31,8 @@ class JobModel {
     this.endTime,
     this.jobDate,
     this.expireDate,
+    this.assignedEmployeeId,
+    this.review,
   });
 
   /// Convert API response to JobModel
@@ -59,6 +63,8 @@ class JobModel {
       endTime: json['end_time'],
       jobDate: json['job_date'],
       expireDate: json['expire_date'],
+      assignedEmployeeId: json['assigned_employee_id'],
+      review: json['review'],
     );
   }
 
@@ -78,6 +84,8 @@ class JobModel {
       'end_time': endTime,
       'job_date': jobDate,
       'expire_date': expireDate,
+      'assigned_employee_id': assignedEmployeeId,
+      'review': review,
     };
   }
 }

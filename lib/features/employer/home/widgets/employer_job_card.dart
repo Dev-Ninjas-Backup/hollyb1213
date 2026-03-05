@@ -21,6 +21,9 @@ class EmployerJobCard extends StatelessWidget {
     required this.onViewDetails,
     this.onEdit,
     this.onFavouriteTap,
+    this.rating,
+    this.assignedEmployeeId,
+    this.onAddWorkerFavourite,
   });
 
   final String image;
@@ -37,6 +40,9 @@ class EmployerJobCard extends StatelessWidget {
   final VoidCallback onViewDetails;
   final VoidCallback? onEdit;
   final VoidCallback? onFavouriteTap;
+  final double? rating;
+  final String? assignedEmployeeId;
+  final VoidCallback? onAddWorkerFavourite;
 
   @override
   Widget build(BuildContext context) {
@@ -86,28 +92,6 @@ class EmployerJobCard extends StatelessWidget {
                   ),
                 ),
               ),
-              // --- Favourite Icon (only if completed) ---
-              if (showFavourite && isFavourite != null)
-                Positioned(
-                  top: 42.h,
-                  right: 14.w,
-                  child: Obx(
-                    () => GestureDetector(
-                      onTap: onFavouriteTap,
-                      child: CircleAvatar(
-                        radius: 16.r,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          isFavourite!.value ? Icons.star : Icons.star_border,
-                          size: 18.sp,
-                          color: isFavourite!.value
-                              ? Colors.yellow[700]
-                              : Colors.grey[600],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
             ],
           ),
 
@@ -152,39 +136,105 @@ class EmployerJobCard extends StatelessWidget {
 
                 SizedBox(height: 8.h),
 
-                // --- Pay Rate & Applicants ---
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.attach_money,
-                      size: 18,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      "\$$amount",
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
+                // --- Pay Rate & Applicants or Rating ---
+                if (status != 'completed')
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.attach_money,
+                        size: 18,
+                        color: Colors.grey,
                       ),
-                    ),
-                    const Spacer(),
-                    const Icon(
-                      Icons.group_outlined,
-                      size: 18,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      "$applicants Applied",
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: Colors.grey[700],
+                      SizedBox(width: 4.w),
+                      Text(
+                        "\$$amount",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.group_outlined,
+                        size: 18,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        "$applicants Applied",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                    ],
+                  )
+                else
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.star,
+                        size: 18,
+                        color: Colors.amber[600],
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        rating != null ? rating.toString() : "N/A",
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                      const Spacer(),
+                      Obx(
+                        () => ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isFavourite?.value ?? false
+                                ? Appcolor.primaryColor
+                                : const Color(0xFFE8F1FF),
+                            foregroundColor: isFavourite?.value ?? false
+                                ? Colors.white
+                                : Appcolor.primaryColor,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 6.h,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          onPressed: onAddWorkerFavourite,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                isFavourite?.value ?? false
+                                    ? Icons.favorite
+                                    : Icons.favorite_outline,
+                                size: 16.sp,
+                                color: isFavourite?.value ?? false
+                                    ? Colors.white
+                                    : Appcolor.primaryColor,
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                "Favourite",
+                                style: TextStyle(
+                                  color: isFavourite?.value ?? false
+                                      ? Colors.white
+                                      : Appcolor.primaryColor,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
 
                 SizedBox(height: 16.h),
 
@@ -236,8 +286,32 @@ class EmployerJobCard extends StatelessWidget {
                       ),
                     ],
                   )
+                else if (showFavourite) // Completed Jobs - only View Details
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Appcolor.primaryColor,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    onPressed: onViewDetails,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        "View Details",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  )
                 else
                   GestureDetector(
+                    onTap: onViewDetails,
                     child: Container(
                       height: 48.h,
                       width: double.infinity,

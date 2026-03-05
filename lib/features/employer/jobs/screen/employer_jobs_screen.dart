@@ -5,6 +5,7 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employer/jobs/controller/employer_jobs_controller.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_job_card.dart';
+import 'package:hollyb1213/features/employer/completed_job_details/screen/completed_job_details_screen.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class EmployerJobsScreen extends StatelessWidget {
@@ -160,7 +161,15 @@ class EmployerJobsScreen extends StatelessWidget {
                             (index) {
                               final job = ctrl.filteredJobs[index];
                               final formattedJob = ctrl.formatJobForUI(job);
-
+                              // Extract rating from review object if exists
+                              double? rating;
+                              if (job['review'] is Map &&
+                                  (job['review'] as Map)
+                                      .containsKey('rating')) {
+                                rating =
+                                    ((job['review'] as Map)['rating'] as num?)
+                                        ?.toDouble();
+                              }
                               return EmployerJobCard(
                                 image: formattedJob['image'],
                                 title: formattedJob['title'],
@@ -174,16 +183,35 @@ class EmployerJobsScreen extends StatelessWidget {
                                 isFavourite: formattedJob['isFavourite'],
                                 applicants: formattedJob['applicants'] ?? 0,
                                 amount: formattedJob['amount'],
+                                rating: rating,
+                                assignedEmployeeId: job['assigned_employee_id'],
                                 onFavouriteTap: () =>
                                     ctrl.toggleFavourite(job['id']),
                                 onViewDetails: () {
-                                  Get.toNamed(
-                                    AppRoute.getEmployerJobDetailsScreen(),
-                                    arguments: job['id'],
-                                  );
+                                  if (formattedJob['status'] == 'completed') {
+                                    Get.to(
+                                      CompletedJobDetailsScreen(
+                                        jobId: job['id'],
+                                      ),
+                                    );
+                                  } else {
+                                    Get.toNamed(
+                                      AppRoute.getEmployerJobDetailsScreen(),
+                                      arguments: job['id'],
+                                    );
+                                  }
                                 },
                                 onEdit: () {
                                   // handle edit
+                                },
+                                onAddWorkerFavourite: () async {
+                                  // Add employee as favorite
+                                  if (job['assigned_employee_id'] != null) {
+                                    await ctrl.addEmployeeAsFavorite(
+                                      job['assigned_employee_id'],
+                                    );
+                                    formattedJob['isFavourite']?.toggle();
+                                  }
                                 },
                               );
                             },

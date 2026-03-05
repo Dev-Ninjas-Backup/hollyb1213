@@ -91,7 +91,7 @@ class JobDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '\$${job['amount'] ?? '0'}',
+                            '\$${job['amount'] ?? '0'}/hr',
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w700,

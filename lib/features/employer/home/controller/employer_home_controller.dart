@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
+import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EmployerHomeController extends GetxController {
   // Header (untouched)
@@ -29,53 +33,151 @@ class EmployerHomeController extends GetxController {
   // --- Category Tabs ---
   final selectedCategory = 'Active'.obs;
 
-  // --- Active Job List ---
-  final activeJobs = <Map<String, dynamic>>[
-    {
-      "image": Imagepath.imagefst,
-      "title": "Restaurant Assistant",
-      "subtitle": "Burger Palace",
-      "distance": "1.2 Km away",
-      "urgent": false,
-      "status": "open",
-      "isFavourite": false.obs,
-    },
-    {
-      "image": Imagepath.image1,
-      "title": "Event Coordinator",
-      "subtitle": "Cultural Hall",
-      "distance": "2.5 Km away",
-      "urgent": false,
-      "status": "open",
-      "isFavourite": false.obs,
-    },
-  ].obs;
+  // --- Job Lists ---
+  final activeJobs = <Map<String, dynamic>>[].obs;
+  final completedJobs = <Map<String, dynamic>>[].obs;
 
-  // --- Completed Job List ---
-  final completedJobs = <Map<String, dynamic>>[
-    {
-      "image": Imagepath.image2,
-      "title": "Museum Guide",
-      "subtitle": "Heritage Museum",
-      "distance": "0.8 Km away",
-      "urgent": false,
-      "status": "completed",
-      "isFavourite": true.obs,
-    },
-    {
-      "image": Imagepath.imagefst,
-      "title": "Warehouse Assistant",
-      "subtitle": "LogiX Depot",
-      "distance": "3.4 Km away",
-      "urgent": false,
-      "status": "completed",
-      "isFavourite": false.obs,
-    },
-  ].obs;
+  // --- Loading States ---
+  final isLoadingActiveJobs = false.obs;
+  final isLoadingCompletedJobs = false.obs;
 
   // --- Toggle between Active and Completed ---
   void setCategory(String category) {
     selectedCategory.value = category;
+    if (category == 'Active') {
+      _fetchActiveJobs();
+    } else if (category == 'Completed') {
+      _fetchCompletedJobs();
+    }
+  }
+
+  // --- Get filtered job list ---
+  RxList<Map<String, dynamic>> get filteredJobs =>
+      selectedCategory.value == 'Active' ? activeJobs : completedJobs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    print('[EmployerHomeController] onInit called');
+    _fetchActiveJobs();
+  }
+
+  /// Fetch jobs with status 'open' (for Active tab)
+  Future<void> _fetchActiveJobs() async {
+    print('[EmployerHomeController] _fetchActiveJobs() started');
+    try {
+      isLoadingActiveJobs.value = true;
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+
+      if (accessToken == null) {
+        Get.snackbar('Error', 'Access token not found');
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse(
+          ApiEndpoint.baseUrl +
+              ApiEndpoint.getMyPostedJobsHomeScreen('open', 1, 10)
+                  .replaceFirst(ApiEndpoint.baseUrl, ''),
+        ),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Active Jobs Response Status: ${response.statusCode}');
+      print('Active Jobs Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['success'] == true) {
+          final List<dynamic> jobsList = jsonResponse['data'] ?? [];
+          activeJobs.value = jobsList.map((job) {
+            return {
+              'id': job['id'] ?? '',
+              'image': job['imageUrl'] ?? '',
+              'title': job['title'] ?? 'Job Title',
+              'subtitle': job['companyName'] ?? 'Company',
+              'distance': job['location'] ?? 'Location',
+              'urgent': job['isUrgent'] ?? false,
+              'status': job['status'] ?? 'open',
+              'applicants': job['applicantsCount'] ?? 0,
+              'amount': job['amount'] ?? '0',
+              'isFavourite': false.obs,
+            };
+          }).toList();
+          print('Active Jobs Loaded: ${activeJobs.length}');
+        }
+      } else {
+        print('Failed to fetch active jobs: ${response.statusCode}');
+        Get.snackbar('Error', 'Failed to load jobs');
+      }
+    } catch (e) {
+      print('Exception in _fetchActiveJobs: $e');
+      Get.snackbar('Error', 'Error loading jobs: $e');
+    } finally {
+      isLoadingActiveJobs.value = false;
+    }
+  }
+
+  /// Fetch jobs with status 'completed' (for Completed tab)
+  Future<void> _fetchCompletedJobs() async {
+    print('[EmployerHomeController] _fetchCompletedJobs() started');
+    try {
+      isLoadingCompletedJobs.value = true;
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+
+      if (accessToken == null) {
+        Get.snackbar('Error', 'Access token not found');
+        return;
+      }
+
+      final response = await http.get(
+        Uri.parse(
+          ApiEndpoint.baseUrl +
+              ApiEndpoint.getMyPostedJobsHomeScreen('completed', 1, 10)
+                  .replaceFirst(ApiEndpoint.baseUrl, ''),
+        ),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Completed Jobs Response Status: ${response.statusCode}');
+      print('Completed Jobs Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['success'] == true) {
+          final List<dynamic> jobsList = jsonResponse['data'] ?? [];
+          completedJobs.value = jobsList.map((job) {
+            return {
+              'id': job['id'] ?? '',
+              'image': job['imageUrl'] ?? '',
+              'title': job['title'] ?? 'Job Title',
+              'subtitle': job['companyName'] ?? 'Company',
+              'distance': job['location'] ?? 'Location',
+              'urgent': job['isUrgent'] ?? false,
+              'status': job['status'] ?? 'completed',
+              'applicants': job['applicantsCount'] ?? 0,
+              'amount': job['amount'] ?? '0',
+              'isFavourite': false.obs,
+            };
+          }).toList();
+          print('Completed Jobs Loaded: ${completedJobs.length}');
+        }
+      } else {
+        print('Failed to fetch completed jobs: ${response.statusCode}');
+        Get.snackbar('Error', 'Failed to load jobs');
+      }
+    } catch (e) {
+      print('Exception in _fetchCompletedJobs: $e');
+      Get.snackbar('Error', 'Error loading jobs: $e');
+    } finally {
+      isLoadingCompletedJobs.value = false;
+    }
   }
 
   // --- Toggle Favourite (only for Completed Jobs) ---
@@ -86,8 +188,4 @@ class EmployerHomeController extends GetxController {
       completedJobs.refresh();
     }
   }
-
-  // --- Get filtered job list ---
-  RxList<Map<String, dynamic>> get filteredJobs =>
-      selectedCategory.value == 'Active' ? activeJobs : completedJobs;
 }

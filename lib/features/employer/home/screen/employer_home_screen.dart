@@ -122,8 +122,9 @@ class EmployerHomeScreen extends StatelessWidget {
                       status: job['status'] ?? 'open',
                       showEdit: !isCompleted,
                       showFavourite: isCompleted,
-                      isFavourite:
-                          job['isFavourite'], // <-- pass RxBool directly
+                      isFavourite: job['isFavourite'],
+                      applicants: job['applicants'] ?? 0,
+                      amount: job['amount'] ?? '0',
                       onFavouriteTap: () => controller.toggleFavourite(index),
                       onViewDetails: () {
                         Get.toNamed(

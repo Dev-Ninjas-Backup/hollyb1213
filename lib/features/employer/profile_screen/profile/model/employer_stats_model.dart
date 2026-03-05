@@ -53,10 +53,10 @@ class EmployerStatsData {
 
   factory EmployerStatsData.fromJson(Map<String, dynamic> json) {
     return EmployerStatsData(
-      activeJobs: json['activeJobs'] ?? json['active_jobs'] ?? 0,
-      completedJobs: json['completedJobs'] ?? json['completed_jobs'] ?? 0,
-      favoriteWorkers: json['favoriteWorkers'] ?? json['favorite_workers'] ?? 0,
-      totalHires: json['totalHires'] ?? json['total_hires'] ?? 0,
+      activeJobs: json['activeJobs'] ?? 0,
+      completedJobs: json['completedJobs'] ?? 0,
+      favoriteWorkers: json['favouriteWorkers'] ?? 0,
+      totalHires: json['totalHires'] ?? 0,
     );
   }
 

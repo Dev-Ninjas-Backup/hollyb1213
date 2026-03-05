@@ -9,6 +9,7 @@ import 'package:hollyb1213/features/employer/home/notification/screen/notificati
 import 'package:hollyb1213/features/employer/home/widgets/employer_header_section.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_job_card.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_quick_actions.dart';
+import 'package:hollyb1213/features/employer/completed_job_details/screen/completed_job_details_screen.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 
 class EmployerHomeScreen extends StatelessWidget {
@@ -113,27 +114,54 @@ class EmployerHomeScreen extends StatelessWidget {
                     final job = controller.filteredJobs[index];
                     final isCompleted =
                         controller.selectedCategory.value == 'Completed';
+                    final isFavourite =
+                        controller.favouriteJobIds.contains(job.id).obs;
+                    // Extract rating from review object if exists
+                    double? rating;
+                    if (job.review is Map &&
+                        (job.review as Map).containsKey('rating')) {
+                      rating =
+                          ((job.review as Map)['rating'] as num?)?.toDouble();
+                    }
                     return EmployerJobCard(
-                      image: job['image'],
-                      title: job['title'],
-                      subtitle: job['subtitle'],
-                      distance: job['distance'],
-                      urgent: job['urgent'],
-                      status: job['status'] ?? 'open',
+                      image:
+                          job.imageUrl ?? 'assets/images/job_placeholder.png',
+                      title: job.title,
+                      subtitle: job.location,
+                      distance: job.location,
+                      urgent: job.isUrgent,
+                      status: job.status,
                       showEdit: !isCompleted,
                       showFavourite: isCompleted,
-                      isFavourite: job['isFavourite'],
-                      applicants: job['_count']?['job_applications'] ?? 0,
-                      amount: job['amount'] ?? '0',
+                      isFavourite: isFavourite,
+                      applicants: job.applicants,
+                      amount: job.amount,
+                      rating: rating,
+                      assignedEmployeeId: job.assignedEmployeeId,
                       onFavouriteTap: () => controller.toggleFavourite(index),
                       onViewDetails: () {
-                        Get.toNamed(
-                          AppRoute.getEmployerJobDetailsScreen(),
-                          arguments: job['id'],
-                        );
+                        if (isCompleted) {
+                          Get.to(
+                            CompletedJobDetailsScreen(jobId: job.id),
+                          );
+                        } else {
+                          Get.toNamed(
+                            AppRoute.getEmployerJobDetailsScreen(),
+                            arguments: job.id,
+                          );
+                        }
                       },
                       onEdit: () {
                         // handle edit
+                      },
+                      onAddWorkerFavourite: () async {
+                        // Add employee as favorite
+                        if (job.assignedEmployeeId != null) {
+                          await controller.addEmployeeAsFavorite(
+                            job.assignedEmployeeId!,
+                          );
+                          isFavourite.toggle();
+                        }
                       },
                     );
                   }),

@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/features/employer/jobs/service/employer_jobs_service.dart';
+import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EmployerJobsController extends GetxController {
   final EmployerJobsService _service = EmployerJobsService();
@@ -190,5 +194,41 @@ class EmployerJobsController extends GetxController {
       'expireDate': job['expire_date'] ?? '',
       'isFavourite': isFavoritedMap[job['id']] ?? false.obs,
     };
+  }
+
+  /// Add employee as favorite
+  Future<void> addEmployeeAsFavorite(String employeeId) async {
+    try {
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      if (accessToken == null) {
+        Get.snackbar('Error', 'Access token not found');
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse(ApiEndpoint.addEmployeeAsFavorite),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'employee_id': employeeId,
+        }),
+      );
+
+      print('Add Favorite Response: ${response.statusCode}');
+      print('Add Favorite Body: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar('Success', 'Employee added to favorites');
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final message = jsonResponse['message'] ?? 'Failed to add to favorites';
+        Get.snackbar('Error', message);
+      }
+    } catch (e) {
+      print('Error adding favorite: $e');
+      Get.snackbar('Error', 'Error: $e');
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:hollyb1213/features/employer/jobs/models/job_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -34,8 +35,11 @@ class EmployerHomeController extends GetxController {
   final selectedCategory = 'Active'.obs;
 
   // --- Job Lists ---
-  final activeJobs = <Map<String, dynamic>>[].obs;
-  final completedJobs = <Map<String, dynamic>>[].obs;
+  final activeJobs = <JobModel>[].obs;
+  final completedJobs = <JobModel>[].obs;
+
+  // --- Store favourite jobs separately ---
+  final favouriteJobIds = <String>{}.obs;
 
   // --- Loading States ---
   final isLoadingActiveJobs = false.obs;
@@ -52,7 +56,7 @@ class EmployerHomeController extends GetxController {
   }
 
   // --- Get filtered job list ---
-  RxList<Map<String, dynamic>> get filteredJobs =>
+  RxList<JobModel> get filteredJobs =>
       selectedCategory.value == 'Active' ? activeJobs : completedJobs;
 
   @override
@@ -93,32 +97,8 @@ class EmployerHomeController extends GetxController {
         final jsonResponse = jsonDecode(response.body);
         if (jsonResponse['success'] == true) {
           final List<dynamic> jobsList = jsonResponse['data'] ?? [];
-          activeJobs.value = jobsList.map((job) {
-            // Handle file which can be null, a string, or a Map with url
-            String imageUrl = 'assets/images/job_placeholder.png';
-            final file = job['file'];
-            if (file != null) {
-              if (file is Map) {
-                imageUrl = file['url'] ?? 'assets/images/job_placeholder.png';
-              } else if (file is String) {
-                imageUrl = file;
-              }
-            }
-
-            return {
-              'id': job['id'] ?? '',
-              'image': imageUrl,
-              'title': job['title'] ?? 'Job Title',
-              'subtitle': job['company_name'] ?? 'Company',
-              'distance': job['location'] ?? 'Location',
-              'urgent': job['is_urgent'] ?? false,
-              'status': job['status'] ?? 'open',
-              '_count': job['_count'] ?? {},
-              'applicants': job['_count']?['job_applications'] ?? 0,
-              'amount': job['amount'] ?? '0',
-              'isFavourite': false.obs,
-            };
-          }).toList();
+          activeJobs.value =
+              jobsList.map((job) => JobModel.fromJson(job)).toList();
           print('Active Jobs Loaded: ${activeJobs.length}');
         }
       } else {
@@ -164,32 +144,8 @@ class EmployerHomeController extends GetxController {
         final jsonResponse = jsonDecode(response.body);
         if (jsonResponse['success'] == true) {
           final List<dynamic> jobsList = jsonResponse['data'] ?? [];
-          completedJobs.value = jobsList.map((job) {
-            // Handle file which can be null, a string, or a Map with url
-            String imageUrl = 'assets/images/job_placeholder.png';
-            final file = job['file'];
-            if (file != null) {
-              if (file is Map) {
-                imageUrl = file['url'] ?? 'assets/images/job_placeholder.png';
-              } else if (file is String) {
-                imageUrl = file;
-              }
-            }
-
-            return {
-              'id': job['id'] ?? '',
-              'image': imageUrl,
-              'title': job['title'] ?? 'Job Title',
-              'subtitle': job['company_name'] ?? 'Company',
-              'distance': job['location'] ?? 'Location',
-              'urgent': job['is_urgent'] ?? false,
-              'status': job['status'] ?? 'completed',
-              '_count': job['_count'] ?? {},
-              'applicants': job['_count']?['job_applications'] ?? 0,
-              'amount': job['amount'] ?? '0',
-              'isFavourite': false.obs,
-            };
-          }).toList();
+          completedJobs.value =
+              jobsList.map((job) => JobModel.fromJson(job)).toList();
           print('Completed Jobs Loaded: ${completedJobs.length}');
         }
       } else {
@@ -208,8 +164,48 @@ class EmployerHomeController extends GetxController {
   void toggleFavourite(int index) {
     if (selectedCategory.value == 'Completed') {
       final job = completedJobs[index];
-      job['isFavourite'].toggle();
+      if (favouriteJobIds.contains(job.id)) {
+        favouriteJobIds.remove(job.id);
+      } else {
+        favouriteJobIds.add(job.id);
+      }
       completedJobs.refresh();
+    }
+  }
+
+  /// Add employee as favorite
+  Future<void> addEmployeeAsFavorite(String employeeId) async {
+    try {
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      if (accessToken == null) {
+        Get.snackbar('Error', 'Access token not found');
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse(ApiEndpoint.addEmployeeAsFavorite),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'employee_id': employeeId,
+        }),
+      );
+
+      print('Add Favorite Response: ${response.statusCode}');
+      print('Add Favorite Body: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.snackbar('Success', 'Employee added to favorites');
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final message = jsonResponse['message'] ?? 'Failed to add to favorites';
+        Get.snackbar('Error', message);
+      }
+    } catch (e) {
+      print('Error adding favorite: $e');
+      Get.snackbar('Error', 'Error: $e');
     }
   }
 }

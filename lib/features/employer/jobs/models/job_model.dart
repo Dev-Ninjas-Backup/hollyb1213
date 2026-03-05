@@ -33,6 +33,17 @@ class JobModel {
 
   /// Convert API response to JobModel
   factory JobModel.fromJson(Map<String, dynamic> json) {
+    // Handle file which can be null, a string, or a Map with url
+    String? imageUrl;
+    final file = json['file'];
+    if (file != null) {
+      if (file is Map) {
+        imageUrl = file['url'];
+      } else if (file is String) {
+        imageUrl = file;
+      }
+    }
+
     return JobModel(
       id: json['id'] ?? '',
       title: json['title'] ?? 'Untitled Job',
@@ -43,7 +54,7 @@ class JobModel {
       applicants: json['_count']?['job_applications'] ?? 0,
       isUrgent: json['is_urgent'] ?? false,
       status: json['status'] ?? 'open',
-      imageUrl: json['file'],
+      imageUrl: imageUrl,
       startTime: json['start_time'],
       endTime: json['end_time'],
       jobDate: json['job_date'],

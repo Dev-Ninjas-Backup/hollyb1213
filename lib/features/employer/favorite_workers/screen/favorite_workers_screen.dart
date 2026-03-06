@@ -10,12 +10,14 @@ import 'package:hollyb1213/features/employer/profile_screen/worker_profile/scree
 class FavoriteWorkersScreen extends StatelessWidget {
   FavoriteWorkersScreen({super.key});
 
-  final FavoriteWorkersController controller =
-      Get.put(FavoriteWorkersController());
   final searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    // Delete old instance and create fresh controller
+    Get.delete<FavoriteWorkersController>();
+    final controller = Get.put(FavoriteWorkersController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -268,7 +270,7 @@ Widget _buildWorkerCard(
               elevation: 0,
             ),
             onPressed: () {
-              Get.to(EmployerWorkerProfile());
+              Get.to(() => EmployerWorkerProfile());
             },
             child: Text(
               'View Profile',

@@ -135,16 +135,40 @@ class FavoriteWorkersController extends GetxController {
         '[FavoriteWorkersController] removeFavorite() called for: $employeeId');
 
     try {
-      // Remove from local list
-      favoriteEmployees
-          .removeWhere((favorite) => favorite.employee.id == employeeId);
-      _applySearchFilter();
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      if (accessToken == null) {
+        Get.snackbar('Error', 'Access token not found');
+        return;
+      }
 
-      Get.snackbar('Success', 'Employee removed from favorites');
+      final response = await http.patch(
+        Uri.parse(ApiEndpoint.removeEmployeeFromFavorites(employeeId)),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
 
-      // TODO: Call API to remove from backend if needed
+      print(
+          '[FavoriteWorkersController] Remove Favorite Response Status: ${response.statusCode}');
+      print(
+          '[FavoriteWorkersController] Remove Favorite Response Body: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        // Remove from local list
+        favoriteEmployees
+            .removeWhere((favorite) => favorite.employee.id == employeeId);
+        _applySearchFilter();
+
+        Get.snackbar('Success', 'Employee removed from favorites');
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final message = jsonResponse['message'] ?? 'Failed to remove favorite';
+        Get.snackbar('Error', message);
+      }
     } catch (e) {
       print('[FavoriteWorkersController] Exception: $e');
+      Get.snackbar('Error', 'Error removing favorite: $e');
     }
   }
 }

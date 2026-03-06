@@ -48,4 +48,8 @@ class ApiEndpoint {
       '$baseUrl/employer/favorites?page=$page&limit=$limit';
   static String addEmployeeAsFavorite = '$baseUrl/employer/favorites';
   static String rateJob(String id) => '$baseUrl/employer/review/create/$id';
+  static String removeEmployeeFromFavorites(String employeeId) =>
+      '$baseUrl/employer/favorites/$employeeId';
+  static String checkEmployeeIfFavorite(String employeeId) =>
+      '$baseUrl/employer/favorites/$employeeId/check';
 }

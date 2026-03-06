@@ -73,7 +73,7 @@ class Employee {
   final String fullName;
   final String email;
   final String? profilePhotoUrl;
-  final int rating;
+  final double rating;
   final int totalReviews;
   final int totalJobs;
   final String? bio;
@@ -99,7 +99,7 @@ class Employee {
       fullName: json['user']?['full_name'] ?? 'Unknown',
       email: json['user']?['email'] ?? '',
       profilePhotoUrl: json['profile_photo_url'],
-      rating: json['rating'] ?? 0,
+      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       totalReviews: json['total_reviews'] ?? 0,
       totalJobs: json['total_jobs'] ?? 0,
       bio: json['bio'],

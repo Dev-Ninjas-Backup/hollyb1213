@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/employer/jobs/models/job_model.dart';
@@ -170,6 +169,36 @@ class EmployerHomeController extends GetxController {
         favouriteJobIds.add(job.id);
       }
       completedJobs.refresh();
+    }
+  }
+
+  /// Check if employee is already added as favorite
+  Future<bool> checkIfEmployeeFavorite(String employeeId) async {
+    try {
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      if (accessToken == null) {
+        return false;
+      }
+
+      final response = await http.get(
+        Uri.parse(ApiEndpoint.checkEmployeeIfFavorite(employeeId)),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Check Favorite Response: ${response.statusCode}');
+      print('Check Favorite Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        return jsonResponse['data']?['isFavorite'] ?? false;
+      }
+      return false;
+    } catch (e) {
+      print('Error checking favorite: $e');
+      return false;
     }
   }
 

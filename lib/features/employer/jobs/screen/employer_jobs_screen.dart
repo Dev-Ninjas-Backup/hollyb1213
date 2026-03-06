@@ -170,6 +170,18 @@ class EmployerJobsScreen extends StatelessWidget {
                                     ((job['review'] as Map)['rating'] as num?)
                                         ?.toDouble();
                               }
+
+                              // Check if employee is already favorited (for completed jobs)
+                              if (formattedJob['status'] == 'completed' &&
+                                  job['assigned_employee_id'] != null) {
+                                ctrl
+                                    .checkIfEmployeeFavorite(
+                                        job['assigned_employee_id'])
+                                    .then((isFav) {
+                                  formattedJob['isFavourite']!.value = isFav;
+                                });
+                              }
+
                               return EmployerJobCard(
                                 image: formattedJob['image'],
                                 title: formattedJob['title'],
@@ -210,7 +222,7 @@ class EmployerJobsScreen extends StatelessWidget {
                                     await ctrl.addEmployeeAsFavorite(
                                       job['assigned_employee_id'],
                                     );
-                                    formattedJob['isFavourite']?.toggle();
+                                    formattedJob['isFavourite']?.value = true;
                                   }
                                 },
                               );

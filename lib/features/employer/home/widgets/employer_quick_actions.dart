@@ -37,7 +37,7 @@ class EmployerQuickActions extends StatelessWidget {
                       if (action["title"] == "View Applicants") {
                         // Get.toNamed(AppRoute.employeeAvailablejobs);
                       } else if (action["title"] == "Favourite Workers") {
-                        Get.to(FavoriteWorkersScreen());
+                        Get.to(() => FavoriteWorkersScreen());
                       }
                     },
                     child: Container(

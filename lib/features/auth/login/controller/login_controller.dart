@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:get/get.dart';
 import 'package:hollyb1213/features/auth/login/facebook_login/facebook_login_services.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';

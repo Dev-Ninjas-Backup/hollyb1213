@@ -5,7 +5,6 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
 import 'package:hollyb1213/features/employer/profile_screen/profile/controller/employer_controllre.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 

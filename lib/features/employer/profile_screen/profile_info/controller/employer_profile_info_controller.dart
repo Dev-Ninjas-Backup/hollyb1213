@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -17,9 +19,6 @@ class EmployerProfileInfoController extends GetxController {
   final companyNameController = TextEditingController();
   final addressController = TextEditingController();
   final dobController = TextEditingController();
-  final bioController = TextEditingController();
-  final experienceController = TextEditingController();
-  final skillsController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   Rx<File?> selectedImage = Rx<File?>(null);
@@ -75,11 +74,6 @@ class EmployerProfileInfoController extends GetxController {
           addressController.text = profileResponse.data.profile?.address ?? '';
           dobController.text =
               _formatDate(profileResponse.data.profile?.dateOfBirth);
-          bioController.text = profileResponse.data.profile?.bio ?? '';
-          experienceController.text =
-              profileResponse.data.profile?.experienceYears?.toString() ?? '';
-          skillsController.text =
-              (profileResponse.data.profile?.skills ?? []).join(', ');
 
           print('Profile data loaded successfully');
         } else {
@@ -120,18 +114,9 @@ class EmployerProfileInfoController extends GetxController {
       request.fields['fullName'] = fullNameController.text;
       request.fields['companyName'] = companyNameController.text;
       request.fields['address'] = addressController.text;
-      request.fields['bio'] = bioController.text;
-
-      if (experienceController.text.isNotEmpty) {
-        request.fields['experienceYears'] = experienceController.text;
-      }
 
       if (dobController.text.isNotEmpty) {
         request.fields['dateOfBirth'] = dobController.text;
-      }
-
-      if (skillsController.text.isNotEmpty) {
-        request.fields['skills'] = skillsController.text;
       }
 
       // Add image if selected
@@ -220,9 +205,7 @@ class EmployerProfileInfoController extends GetxController {
     companyNameController.dispose();
     addressController.dispose();
     dobController.dispose();
-    bioController.dispose();
-    experienceController.dispose();
-    skillsController.dispose();
+
     super.onClose();
   }
 }

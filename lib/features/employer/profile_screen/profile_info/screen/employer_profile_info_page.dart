@@ -116,22 +116,6 @@ class EmployerProfileInfoPage extends StatelessWidget {
                         lebelText: "Date of Birth",
                         hintText: "YYYY-MM-DD",
                       ),
-                      CustomTextField(
-                        controller: controller.experienceController,
-                        lebelText: "Experience (Years)",
-                        hintText: "Enter years of experience",
-                      ),
-                      CustomTextField(
-                        controller: controller.skillsController,
-                        lebelText: "Skills",
-                        hintText:
-                            "Enter skills (comma-separated, e.g., Node.js, NestJS)",
-                      ),
-                      CustomTextField(
-                        controller: controller.bioController,
-                        lebelText: "Bio",
-                        hintText: "Tell us about yourself",
-                      ),
                       SizedBox(height: 30.h),
                       Obx(
                         () => CustomButton(

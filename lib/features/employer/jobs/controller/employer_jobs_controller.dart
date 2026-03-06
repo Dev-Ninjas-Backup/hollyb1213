@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:get/get.dart';
 import 'package:hollyb1213/features/employer/jobs/service/employer_jobs_service.dart';
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
@@ -229,6 +231,36 @@ class EmployerJobsController extends GetxController {
     } catch (e) {
       print('Error adding favorite: $e');
       Get.snackbar('Error', 'Error: $e');
+    }
+  }
+
+  /// Check if employee is already added as favorite
+  Future<bool> checkIfEmployeeFavorite(String employeeId) async {
+    try {
+      final accessToken = await SharedPreferenceHelper().getAccessToken();
+      if (accessToken == null) {
+        return false;
+      }
+
+      final response = await http.get(
+        Uri.parse(ApiEndpoint.checkEmployeeIfFavorite(employeeId)),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      print('Check Favorite Response: ${response.statusCode}');
+      print('Check Favorite Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        return jsonResponse['data']?['isFavorite'] ?? false;
+      }
+      return false;
+    } catch (e) {
+      print('Error checking favorite: $e');
+      return false;
     }
   }
 }

@@ -116,6 +116,7 @@ class EmployerHomeScreen extends StatelessWidget {
                         controller.selectedCategory.value == 'Completed';
                     final isFavourite =
                         controller.favouriteJobIds.contains(job.id).obs;
+
                     // Extract rating from review object if exists
                     double? rating;
                     if (job.review is Map &&
@@ -123,6 +124,16 @@ class EmployerHomeScreen extends StatelessWidget {
                       rating =
                           ((job.review as Map)['rating'] as num?)?.toDouble();
                     }
+
+                    // Check if employee is already favorited (for completed jobs)
+                    if (isCompleted && job.assignedEmployeeId != null) {
+                      controller
+                          .checkIfEmployeeFavorite(job.assignedEmployeeId!)
+                          .then((isFav) {
+                        isFavourite.value = isFav;
+                      });
+                    }
+
                     return EmployerJobCard(
                       image:
                           job.imageUrl ?? 'assets/images/job_placeholder.png',
@@ -160,7 +171,7 @@ class EmployerHomeScreen extends StatelessWidget {
                           await controller.addEmployeeAsFavorite(
                             job.assignedEmployeeId!,
                           );
-                          isFavourite.toggle();
+                          isFavourite.value = true;
                         }
                       },
                     );

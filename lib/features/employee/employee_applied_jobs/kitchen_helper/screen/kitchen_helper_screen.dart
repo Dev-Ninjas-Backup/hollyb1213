@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/controller/kitchen_helper_controller.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
+import 'package:hollyb1213/features/employee/employee_applied_jobs/model/job_model.dart';
 
 class KitchenHelperScreen extends StatelessWidget {
-  const KitchenHelperScreen({super.key});
+  final JobModel job;
+  const KitchenHelperScreen({super.key, required this.job});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class KitchenHelperScreen extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      "Kitchen Helper",
+                      job.title,
                       style: TextStyle(
                         fontSize: screenWidth * 0.05,
                         fontWeight: FontWeight.w600,
@@ -53,12 +54,25 @@ class KitchenHelperScreen extends StatelessWidget {
                     // Image
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.r),
-                      child: Image.asset(
-                        Imagepath.image1,
-                        width: double.infinity,
-                        height: 154.h,
-                        fit: BoxFit.cover,
-                      ),
+                      child: job.image.startsWith('http')
+                          ? Image.network(
+                              job.image,
+                              width: double.infinity,
+                              height: 154.h,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                color: Colors.grey[200],
+                                child: Icon(Icons.image,
+                                    size: 50, color: Colors.grey[400]),
+                              ),
+                            )
+                          : Image.asset(
+                              job.image,
+                              width: double.infinity,
+                              height: 154.h,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     SizedBox(height: 16.h),
 
@@ -77,7 +91,7 @@ class KitchenHelperScreen extends StatelessWidget {
                               children: [
                                 Icon(Icons.location_on, size: 16),
                                 SizedBox(width: 4),
-                                Text("City Diner"),
+                                Text(job.company),
                               ],
                             ),
                             SizedBox(height: 4.h),
@@ -85,7 +99,7 @@ class KitchenHelperScreen extends StatelessWidget {
                               children: [
                                 Icon(Icons.attach_money, size: 16),
                                 SizedBox(width: 4),
-                                Text("\$18/hour"),
+                                Text(job.rate),
                               ],
                             ),
                             SizedBox(height: 4.h),
@@ -93,7 +107,7 @@ class KitchenHelperScreen extends StatelessWidget {
                               children: [
                                 Icon(Icons.access_time, size: 16),
                                 SizedBox(width: 4),
-                                Text("8:00 AM - 4:00 PM"),
+                                Text(job.time),
                               ],
                             ),
                             SizedBox(height: 4.h),
@@ -101,7 +115,7 @@ class KitchenHelperScreen extends StatelessWidget {
                               children: [
                                 Icon(Icons.calendar_today, size: 16),
                                 SizedBox(width: 4),
-                                Text("Today"),
+                                Text("Today"), // This seems to be static
                               ],
                             ),
                           ],
@@ -131,7 +145,7 @@ class KitchenHelperScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 4.h),
-                    Text("4h 30m remaining"),
+                    Text(job.progressText),
                     SizedBox(height: 16.h),
 
                     // Job Description
@@ -144,7 +158,7 @@ class KitchenHelperScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      "Assist in kitchen operations including food prep, dishwashing, and maintaining cleanliness. Must follow safety protocols and work efficiently in a team environment.",
+                      job.jobDescription,
                     ),
                     SizedBox(height: 16.h),
 
@@ -161,13 +175,10 @@ class KitchenHelperScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("• Basic food handling skills"),
-                          Text("• Punctual and responsible"),
-                          Text(
-                            "• Comfortable working in a fast-paced environment",
-                          ),
-                        ],
+                        children: job.requirements
+                                ?.map((req) => Text("• $req"))
+                                .toList() ??
+                            [],
                       ),
                     ),
                     SizedBox(height: 16.h),
@@ -210,8 +221,7 @@ class KitchenHelperScreen extends StatelessWidget {
                             width: double.infinity,
                             height: 44.h,
                             child: ElevatedButton(
-                              onPressed:
-                                  controller.isCheckedIn.value &&
+                              onPressed: controller.isCheckedIn.value &&
                                       !controller.isCheckedOut.value
                                   ? controller.checkOut
                                   : null,
@@ -234,8 +244,7 @@ class KitchenHelperScreen extends StatelessWidget {
                             width: double.infinity,
                             height: 44.h,
                             child: ElevatedButton(
-                              onPressed:
-                                  controller.isCheckedOut.value &&
+                              onPressed: controller.isCheckedOut.value &&
                                       !controller.isCompleted.value
                                   ? controller.markCompleted
                                   : null,
@@ -291,7 +300,8 @@ class KitchenHelperScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Total Shift Hours"),
-                              Text("8 hours"),
+                              Text(
+                                  "8 hours"), // This should probably come from the job model
                             ],
                           ),
                           SizedBox(height: 4.h),
@@ -300,7 +310,7 @@ class KitchenHelperScreen extends StatelessWidget {
                             children: [
                               Text("Estimated pay"),
                               Text(
-                                "\$144.00",
+                                "\$144.00", // This should be calculated or from the model
                                 style: getBodyTextStyle(color: Colors.green),
                               ),
                             ],

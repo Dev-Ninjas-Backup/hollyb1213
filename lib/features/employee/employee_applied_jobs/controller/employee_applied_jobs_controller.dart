@@ -1,52 +1,71 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/features/employee/employee_applied_jobs/employee_applied_jobs_service.dart';
 
 class EmployeeAppliedJobsController extends GetxController {
   final EmployeeAppliedJobsService _service = EmployeeAppliedJobsService();
   var isLoading = false.obs;
-  var appliedJobsList = <dynamic>[].obs;
-
-  var activeJobs = <dynamic>[].obs;
-  var completedJobs = <dynamic>[].obs;
+  final RxList<Map<String, dynamic>> appliedJobsList =
+      <Map<String, dynamic>>[].obs;
   var selectedTab = 0.obs;
+
+  // --- Reactive Getters for Filtered Lists ---
+  List<Map<String, dynamic>> get activeJobs => appliedJobsList.where((job) {
+        final status = (job['status'] as String?)?.toLowerCase();
+        return status != 'completed' && status != 'paid';
+      }).toList();
+
+  List<Map<String, dynamic>> get completedJobs => appliedJobsList.where((job) {
+        final status = (job['status'] as String?)?.toLowerCase();
+        return status == 'completed' || status == 'paid';
+      }).toList();
 
   @override
   void onInit() {
     super.onInit();
-    if (appliedJobsList.isEmpty) {
-      getAppliedJobs();
-    }
+    // Fetch jobs when the controller is initialized.
+    getAppliedJobs();
   }
 
   Future<void> getAppliedJobs() async {
     isLoading.value = true;
-    activeJobs.clear();
-    completedJobs.clear();
     try {
       final response = await _service.getAppliedJobs();
-      if (response.statusCode == 200) {
-        if (response.body['success'] == true) {
-          appliedJobsList.value = response.body['data'] ?? [];
-          _filterJobsByStatus();
-        }
+      if (response.statusCode == 200 && response.body['success'] == true) {
+        final List<dynamic> rawData = response.body['data'] ?? [];
+        final List<Map<String, dynamic>> processedData = rawData.map((item) {
+          final job = item['job'] as Map<String, dynamic>? ?? {};
+          return {
+            ...job,
+            'application_id': item['application_id'],
+            'application_status': item['application_status'],
+            'cover_note': item['cover_note'],
+            'applied_at': item['applied_at'],
+            'updated_at': item['updated_at'],
+          };
+        }).toList();
+        appliedJobsList.assignAll(processedData);
       } else {
+        Get.snackbar(
+          'Error',
+          response.body?['message'] ?? 'Failed to fetch applied jobs.',
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
         print('Failed to fetch applied jobs: ${response.statusText}');
       }
     } catch (e) {
+      Get.snackbar(
+        'Error',
+        'An unexpected error occurred. Please try again.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       print('Error fetching applied jobs: $e');
     } finally {
       isLoading.value = false;
-    }
-  }
-
-  void _filterJobsByStatus() {
-    for (var job in appliedJobsList) {
-      final status = (job['status'] as String?)?.toLowerCase();
-      if (status == 'completed' || status == 'paid') {
-        completedJobs.add(job);
-      } else {
-        activeJobs.add(job);
-      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/apply_service.dart';
+import 'package:hollyb1213/features/employee/home/models/apply_service.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_service.dart';
 
 class JobDetailsController extends GetxController {
@@ -81,6 +81,7 @@ class JobDetailsController extends GetxController {
   String get payRate => "\$${jobData['amount'] ?? '0'}";
   String get company => jobData['company_name'] ?? '';
   String get location => jobData['location'] ?? '';
+  String? get imageUrl => jobData['file']?['url'];
 
   String get startDate {
     final date = jobData['job_date'];
@@ -99,11 +100,17 @@ class JobDetailsController extends GetxController {
 
   List<String> get responsibilities {
     final res = jobData['job_responsibilities'];
+    if (res is List) {
+      return List<String>.from(res.map((e) => e.toString()));
+    }
     return res != null ? [res.toString()] : [];
   }
 
   List<String> get requirements {
     final req = jobData['requirements'];
+    if (req is List) {
+      return List<String>.from(req.map((e) => e.toString()));
+    }
     return req != null ? [req.toString()] : [];
   }
 

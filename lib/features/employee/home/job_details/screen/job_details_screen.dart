@@ -61,11 +61,27 @@ class JobDetailsScreen extends StatelessWidget {
               SizedBox(height: 20),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 200,
-                  child: Image.asset(Imagepath.image4, fit: BoxFit.cover),
-                ),
+                child: controller.imageUrl != null
+                    ? Image.network(
+                        controller.imageUrl!,
+                        width: double.infinity,
+                        height: 200,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: double.infinity,
+                          height: 200,
+                          color: Colors.grey.shade200,
+                          child: Icon(Icons.broken_image_outlined,
+                              color: Colors.grey.shade400, size: 48),
+                        ),
+                      )
+                    : Container(
+                        width: double.infinity,
+                        height: 200,
+                        color: Colors.grey.shade200,
+                        child: Icon(Icons.broken_image_outlined,
+                            color: Colors.grey.shade400, size: 48),
+                      ),
               ),
               SizedBox(height: 16),
               Padding(

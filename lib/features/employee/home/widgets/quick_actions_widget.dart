@@ -39,9 +39,9 @@ class QuickActions extends StatelessWidget {
                       if (action["title"] == "Available Jobs") {
                         Get.toNamed(AppRoute.employeeAvailablejobs);
                       } else if (action["title"] == "Applied Jobs") {
-                        Get.put(EmployeeAppliedJobsController())
-                            .getAppliedJobs();
-                        Get.to(() => AppliedJobsScreen());
+                        // Use lazyPut to create the controller only once.
+                        Get.lazyPut(() => EmployeeAppliedJobsController());
+                        Get.to(() => const AppliedJobsScreen());
                       }
                     },
                     child: Container(

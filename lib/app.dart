@@ -22,8 +22,6 @@ class MyApp extends StatelessWidget {
           builder: EasyLoading.init(),
           initialBinding: ControllerBinder(),
           themeMode: ThemeMode.system,
-          // theme: AppTheme.lightTheme,
-          // darkTheme: AppTheme.darkTheme,
         );
       },
     );

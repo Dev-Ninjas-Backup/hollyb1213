@@ -135,39 +135,50 @@ class EmployerJobCard extends StatelessWidget {
                 ),
 
                 SizedBox(height: 8.h),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.attach_money,
+                      size: 18,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(width: 4.w),
+                    Text(
+                      // ignore: unnecessary_string_interpolations
+                      "$amount",
+                      style: TextStyle(
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
 
                 // --- Pay Rate & Applicants or Rating ---
                 if (status != 'completed')
-                  Row(
+                  Column(
                     children: [
-                      const Icon(
-                        Icons.attach_money,
-                        size: 18,
-                        color: Colors.grey,
+                      SizedBox(height: 12.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.group_outlined,
+                            size: 18,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            "$applicants Applied",
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        "\$$amount",
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const Spacer(),
-                      const Icon(
-                        Icons.group_outlined,
-                        size: 18,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        "$applicants Applied",
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: Colors.grey[700],
-                        ),
-                      ),
+                      SizedBox(height: 12.h),
                     ],
                   )
                 else

@@ -159,7 +159,7 @@ class LoginScreen extends StatelessWidget {
                                 shape: BoxShape.circle,
                               ),
                               child: IconButton(
-                                onPressed: () {},
+                                onPressed: () => ctrl.loginWithGoogle(),
                                 icon: Image.asset(Iconpath.google),
                                 iconSize: 21,
                               ),

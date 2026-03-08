@@ -137,7 +137,7 @@ class KitchenHelperScreen extends StatelessWidget {
                       () => ClipRRect(
                         borderRadius: BorderRadius.circular(6.r),
                         child: LinearProgressIndicator(
-                          value: controller.isCheckedIn.value ? 0.6 : 0.0,
+                          value: controller.currentProgress.value,
                           minHeight: 10.h,
                           backgroundColor: Colors.grey[300],
                           color: Appcolor.primaryColor,
@@ -201,7 +201,7 @@ class KitchenHelperScreen extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: controller.isCheckedIn.value
                                   ? null
-                                  : controller.checkIn,
+                                  : () => controller.checkIn(job.id.toString()),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Appcolor.primaryColor,
                                 shape: RoundedRectangleBorder(
@@ -223,7 +223,7 @@ class KitchenHelperScreen extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: controller.isCheckedIn.value &&
                                       !controller.isCheckedOut.value
-                                  ? controller.checkOut
+                                  ? () => controller.checkOut(job.id.toString())
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.grey,
@@ -246,7 +246,8 @@ class KitchenHelperScreen extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: controller.isCheckedOut.value &&
                                       !controller.isCompleted.value
-                                  ? controller.markCompleted
+                                  ? () => controller
+                                      .markCompleted(job.id.toString())
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
@@ -300,6 +301,11 @@ class KitchenHelperScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Total Shift Hours"),
+                              Obx(() => Text(
+                                    controller.totalShiftHours.value,
+                                    style: getBodyTextStyle(
+                                        fontWeight: FontWeight.w600),
+                                  )),
                               Text(
                                   "8 hours"), // This should probably come from the job model
                             ],
@@ -309,6 +315,11 @@ class KitchenHelperScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Estimated pay"),
+                              Obx(() => Text(
+                                    controller.estimatedPay.value,
+                                    style:
+                                        getBodyTextStyle(color: Colors.green),
+                                  )),
                               Text(
                                 "\$144.00", // This should be calculated or from the model
                                 style: getBodyTextStyle(color: Colors.green),

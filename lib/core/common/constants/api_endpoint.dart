@@ -7,12 +7,18 @@ class ApiEndpoint {
   static const String verifyOtp = "/auth/verify-otp";
   static const String resendOtp = "/auth/resend-otp";
   static const String login = 'auth/login';
+  static const String googleLogin = '/auth/google';
+  static const String facebookLogin = '/auth/facebook';
   static const String employeeJobs = '/employee/jobs';
   static const String employeeLatestJobs = '/employee/latest-jobs';
   static const String employeeAppliedJobs = '/employee/jobs/applied';
 
   static String employeeJobDetails(String jobId) => '/employee/jobs/$jobId';
   static String applyJob(String jobId) => '/employee/jobs/$jobId/apply';
+  static String checkIn(String jobId) => '/employee/jobs/$jobId/check-in';
+  static String checkOut(String jobId) => '/employee/jobs/$jobId/check-out';
+  static String markAsComplete(String jobId) =>
+      '/employee/jobs/$jobId/mark-as-complete';
 
   // Employer
   static const String employerUploadProfilePhoto =

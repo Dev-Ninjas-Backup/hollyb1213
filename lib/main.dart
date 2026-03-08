@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:hollyb1213/app.dart';
 
-void main() {
-  runZonedGuarded(() {
+void main() async {
+  runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
+    // Initialize Firebase
+    await Firebase.initializeApp();
+
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.dumpErrorToConsole(details);
     };

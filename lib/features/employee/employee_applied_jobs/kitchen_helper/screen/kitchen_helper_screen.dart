@@ -306,6 +306,8 @@ class KitchenHelperScreen extends StatelessWidget {
                                     style: getBodyTextStyle(
                                         fontWeight: FontWeight.w600),
                                   )),
+                              Text(
+                                  "8 hours"), // This should probably come from the job model
                             ],
                           ),
                           SizedBox(height: 4.h),
@@ -318,6 +320,10 @@ class KitchenHelperScreen extends StatelessWidget {
                                     style:
                                         getBodyTextStyle(color: Colors.green),
                                   )),
+                              Text(
+                                "\$144.00", // This should be calculated or from the model
+                                style: getBodyTextStyle(color: Colors.green),
+                              ),
                             ],
                           ),
                         ],

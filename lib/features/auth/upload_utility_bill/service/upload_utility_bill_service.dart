@@ -35,7 +35,7 @@ class UploadUtilityBillService extends GetConnect {
     });
 
     return await post(
-      ApiEndpoint.uploadUtilityBill,
+      '${ApiEndpoint.baseUrl}${ApiEndpoint.uploadUtilityBill}',
       formData,
       headers: {
         'Authorization': 'Bearer $token',

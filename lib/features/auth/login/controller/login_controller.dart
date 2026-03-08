@@ -3,6 +3,7 @@
 import 'package:get/get.dart';
 import 'package:hollyb1213/features/auth/login/facebook_login/facebook_login_services.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:hollyb1213/features/auth/login/services/google_login_services.dart';
 import 'package:hollyb1213/features/auth/login/services/login_service.dart';
 import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
 import 'package:hollyb1213/routes/app_route.dart';
@@ -63,32 +64,59 @@ class LoginController extends GetxController {
 
       if (result != null) {
         final userData = result['userData'] as Map<String, dynamic>;
-        final accessToken = result['accessToken'] as String;
+        final fbAccessToken = result['accessToken'] as String;
 
         facebookUserData.value = userData;
         isFacebookLoggedIn.value = true;
 
-        // Persist session to handle app restarts
-        await _prefs.saveAuthData(
-          accessToken: accessToken,
-          refreshToken:
-              '', // Facebook client-side login doesn't provide a refresh token
+        print('Facebook Access Token: $fbAccessToken');
+        print('Role: ${role.selectedRole.value}');
+
+        // Call Backend API to exchange FB token for App Token
+        final response = await _loginService.loginWithFacebook(
+          idToken: fbAccessToken,
           role: role.selectedRole.value,
-          userId: userData['id'],
         );
 
-        print('''
-{
-  "idToken": "$accessToken",
-  "role": "${role.selectedRole.value}"
-}
-''');
-        Get.snackbar('Success', 'Welcome ${userData['name']}!');
+        print('Status Code: ${response.statusCode}');
+        print('Body: ${response.body}');
 
-        final route = role.selectedRole.value == "employee"
-            ? AppRoute.getEmployeeBottomNavbarScreen()
-            : AppRoute.getemployerBottomNavbarScreen();
-        Get.offAllNamed(route);
+        final body = response.body;
+        if (body is! Map) {
+          print('Server error or offline: $body');
+          Get.snackbar(
+            'Error',
+            'Server is unreachable. Please try again later.',
+            snackPosition: SnackPosition.TOP,
+          );
+          return;
+        }
+
+        if (body['success'] == true || body['success'] == 'true') {
+          final data = body['data'];
+          final accessToken = data['accessToken'];
+          final refreshToken = data['refreshToken'];
+          final user = data['user'];
+          final userRole = user['role'];
+          final userId = user['id'].toString();
+
+          await _prefs.saveAuthData(
+            accessToken: accessToken,
+            refreshToken: refreshToken ?? '',
+            role: userRole,
+            userId: userId,
+          );
+
+          if (userRole == 'employee') {
+            Get.offAllNamed(AppRoute.getEmployeeBottomNavbarScreen());
+          } else {
+            Get.offAllNamed(AppRoute.getemployerBottomNavbarScreen());
+          }
+        } else {
+          final message = body['message'] ?? 'Facebook login failed';
+          print('API Error: $message');
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        }
       } else {
         Get.snackbar(
           'Login Failed',
@@ -97,6 +125,76 @@ class LoginController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    isLoading.value = true;
+    try {
+      final idToken = await GoogleLoginServices.login();
+
+      if (idToken != null) {
+        print('Google ID Token: $idToken');
+        print('Role: ${role.selectedRole.value}');
+
+        final response = await _loginService.loginWithGoogle(
+          idToken: idToken,
+          role: role.selectedRole.value,
+        );
+
+        print('Status Code: ${response.statusCode}');
+        print('Body: ${response.body}');
+
+        final body = response.body;
+        if (body is! Map) {
+          print('Server error or offline: $body');
+          Get.snackbar(
+            'Error',
+            'Server is unreachable. Please try again later.',
+            snackPosition: SnackPosition.TOP,
+          );
+          return;
+        }
+
+        if (body['success'] == true || body['success'] == 'true') {
+          print('Google Login Successful!');
+
+          final data = body['data'];
+          final accessToken = data['accessToken'];
+          final refreshToken = data['refreshToken'];
+          final user = data['user'];
+          final userRole = user['role'];
+          final userId = user['id'].toString();
+
+          await _prefs.saveAuthData(
+            accessToken: accessToken,
+            refreshToken: refreshToken ?? '',
+            role: userRole,
+            userId: userId,
+          );
+
+          if (userRole == 'employee') {
+            Get.offAllNamed(AppRoute.getEmployeeBottomNavbarScreen());
+          } else {
+            Get.offAllNamed(AppRoute.getemployerBottomNavbarScreen());
+          }
+        } else {
+          final message = body['message'] ?? 'Google login failed';
+          print('API Error: $message');
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        }
+      } else {
+        Get.snackbar(
+          'Login Failed',
+          'Google login was cancelled or failed.',
+        );
+      }
+    } catch (e, stackTrace) {
+      print('Exception: $e');
+      print('StackTrace: $stackTrace');
+      Get.snackbar('Error', 'Something went wrong with Google login.');
     } finally {
       isLoading.value = false;
     }

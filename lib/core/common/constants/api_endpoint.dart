@@ -7,6 +7,8 @@ class ApiEndpoint {
   static const String verifyOtp = "/auth/verify-otp";
   static const String resendOtp = "/auth/resend-otp";
   static const String login = 'auth/login';
+  static const String googleLogin = '/auth/google';
+  static const String facebookLogin = '/auth/facebook';
   static const String employeeJobs = '/employee/jobs';
   static const String employeeLatestJobs = '/employee/latest-jobs';
   static const String employeeAppliedJobs = '/employee/jobs/applied';

@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:793538857243:android:f0aa9b42998d35c606ebbe",
+        "mobilesdk_app_id": "1:793538857243:android:debb9f241fda81da06ebbe",
         "android_client_info": {
           "package_name": "com.hollybdev.hollyb1213"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "793538857243-qmaqt8k9tfprfdp7rhit07nrktrc2qm7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.hollybdev.hollyb1213",
-            "certificate_hash": "2f6231ebfb4d754540d1a6b28adf0222db6b4054"
-          }
-        },
         {
           "client_id": "793538857243-qvsef3mvkssfcqp45p9k6u8ivfg1a7c9.apps.googleusercontent.com",
           "client_type": 1,

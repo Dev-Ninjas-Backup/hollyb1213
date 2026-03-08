@@ -13,6 +13,10 @@ class ApiEndpoint {
 
   static String employeeJobDetails(String jobId) => '/employee/jobs/$jobId';
   static String applyJob(String jobId) => '/employee/jobs/$jobId/apply';
+  static String checkIn(String jobId) => '/employee/jobs/$jobId/check-in';
+  static String checkOut(String jobId) => '/employee/jobs/$jobId/check-out';
+  static String markAsComplete(String jobId) =>
+      '/employee/jobs/$jobId/mark-as-complete';
 
   // Employer
   static const String employerUploadProfilePhoto =

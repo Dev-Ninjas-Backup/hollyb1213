@@ -129,7 +129,6 @@ class EmployerProfileController extends GetxController {
     try {
       isLoadingProfile.value = true;
       final accessToken = await SharedPreferenceHelper().getAccessToken();
-      print('[EmployerProfileController] Access Token: $accessToken');
 
       if (accessToken == null) {
         Get.snackbar('Error', 'Access token not found');
@@ -186,7 +185,6 @@ class EmployerProfileController extends GetxController {
     try {
       isLoadingStats.value = true;
       final accessToken = await SharedPreferenceHelper().getAccessToken();
-      print('[EmployerProfileController] Access Token for Stats: $accessToken');
 
       if (accessToken == null) {
         print('Error: Access token not found');
@@ -258,8 +256,6 @@ class EmployerProfileController extends GetxController {
     try {
       isLoadingSubscription.value = true;
       final accessToken = await SharedPreferenceHelper().getAccessToken();
-      print(
-          '[EmployerProfileController] Access Token for Subscription: $accessToken');
 
       if (accessToken == null) {
         print('Error: Access token not found');

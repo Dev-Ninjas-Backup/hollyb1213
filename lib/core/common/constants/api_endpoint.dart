@@ -1,5 +1,5 @@
 class ApiEndpoint {
-  static const String baseUrl = 'http://10.10.10.64:5056/api/v1';
+  static const String baseUrl = 'http://16.16.114.137:5000/api/v1';
 
   // Auth
   static const String uploadUtilityBill = "/profile/documents/utility-bill";

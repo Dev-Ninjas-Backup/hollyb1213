@@ -42,7 +42,6 @@ class EmployerProfileInfoController extends GetxController {
     try {
       isLoading.value = true;
       final accessToken = await SharedPreferenceHelper().getAccessToken();
-      print('[EmployerProfileInfoController] Access Token: $accessToken');
 
       if (accessToken == null) {
         Get.snackbar('Error', 'Access token not found');

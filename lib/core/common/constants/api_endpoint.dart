@@ -6,7 +6,7 @@ class ApiEndpoint {
   static const String register = "/auth/register";
   static const String verifyOtp = "/auth/verify-otp";
   static const String resendOtp = "/auth/resend-otp";
-  static const String login = 'auth/login';
+  static const String login = '/auth/login';
   static const String googleLogin = '/auth/google';
   static const String facebookLogin = '/auth/facebook';
   static const String employeeJobs = '/employee/jobs';
@@ -35,6 +35,7 @@ class ApiEndpoint {
   static const String uploadNid = '/profile/documents/nid';
   static const String uploadPassport = '/profile/documents/passport';
   static const String getProfile = '/profile/get-me';
+  static const String changePassword = '/profile/change-password';
   static const String createJobPost = '/employer/job/create';
 
   static String getMyPostedJobs(

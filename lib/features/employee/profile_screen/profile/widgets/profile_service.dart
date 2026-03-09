@@ -17,4 +17,26 @@ class ProfileService extends GetConnect {
     print('Profile API Response: ${response.body}');
     return response;
   }
+
+  Future<Response> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    final String? token = await SharedPreferenceHelper().getAccessToken();
+    final response = await post(
+      '${ApiEndpoint.baseUrl}${ApiEndpoint.changePassword}',
+      {
+        'oldPassword': oldPassword,
+        'newPassword': newPassword,
+      },
+      headers: {
+        'Authorization': 'Bearer ${token ?? ''}',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+    // ignore: avoid_print
+    print('Change Password API Response: ${response.body}');
+    return response;
+  }
 }

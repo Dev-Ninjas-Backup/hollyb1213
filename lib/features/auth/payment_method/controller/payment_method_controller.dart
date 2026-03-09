@@ -37,7 +37,12 @@ class PaymentMethodController extends GetxController {
         isStripeReady.value = true;
         print('Stripe initialized with key: $publishableKey');
       } else {
-        print('Failed to fetch Stripe publishable key');
+        Stripe.publishableKey =
+            'pk_test_51Qhl7xP3Cjs6shL6g2VkrrEcujh5n7hxqw4kRXraLWvRqwyq1SJA4ieQ2TornHsbkpCxxnPK4J6ByTTAbeUfLOrU00lTAbxSHv';
+        await Stripe.instance.applySettings();
+        isStripeReady.value = true;
+        print(
+            'Failed to fetch Stripe key, using default test key: ${Stripe.publishableKey}');
       }
     } catch (e) {
       print('Stripe init error: $e');

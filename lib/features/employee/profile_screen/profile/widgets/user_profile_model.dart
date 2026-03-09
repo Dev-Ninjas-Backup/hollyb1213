@@ -18,7 +18,7 @@ class UserProfile {
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
       id: json['id'] ?? '',
-      fullName: json['full_name'] ?? 'No Name',
+      fullName: json['fullName'] ?? 'No Name',
       email: json['email'] ?? 'No Email',
       role: json['role'] ?? '',
       isNotify: json['isNotify'] ?? false,

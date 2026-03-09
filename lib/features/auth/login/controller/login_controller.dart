@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hollyb1213/features/auth/login/facebook_login/facebook_login_services.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/auth/login/services/google_login_services.dart';
@@ -60,26 +61,42 @@ class LoginController extends GetxController {
   Future<void> loginWithFacebook() async {
     try {
       isLoading.value = true;
+      // 1. Log in with Facebook to get the access token
       final result = await FacebookLoginServices.loginWithFacebook();
+
+      print('Facebook SDK Response: $result');
 
       if (result != null) {
         final userData = result['userData'] as Map<String, dynamic>;
         final fbAccessToken = result['accessToken'] as String;
 
+        // 2. Create a Firebase credential with the Facebook access token
+        final OAuthCredential credential =
+            FacebookAuthProvider.credential(fbAccessToken);
+
+        // 3. Sign in to Firebase with the credential
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        // 4. Get the Firebase ID token to send to your backend.
+        final String? firebaseIdToken = await userCredential.user?.getIdToken();
+
+        if (firebaseIdToken == null) {
+          Get.snackbar('Login Failed', 'Could not get Firebase token.');
+          return;
+        }
+
         facebookUserData.value = userData;
         isFacebookLoggedIn.value = true;
 
-        print('Facebook Access Token: $fbAccessToken');
-        print('Role: ${role.selectedRole.value}');
-
-        // Call Backend API to exchange FB token for App Token
+        // 5. Call your backend API with the Firebase ID token
         final response = await _loginService.loginWithFacebook(
-          idToken: fbAccessToken,
+          idToken: firebaseIdToken,
           role: role.selectedRole.value,
         );
 
-        print('Status Code: ${response.statusCode}');
-        print('Body: ${response.body}');
+        print('Backend API Response Status Code: ${response.statusCode}');
+        print('Backend API Response Body: ${response.body}');
 
         final body = response.body;
         if (body is! Map) {
@@ -114,7 +131,7 @@ class LoginController extends GetxController {
           }
         } else {
           final message = body['message'] ?? 'Facebook login failed';
-          print('API Error: $message');
+          // print('API Error: $message');
           Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
         }
       } else {
@@ -123,7 +140,9 @@ class LoginController extends GetxController {
           'Facebook login was cancelled or failed.',
         );
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('Error during Facebook login flow: $e');
+      print(stackTrace);
       Get.snackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
@@ -136,16 +155,13 @@ class LoginController extends GetxController {
       final idToken = await GoogleLoginServices.login();
 
       if (idToken != null) {
-        print('Google ID Token: $idToken');
-        print('Role: ${role.selectedRole.value}');
-
         final response = await _loginService.loginWithGoogle(
           idToken: idToken,
           role: role.selectedRole.value,
         );
 
-        print('Status Code: ${response.statusCode}');
-        print('Body: ${response.body}');
+        // print('Status Code: ${response.statusCode}');
+        // print('Body: ${response.body}');
 
         final body = response.body;
         if (body is! Map) {
@@ -159,8 +175,6 @@ class LoginController extends GetxController {
         }
 
         if (body['success'] == true || body['success'] == 'true') {
-          print('Google Login Successful!');
-
           final data = body['data'];
           final accessToken = data['accessToken'];
           final refreshToken = data['refreshToken'];
@@ -182,7 +196,7 @@ class LoginController extends GetxController {
           }
         } else {
           final message = body['message'] ?? 'Google login failed';
-          print('API Error: $message');
+          // print('API Error: $message');
           Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
         }
       } else {
@@ -219,8 +233,8 @@ class LoginController extends GetxController {
         password: password.value,
       );
 
-      print('Status Code: ${response.statusCode}');
-      print('Body: ${response.body}');
+      // print('Status Code: ${response.statusCode}');
+      // print('Body: ${response.body}');
 
       final body = response.body;
       if (body is! Map) {
@@ -234,16 +248,12 @@ class LoginController extends GetxController {
       }
 
       if (body['success'] == true || body['success'] == 'true') {
-        print('Login Successful!');
-
         final data = body['data'];
         final accessToken = data['accessToken'];
         final refreshToken = data['refreshToken'];
         final user = data['user'];
         final role = user['role'];
         final userId = user['id'].toString();
-
-        print('Saving Auth Data: Token: $accessToken, Role: $role');
 
         await _prefs.saveAuthData(
           accessToken: accessToken,
@@ -267,7 +277,7 @@ class LoginController extends GetxController {
         }
       } else {
         final message = body['message'] ?? 'Login failed';
-        print('API Error: $message');
+        // print('API Error: $message');
         Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
       }
     } catch (e, stackTrace) {

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
+import 'package:hollyb1213/features/employer/applicants/screen/view_applicants_screen.dart';
 import 'package:hollyb1213/features/employer/favorite_workers/screen/favorite_workers_screen.dart';
 
 class EmployerQuickActions extends StatelessWidget {
@@ -35,7 +36,7 @@ class EmployerQuickActions extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () {
                       if (action["title"] == "View Applicants") {
-                        // Get.toNamed(AppRoute.employeeAvailablejobs);
+                        Get.to(() => const ViewApplicantsScreen());
                       } else if (action["title"] == "Favourite Workers") {
                         Get.to(() => FavoriteWorkersScreen());
                       }

@@ -44,21 +44,22 @@ class TimeSection extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
 
-          /// Job Date
-          _buildPickerField(
-            context: context,
-            title: "Job Date",
-            icon: Icons.calendar_today,
-            hintText: "YYYY-MM-DD",
-            valueWidget: Obx(
-              () => Text(
+          /// Job Date (Read-only during edit)
+          Obx(
+            () => _buildPickerField(
+              context: context,
+              title: "Job Date",
+              icon: Icons.calendar_today,
+              hintText: "YYYY-MM-DD",
+              valueWidget: Text(
                 controller.selectedJobDate.value != null
                     ? "${controller.selectedJobDate.value!.day}/${controller.selectedJobDate.value!.month}/${controller.selectedJobDate.value!.year}"
                     : "",
                 style: TextStyle(fontSize: 14.sp),
               ),
+              onTap: () => controller.pickJobDate(context),
+              enabled: !controller.isEditMode.value,
             ),
-            onTap: () => controller.pickJobDate(context),
           ),
           SizedBox(height: 14.h),
 
@@ -108,6 +109,7 @@ class TimeSection extends StatelessWidget {
     required String hintText,
     required Widget valueWidget,
     required VoidCallback onTap,
+    bool enabled = true,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,19 +123,28 @@ class TimeSection extends StatelessWidget {
         ),
         SizedBox(height: 6.h),
         GestureDetector(
-          onTap: onTap,
+          onTap: enabled ? onTap : null,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
             decoration: BoxDecoration(
-              color: Colors.grey[200],
+              color: enabled ? Colors.grey[200] : Colors.grey[100],
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(color: Colors.grey.shade300),
             ),
             child: Row(
               children: [
-                Icon(icon, size: 22.sp, color: Colors.grey[700]),
+                Icon(icon,
+                    size: 22.sp,
+                    color: enabled ? Colors.grey[700] : Colors.grey[500]),
                 SizedBox(width: 10.w),
-                Expanded(child: valueWidget),
+                Expanded(
+                  child: enabled
+                      ? valueWidget
+                      : Opacity(
+                          opacity: 0.6,
+                          child: valueWidget,
+                        ),
+                ),
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/create_post/screen/create_post_screen.dart';
 import 'package:hollyb1213/features/employer/jobs/controller/employer_jobs_controller.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_job_card.dart';
 import 'package:hollyb1213/features/employer/completed_job_details/screen/completed_job_details_screen.dart';
@@ -214,7 +215,10 @@ class EmployerJobsScreen extends StatelessWidget {
                                   }
                                 },
                                 onEdit: () {
-                                  // handle edit
+                                  Get.to(
+                                    () => const CreatePostScreen(),
+                                    arguments: job['id'],
+                                  );
                                 },
                                 onAddWorkerFavourite: () async {
                                   // Add employee as favorite

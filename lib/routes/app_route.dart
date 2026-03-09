@@ -24,6 +24,7 @@ import 'package:hollyb1213/features/employer/job_details/screen/job_details_scre
 import 'package:hollyb1213/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
 import 'package:hollyb1213/features/employer/profile_screen/review/screen/employer_review_page.dart';
 
+import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/change_password_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 
 import '../features/employee/profile_screen/profile_info/screen/employee_profile_info_page.dart';
@@ -61,17 +62,9 @@ class AppRoute {
   static String employeeReview = "/emplyee/employeeReview";
 
   static String employeeAvailablejobs = '/employeeAvailablejobs';
-  //static String employerBottomNavbarScreen="/employerBottomNavbarScreen";
-
-  //employer
-
+  static String changePasswordScreen = '/changePasswordScreen';
   static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
   static String getemployerReviewPage() => employerReviewPage;
-
-  //static String getemployerBottomNavbarScreen() => employerBottomNavbarScreen;
-  static String getemployerProfileScreen() => employerProfileScreen;
-
-  //employee
   static String getroleSelection() => roleSelectionScreen;
   static String getonboardingScreen() => onboardingScreen;
   static String getloginScreen() => loginScreen;
@@ -95,6 +88,7 @@ class AppRoute {
   static String getemployeeProfileInfo() => employeeProfileInfo;
   static String getEmployreeprivacy() => employeeprivacy;
   static String getEmployeeAvailableJobs() => employeeAvailablejobs;
+  static String getChangePasswordScreen() => changePasswordScreen;
 
   static List<GetPage> routes = [
     GetPage(
@@ -190,6 +184,10 @@ class AppRoute {
     GetPage(name: employeeprivacy, page: () => EmployeePrivacy()),
     GetPage(name: employeeReview, page: () => EmployeeReviewPage()),
 
+    GetPage(
+      name: changePasswordScreen,
+      page: () => const ChangePasswordScreen(),
+    ),
     GetPage(name: employeeAvailablejobs, page: () => JobScreen()),
 
     //employer

@@ -7,9 +7,7 @@ import 'package:hollyb1213/app.dart';
 void main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    // Initialize Firebase
     await Firebase.initializeApp();
-
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.dumpErrorToConsole(details);
     };

@@ -65,7 +65,7 @@ class JobDetailsController extends GetxController {
               snackPosition: SnackPosition.TOP);
         }
       } else {
-        Get.snackbar('Error', 'Failed to apply. Please try again.',
+        Get.snackbar('Error', 'Please subscribe before applying to jobs',
             snackPosition: SnackPosition.TOP);
       }
     } catch (e) {

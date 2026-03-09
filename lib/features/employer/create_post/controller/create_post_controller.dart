@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/employer/create_post/service/create_post_service.dart';
+import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
+import 'package:hollyb1213/features/employer/job_details/controller/job_details_controller.dart';
+import 'package:hollyb1213/features/employer/jobs/controller/employer_jobs_controller.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,9 +19,14 @@ class CreatePostController extends GetxController {
   final amountController = TextEditingController();
   final locationController = TextEditingController();
 
+  // Edit mode
+  var jobId = Rxn<String>();
+  var isEditMode = false.obs;
+
   // Reactive state
   var isUrgent = false.obs;
   var isLoading = false.obs;
+  var isFetchingJobDetails = false.obs;
   var selectedCategory = Rxn<String>();
 
   // Date & Time
@@ -32,6 +40,8 @@ class CreatePostController extends GetxController {
 
   // Image file
   var selectedImage = Rxn<File>();
+  var existingImageUrl =
+      Rxn<String>(); // For displaying existing image during edit
   final ImagePicker _picker = ImagePicker();
 
   // Service
@@ -69,6 +79,122 @@ class CreatePostController extends GetxController {
     // Start with one empty field each
     addResponsibility();
     addRequirement();
+
+    // Load job details if in edit mode
+    if (Get.arguments != null && Get.arguments is String) {
+      final jobIdArg = Get.arguments as String;
+      loadJobDetails(jobIdArg);
+    }
+  }
+
+  // --- Load Job Details for Edit ---
+  Future<void> loadJobDetails(String id) async {
+    try {
+      jobId.value = id;
+      isEditMode.value = true;
+      isFetchingJobDetails.value = true;
+
+      final response = await _service.getJobDetails(id);
+
+      if (response.statusCode == 200 && response.body['success'] == true) {
+        final jobData = response.body['data'] as Map<String, dynamic>;
+
+        // Populate form fields
+        jobTitleController.text = jobData['title'] ?? '';
+        companyNameController.text = jobData['company_name'] ?? '';
+        jobDescriptionController.text = jobData['description'] ?? '';
+        amountController.text = jobData['amount']?.toString() ?? '';
+        locationController.text = jobData['location'] ?? '';
+        isUrgent.value = jobData['is_urgent'] ?? false;
+        selectedCategory.value = jobData['job_category'] ?? '';
+
+        // Parse job date
+        if (jobData['job_date'] != null) {
+          try {
+            selectedJobDate.value =
+                DateTime.parse(jobData['job_date'].toString());
+          } catch (e) {
+            print('Error parsing job date: $e');
+          }
+        }
+
+        // Parse start time
+        if (jobData['start_time'] != null) {
+          startTime.value = _parseTimeOfDay(jobData['start_time'].toString());
+        }
+
+        // Parse end time
+        if (jobData['end_time'] != null) {
+          endTime.value = _parseTimeOfDay(jobData['end_time'].toString());
+        }
+
+        // Load responsibilities
+        responsibilities.clear();
+        final respList = jobData['job_responsibilities'] as List<dynamic>?;
+        if (respList != null && respList.isNotEmpty) {
+          for (final resp in respList) {
+            final controller = TextEditingController(text: resp.toString());
+            responsibilities.add(controller);
+          }
+        } else {
+          addResponsibility();
+        }
+
+        // Load requirements
+        requirements.clear();
+        final reqList = jobData['requirements'] as List<dynamic>?;
+        if (reqList != null && reqList.isNotEmpty) {
+          for (final req in reqList) {
+            final controller = TextEditingController(text: req.toString());
+            requirements.add(controller);
+          }
+        } else {
+          addRequirement();
+        }
+
+        // Load existing image URL
+        if (jobData['file'] is Map &&
+            (jobData['file'] as Map).containsKey('url')) {
+          existingImageUrl.value = jobData['file']['url']?.toString();
+        }
+
+        print('Job details loaded successfully');
+      } else {
+        Get.snackbar('Error', 'Failed to load job details',
+            snackPosition: SnackPosition.TOP);
+      }
+    } catch (e) {
+      print('Error loading job details: $e');
+      Get.snackbar('Error', 'Failed to load job details',
+          snackPosition: SnackPosition.TOP);
+    } finally {
+      isFetchingJobDetails.value = false;
+    }
+  }
+
+  // --- Parse time of day from string (e.g., "04:11 AM") ---
+  TimeOfDay _parseTimeOfDay(String timeString) {
+    try {
+      final parts = timeString.split(' ');
+      if (parts.length != 2) throw Exception('Invalid time format');
+
+      final timeParts = parts[0].split(':');
+      var hour = int.parse(timeParts[0]);
+      final minute = int.parse(timeParts[1]);
+      final period = parts[1].toUpperCase();
+
+      // Convert 12-hour to 24-hour format for TimeOfDay
+      if (period == 'PM' && hour != 12) {
+        hour += 12;
+      } else if (period == 'AM' && hour == 12) {
+        hour = 0;
+      }
+
+      return TimeOfDay(hour: hour, minute: minute);
+    } catch (e) {
+      print('Error parsing time: $e');
+      return TimeOfDay.now();
+    }
   }
 
   // --- Responsibilities ---
@@ -215,66 +341,147 @@ class CreatePostController extends GetxController {
           .where((s) => s.isNotEmpty)
           .toList();
 
-      final response = await _service.createJobPost(
-        title: jobTitleController.text.trim(),
-        companyName: companyNameController.text.trim(),
-        description: jobDescriptionController.text.trim(),
-        jobCategory: selectedCategory.value ?? '',
-        jobResponsibilities: responsibilitiesList,
-        requirements: requirementsList,
-        isUrgent: isUrgent.value,
-        jobDate: selectedJobDate.value != null
-            ? _formatDate(selectedJobDate.value!)
-            : '',
-        startTime: startTime.value != null ? _formatTime(startTime.value!) : '',
-        endTime: endTime.value != null ? _formatTime(endTime.value!) : '',
-        amount: amountController.text.trim(),
-        location: locationController.text.trim(),
-        imageFile: selectedImage.value,
-      );
+      final Response response;
 
-      print('Create Post Response: ${response.statusCode}');
-      print('Create Post Body: ${response.body}');
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        if (response.body['success'] == true) {
-          Get.back();
-          Get.snackbar(
-            'Success',
-            'Job post created successfully!',
-            backgroundColor: Appcolor.primaryColor,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.TOP,
-          );
-        } else {
-          final message = response.body['message'] ?? 'Failed to create post.';
-          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
-        }
-      } else if (response.statusCode == 403) {
-        // Handle subscription required error
-        final message = response.body?['message'] ??
-            'Subscription required to create job posts.';
-        Get.snackbar(
-          'Subscription Required',
-          message,
-          backgroundColor: Colors.orange,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.TOP,
-          duration: const Duration(seconds: 3),
+      if (isEditMode.value && jobId.value != null) {
+        // Update existing job
+        response = await _service.updateJobPost(
+          jobId: jobId.value!,
+          title: jobTitleController.text.trim(),
+          companyName: companyNameController.text.trim(),
+          description: jobDescriptionController.text.trim(),
+          jobCategory: selectedCategory.value ?? '',
+          jobResponsibilities: responsibilitiesList,
+          requirements: requirementsList,
+          isUrgent: isUrgent.value,
+          jobDate: selectedJobDate.value != null
+              ? _formatDate(selectedJobDate.value!)
+              : '',
+          startTime:
+              startTime.value != null ? _formatTime(startTime.value!) : '',
+          endTime: endTime.value != null ? _formatTime(endTime.value!) : '',
+          amount: amountController.text.trim(),
+          location: locationController.text.trim(),
+          imageFile: selectedImage.value,
         );
 
-        // Redirect to payment screen after 2 seconds
-        Future.delayed(const Duration(seconds: 2), () {
-          final role = SharedPreferenceHelper().getSelectedRole();
-          print('Redirecting to payment screen for role: $role');
-          Get.offNamed(AppRoute.paymentMethodScreen);
-        });
+        print('Update Post Response: ${response.statusCode}');
+        print('Update Post Body: ${response.body}');
+
+        if (response.statusCode == 200) {
+          if (response.body['success'] == true) {
+            // Refresh JobDetailsScreen by calling the controller's method
+            final updatedJobId = jobId.value;
+            Get.back();
+
+            // Delay slightly to ensure navigation completes
+            Future.delayed(const Duration(milliseconds: 500), () {
+              try {
+                // Find and refresh the JobDetailsController
+                if (Get.isRegistered<JobDetailsController>()) {
+                  final controller = Get.find<JobDetailsController>();
+                  if (updatedJobId != null) {
+                    controller.fetchJobDetails(updatedJobId);
+                  }
+                }
+
+                // Refresh EmployerHomeController
+                if (Get.isRegistered<EmployerHomeController>()) {
+                  final homeController = Get.find<EmployerHomeController>();
+                  homeController.onInit();
+                }
+
+                // Refresh EmployerJobsController
+                if (Get.isRegistered<EmployerJobsController>()) {
+                  final jobsController = Get.find<EmployerJobsController>();
+                  jobsController.fetchJobs(isRefresh: true);
+                }
+              } catch (e) {
+                print('Could not refresh controllers: $e');
+              }
+            });
+
+            Get.snackbar(
+              'Success',
+              'Job post updated successfully!',
+              backgroundColor: Appcolor.primaryColor,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+            );
+          } else {
+            final message =
+                response.body['message'] ?? 'Failed to update post.';
+            Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+          }
+        } else {
+          final message = response.body?['message'] ?? 'Failed to update post.';
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        }
       } else {
-        final message = response.body?['message'] ?? 'Failed to create post.';
-        Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        // Create new job
+        response = await _service.createJobPost(
+          title: jobTitleController.text.trim(),
+          companyName: companyNameController.text.trim(),
+          description: jobDescriptionController.text.trim(),
+          jobCategory: selectedCategory.value ?? '',
+          jobResponsibilities: responsibilitiesList,
+          requirements: requirementsList,
+          isUrgent: isUrgent.value,
+          jobDate: selectedJobDate.value != null
+              ? _formatDate(selectedJobDate.value!)
+              : '',
+          startTime:
+              startTime.value != null ? _formatTime(startTime.value!) : '',
+          endTime: endTime.value != null ? _formatTime(endTime.value!) : '',
+          amount: amountController.text.trim(),
+          location: locationController.text.trim(),
+          imageFile: selectedImage.value,
+        );
+
+        print('Create Post Response: ${response.statusCode}');
+        print('Create Post Body: ${response.body}');
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          if (response.body['success'] == true) {
+            Get.back();
+            Get.snackbar(
+              'Success',
+              'Job post created successfully!',
+              backgroundColor: Appcolor.primaryColor,
+              colorText: Colors.white,
+              snackPosition: SnackPosition.TOP,
+            );
+          } else {
+            final message =
+                response.body['message'] ?? 'Failed to create post.';
+            Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+          }
+        } else if (response.statusCode == 403) {
+          // Handle subscription required error
+          final message = response.body?['message'] ??
+              'Subscription required to create job posts.';
+          Get.snackbar(
+            'Subscription Required',
+            message,
+            backgroundColor: Colors.orange,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.TOP,
+            duration: const Duration(seconds: 3),
+          );
+
+          // Redirect to payment screen after 2 seconds
+          Future.delayed(const Duration(seconds: 2), () {
+            final role = SharedPreferenceHelper().getSelectedRole();
+            print('Redirecting to payment screen for role: $role');
+            Get.offNamed(AppRoute.paymentMethodScreen);
+          });
+        } else {
+          final message = response.body?['message'] ?? 'Failed to create post.';
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        }
       }
     } catch (e) {
-      print('Create post error: $e');
+      print('Save post error: $e');
       Get.snackbar(
         'Error',
         'Something went wrong. Please try again.',

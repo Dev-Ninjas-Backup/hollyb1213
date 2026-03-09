@@ -10,36 +10,27 @@ class CustomShadowContainer extends StatelessWidget {
   final double? blurRadius;
   final double? spreadRadius;
   final EdgeInsetsGeometry? padding;
-  final double ?width;
+  final double? width;
 
-  const CustomShadowContainer({
-    super.key,
-    required this.child,
-    this.borderRadius,
-    this.backgroundColor,
-    this.shadowColor,
-    this.offset,
-    this.blurRadius,
-    this.spreadRadius,
-    this.padding,
-    this.width
-  });
+  const CustomShadowContainer(
+      {super.key,
+      required this.child,
+      this.borderRadius,
+      this.backgroundColor,
+      this.shadowColor,
+      this.offset,
+      this.blurRadius,
+      this.spreadRadius,
+      this.padding,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Container(
-
-
-
-
-
-
-
-      width: width,
-        padding:
-            padding ?? EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        width: width,
+        padding: padding ?? EdgeInsets.all(8.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius ?? 10.r),
           color: backgroundColor ?? Colors.white,

@@ -44,67 +44,119 @@ class ImageUploadSection extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Obx(
-            () => controller.selectedImage.value != null
-                ? Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(12.r),
-                        child: Image.file(
-                          controller.selectedImage.value!,
-                          height: 200.h,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
+            () {
+              // Show newly selected image
+              if (controller.selectedImage.value != null) {
+                return Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Image.file(
+                        controller.selectedImage.value!,
+                        height: 200.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: controller.removeImage,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child:
+                              Icon(Icons.close, color: Colors.white, size: 20),
                         ),
                       ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: GestureDetector(
-                          onTap: controller.removeImage,
-                          child: Container(
-                            padding: EdgeInsets.all(4),
+                    ),
+                  ],
+                );
+              }
+
+              // Show existing image from API during edit
+              if (controller.existingImageUrl.value != null &&
+                  controller.existingImageUrl.value!.isNotEmpty) {
+                return Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12.r),
+                      child: Image.network(
+                        controller.existingImageUrl.value!,
+                        height: 200.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            height: 200.h,
+                            width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(12.r),
                             ),
-                            child: Icon(Icons.close,
-                                color: Colors.white, size: 20),
+                            child: Icon(Icons.image_not_supported,
+                                size: 40.sp, color: Colors.grey[600]),
+                          );
+                        },
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: controller.pickImage,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
                           ),
+                          child:
+                              Icon(Icons.edit, color: Colors.white, size: 20),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              // Show upload placeholder
+              return GestureDetector(
+                onTap: controller.pickImage,
+                child: Container(
+                  height: 150.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.cloud_upload_outlined,
+                          size: 40.sp, color: Colors.grey[600]),
+                      SizedBox(height: 12.h),
+                      Text(
+                        "Tap to upload image",
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[700],
                         ),
                       ),
                     ],
-                  )
-                : GestureDetector(
-                    onTap: controller.pickImage,
-                    child: Container(
-                      height: 150.h,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.cloud_upload_outlined,
-                              size: 40.sp, color: Colors.grey[600]),
-                          SizedBox(height: 12.h),
-                          Text(
-                            "Tap to upload image",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
+                ),
+              );
+            },
           ),
         ],
       ),

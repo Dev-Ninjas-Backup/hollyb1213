@@ -30,50 +30,64 @@ class CreatePostScreen extends StatelessWidget {
           padding: EdgeInsets.only(left: 10),
           child: CustomBackButton(),
         ),
-        title: Text(
-          "Create Post",
-          style: TextStyle(
-            color: Appcolor.primaryColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
+        title: Obx(
+          () => Text(
+            controller.isEditMode.value ? "Edit Job" : "Create Post",
+            style: TextStyle(
+              color: Appcolor.primaryColor,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Job Information-----
-            JobInformation(controller: controller),
+      body: Obx(
+        () {
+          if (controller.isFetchingJobDetails.value) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Appcolor.primaryColor,
+              ),
+            );
+          }
 
-            SizedBox(height: 25.h),
-            // time Section-----
-            TimeSection(controller: controller),
-            SizedBox(height: 16.h),
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Job Information-----
+                JobInformation(controller: controller),
 
-            /// Payment Section
-            PaymentSection(controller: controller),
+                SizedBox(height: 25.h),
+                // time Section-----
+                TimeSection(controller: controller),
+                SizedBox(height: 16.h),
 
-            SizedBox(height: 25.h),
+                /// Payment Section
+                PaymentSection(controller: controller),
 
-            /// Location Section
-            LocationSection(controller: controller),
+                SizedBox(height: 25.h),
 
-            SizedBox(height: 25.h),
+                /// Location Section
+                LocationSection(controller: controller),
 
-            /// Image Upload Section
-            ImageUploadSection(controller: controller),
+                SizedBox(height: 25.h),
 
-            SizedBox(height: 30.h),
+                /// Image Upload Section
+                ImageUploadSection(controller: controller),
 
-            /// Buttons
-            SizedBox(height: 25.h),
-            Button(controller: controller),
-            SizedBox(height: 30.h),
-          ],
-        ),
+                SizedBox(height: 30.h),
+
+                /// Buttons
+                SizedBox(height: 25.h),
+                Button(controller: controller),
+                SizedBox(height: 30.h),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

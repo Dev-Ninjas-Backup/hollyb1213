@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/create_post/screen/create_post_screen.dart';
 import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
 import 'package:hollyb1213/features/employer/home/notification/screen/notification_screen.dart';
 import 'package:hollyb1213/features/employer/home/widgets/employer_header_section.dart';
@@ -163,7 +164,10 @@ class EmployerHomeScreen extends StatelessWidget {
                         }
                       },
                       onEdit: () {
-                        // handle edit
+                        Get.to(
+                          () => const CreatePostScreen(),
+                          arguments: job.id,
+                        );
                       },
                       onAddWorkerFavourite: () async {
                         // Add employee as favorite

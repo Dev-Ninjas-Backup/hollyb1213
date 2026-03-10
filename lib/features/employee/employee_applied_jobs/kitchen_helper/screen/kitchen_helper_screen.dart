@@ -196,20 +196,28 @@ class KitchenHelperScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             height: 44.h,
-                            child: ElevatedButton(
-                              onPressed: controller.isCheckedIn.value
-                                  ? null
-                                  : () => controller.checkIn(job.id.toString()),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Appcolor.primaryColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                              child: Text(
-                                "Check In",
-                                style: getBodyTextStyle(
-                                  color: Appcolor.appBodyColor,
+                            child: Material(
+                              color: controller.isCheckedIn.value
+                                  ? Colors.grey.shade400
+                                  : Appcolor.primaryColor,
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: InkWell(
+                                onTap: () {
+                                  if (controller.isCheckedIn.value) {
+                                    Get.snackbar('Already Checked In',
+                                        'You have already checked in for this shift.');
+                                  } else {
+                                    controller.checkIn(job.id.toString());
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: Center(
+                                  child: Text(
+                                    "Check In",
+                                    style: getBodyTextStyle(
+                                      color: Appcolor.appBodyColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -218,21 +226,33 @@ class KitchenHelperScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             height: 44.h,
-                            child: ElevatedButton(
-                              onPressed: controller.isCheckedIn.value &&
+                            child: Material(
+                              color: controller.isCheckedIn.value &&
                                       !controller.isCheckedOut.value
-                                  ? () => controller.checkOut(job.id.toString())
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                              child: Text(
-                                "Check Out",
-                                style: getBodyTextStyle(
-                                  color: Appcolor.appTextColor,
+                                  ? Colors.orange
+                                  : Colors.grey.shade400,
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: InkWell(
+                                onTap: () {
+                                  if (controller.isCheckedIn.value &&
+                                      !controller.isCheckedOut.value) {
+                                    controller.checkOut(job.id.toString());
+                                  } else if (!controller.isCheckedIn.value) {
+                                    Get.snackbar('Action Not Allowed',
+                                        'You must check in before you can check out.');
+                                  } else if (controller.isCheckedOut.value) {
+                                    Get.snackbar('Already Checked Out',
+                                        'You have already checked out from this shift.');
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: Center(
+                                  child: Text(
+                                    "Check Out",
+                                    style: getBodyTextStyle(
+                                      color: Appcolor.appTextColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -241,22 +261,33 @@ class KitchenHelperScreen extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             height: 44.h,
-                            child: ElevatedButton(
-                              onPressed: controller.isCheckedOut.value &&
+                            child: Material(
+                              color: controller.isCheckedOut.value &&
                                       !controller.isCompleted.value
-                                  ? () => controller
-                                      .markCompleted(job.id.toString())
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                ),
-                              ),
-                              child: Text(
-                                "Mark as Completed",
-                                style: getBodyTextStyle(
-                                  color: Appcolor.appTextColor,
+                                  ? Colors.green
+                                  : Colors.grey.shade400,
+                              borderRadius: BorderRadius.circular(10.r),
+                              child: InkWell(
+                                onTap: () {
+                                  if (controller.isCheckedOut.value &&
+                                      !controller.isCompleted.value) {
+                                    controller.markCompleted(job.id.toString());
+                                  } else if (!controller.isCheckedOut.value) {
+                                    Get.snackbar('Action Not Allowed',
+                                        'You must check out before marking the shift as completed.');
+                                  } else if (controller.isCompleted.value) {
+                                    Get.snackbar('Already Completed',
+                                        'This shift has already been marked as completed.');
+                                  }
+                                },
+                                borderRadius: BorderRadius.circular(10.r),
+                                child: Center(
+                                  child: Text(
+                                    "Mark as Completed",
+                                    style: getBodyTextStyle(
+                                      color: Appcolor.appTextColor,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),

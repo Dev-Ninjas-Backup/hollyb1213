@@ -67,11 +67,9 @@ class KitchenHelperScreen extends StatelessWidget {
                                     size: 50, color: Colors.grey[400]),
                               ),
                             )
-                          : Image.asset(
-                              job.image,
-                              width: double.infinity,
-                              height: 154.h,
-                              fit: BoxFit.cover,
+                          : Center(
+                              child: Icon(Icons.work,
+                                  size: 100, color: Colors.grey[400]),
                             ),
                     ),
                     SizedBox(height: 16.h),

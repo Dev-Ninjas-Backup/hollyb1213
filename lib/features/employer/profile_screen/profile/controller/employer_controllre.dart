@@ -83,6 +83,9 @@ class EmployerProfileController extends GetxController {
       imageUrl: Iconpath.changepassword,
       title: "Change Password",
       subTitle: "Update your login password for security",
+      ontap: () {
+        Get.toNamed(AppRoute.getChangePasswordScreen());
+      },
     ),
   ];
 

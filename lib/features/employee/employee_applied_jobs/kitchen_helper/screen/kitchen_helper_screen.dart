@@ -301,13 +301,13 @@ class KitchenHelperScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Total Shift Hours"),
-                              Obx(() => Text(
-                                    controller.totalShiftHours.value,
-                                    style: getBodyTextStyle(
-                                        fontWeight: FontWeight.w600),
-                                  )),
-                              Text(
-                                  "8 hours"), // This should probably come from the job model
+                              Obx(
+                                () => Text(
+                                  controller.totalShiftHours.value,
+                                  style: getBodyTextStyle(
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
                             ],
                           ),
                           SizedBox(height: 4.h),
@@ -315,15 +315,9 @@ class KitchenHelperScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Estimated pay"),
-                              Obx(() => Text(
-                                    controller.estimatedPay.value,
-                                    style:
-                                        getBodyTextStyle(color: Colors.green),
-                                  )),
-                              Text(
-                                "\$144.00", // This should be calculated or from the model
-                                style: getBodyTextStyle(color: Colors.green),
-                              ),
+                              Obx(() => Text(controller.estimatedPay.value,
+                                  style:
+                                      getBodyTextStyle(color: Colors.green))),
                             ],
                           ),
                         ],

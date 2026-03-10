@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/features/employee/home/models/apply_service.dart';
+import 'package:hollyb1213/features/auth/payment_method/screen/payment_method_screen.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_service.dart';
 
 class JobDetailsController extends GetxController {
@@ -65,8 +66,15 @@ class JobDetailsController extends GetxController {
               snackPosition: SnackPosition.TOP);
         }
       } else {
-        Get.snackbar('Error', 'Please subscribe before applying to jobs',
-            snackPosition: SnackPosition.TOP);
+        final message = response.body['message'] ??
+            'Please subscribe before applying to jobs';
+        Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+
+        // If the error is about subscription, navigate to payment screen after a delay.
+        if (message.toString().toLowerCase().contains('subscribe')) {
+          Future.delayed(const Duration(seconds: 3),
+              () => Get.to(() => PaymentMethodScreen()));
+        }
       }
     } catch (e) {
       print('Apply Job Error: $e');

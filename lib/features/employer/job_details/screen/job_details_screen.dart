@@ -14,302 +14,331 @@ class JobDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Appcolor.backgroundcolor,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Appcolor.primaryColor),
-          onPressed: () => Get.back(),
-        ),
-        title: Text(
-          "Job Details",
-          style: TextStyle(
-            color: Appcolor.primaryColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Obx(
-        () {
-          if (controller.isLoading.value) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Appcolor.primaryColor,
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.white,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back, color: Appcolor.primaryColor),
+      //     onPressed: () => Get.back(),
+      //   ),
+      //   title: Text(
+      //     "Job Details",
+      //     style: TextStyle(
+      //       color: Appcolor.primaryColor,
+      //       fontSize: 18.sp,
+      //       fontWeight: FontWeight.w600,
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      // ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppBar(
+              backgroundColor: Colors.white,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Appcolor.primaryColor),
+                onPressed: () => Get.back(),
               ),
-            );
-          }
+              title: Text(
+                "Job Details",
+                style: TextStyle(
+                  color: Appcolor.primaryColor,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              centerTitle: true,
+            ),
+            Obx(
+              () {
+                if (controller.isLoading.value) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Appcolor.primaryColor,
+                    ),
+                  );
+                }
 
-          final job = controller.jobDetails.value;
-          if (job == null) {
-            return Center(
-              child: Text('Job details not found'),
-            );
-          }
+                final job = controller.jobDetails.value;
+                if (job == null) {
+                  return Center(
+                    child: Text('Job details not found'),
+                  );
+                }
 
-          final imageUrl =
-              job['file'] is Map ? job['file']['url'] : (job['file'] ?? '');
+                final imageUrl = job['file'] is Map
+                    ? job['file']['url']
+                    : (job['file'] ?? '');
 
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // --- Job Image ---
-                _buildJobImage(imageUrl),
-
-                // --- Main Content ---
-                Padding(
-                  padding: EdgeInsets.all(16.w),
+                return SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // --- Title & Pay ---
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      // --- Job Image ---
+                      _buildJobImage(imageUrl),
+
+                      // --- Main Content ---
+                      Padding(
+                        padding: EdgeInsets.all(16.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // --- Title & Pay ---
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  job['title'] ?? 'Untitled Job',
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        job['title'] ?? 'Untitled Job',
+                                        style: TextStyle(
+                                          fontSize: 20.sp,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Text(
+                                        job['company_name'] ?? 'Company',
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: Colors.grey[600],
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(height: 4.h),
                                 Text(
-                                  job['company_name'] ?? 'Company',
+                                  '\$${job['amount'] ?? '0'}/hr',
                                   style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Colors.grey[600],
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Appcolor.primaryColor,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Text(
-                            '\$${job['amount'] ?? '0'}/hr',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Appcolor.primaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
 
-                      SizedBox(height: 16.h),
+                            SizedBox(height: 16.h),
 
-                      // --- Status Badge & Details Row ---
-                      Row(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFDFF7DF),
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                            child: Text(
-                              controller
-                                  .getDisplayStatus(job['status'] ?? 'open'),
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.green[700],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          if (job['is_urgent'] == true)
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12.w,
-                                vertical: 6.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFFFE5E5),
-                                borderRadius: BorderRadius.circular(8.r),
-                              ),
-                              child: Text(
-                                'Urgent',
-                                style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.red[700],
+                            // --- Status Badge & Details Row ---
+                            Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                    vertical: 6.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFDFF7DF),
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  child: Text(
+                                    controller.getDisplayStatus(
+                                        job['status'] ?? 'open'),
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.green[700],
+                                    ),
+                                  ),
                                 ),
+                                SizedBox(width: 12.w),
+                                if (job['is_urgent'] == true)
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12.w,
+                                      vertical: 6.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFFFE5E5),
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    child: Text(
+                                      'Urgent',
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.red[700],
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+
+                            SizedBox(height: 16.h),
+
+                            // --- Job Details Row ---
+                            Row(
+                              children: [
+                                _buildDetailItem(
+                                  Icons.location_on_outlined,
+                                  job['location'] ?? 'Location TBD',
+                                ),
+                                SizedBox(width: 16.w),
+                                _buildDetailItem(
+                                  Icons.calendar_today_outlined,
+                                  _formatDate(job['job_date']),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 12.h),
+
+                            // --- Time Details ---
+                            Row(
+                              children: [
+                                _buildDetailItem(
+                                  Icons.access_time_outlined,
+                                  '${job['start_time'] ?? 'TBD'} - ${job['end_time'] ?? 'TBD'}',
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 24.h),
+
+                            // --- Job Description Section ---
+                            Text(
+                              'Job Description',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
                               ),
                             ),
-                        ],
-                      ),
-
-                      SizedBox(height: 16.h),
-
-                      // --- Job Details Row ---
-                      Row(
-                        children: [
-                          _buildDetailItem(
-                            Icons.location_on_outlined,
-                            job['location'] ?? 'Location TBD',
-                          ),
-                          SizedBox(width: 16.w),
-                          _buildDetailItem(
-                            Icons.calendar_today_outlined,
-                            _formatDate(job['job_date']),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 12.h),
-
-                      // --- Time Details ---
-                      Row(
-                        children: [
-                          _buildDetailItem(
-                            Icons.access_time_outlined,
-                            '${job['start_time'] ?? 'TBD'} - ${job['end_time'] ?? 'TBD'}',
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 24.h),
-
-                      // --- Job Description Section ---
-                      Text(
-                        'Job Description',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        job['description'] ?? 'No description provided',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: Colors.grey[700],
-                          height: 1.5,
-                        ),
-                      ),
-
-                      SizedBox(height: 24.h),
-
-                      // --- Your Responsibilities ---
-                      Text(
-                        'Your Responsibilities',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 12.h),
-                      _buildBulletList(job['job_responsibilities'] ?? []),
-
-                      SizedBox(height: 24.h),
-
-                      // --- Requirements ---
-                      Text(
-                        'Requirements',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 12.h),
-                      _buildBulletList(job['requirements'] ?? []),
-
-                      SizedBox(height: 24.h),
-
-                      // --- Additional Details ---
-                      Container(
-                        padding: EdgeInsets.all(12.w),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[50],
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(color: Colors.grey.shade200),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                            SizedBox(height: 8.h),
                             Text(
-                              'Additional Details',
+                              job['description'] ?? 'No description provided',
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[700],
+                                height: 1.5,
+                              ),
+                            ),
+
+                            SizedBox(height: 24.h),
+
+                            // --- Your Responsibilities ---
+                            Text(
+                              'Your Responsibilities',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
                                 color: Colors.black,
                               ),
                             ),
                             SizedBox(height: 12.h),
-                            _buildDetailRow('Job Category:',
-                                _formatJobCategory(job['job_category'])),
-                            SizedBox(height: 8.h),
+                            _buildBulletList(job['job_responsibilities'] ?? []),
+
+                            SizedBox(height: 24.h),
+
+                            // --- Requirements ---
+                            Text(
+                              'Requirements',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+                            _buildBulletList(job['requirements'] ?? []),
+
+                            SizedBox(height: 24.h),
+
+                            // --- Additional Details ---
+                            Container(
+                              padding: EdgeInsets.all(12.w),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[50],
+                                borderRadius: BorderRadius.circular(12.r),
+                                border: Border.all(color: Colors.grey.shade200),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Additional Details',
+                                    style: TextStyle(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  _buildDetailRow('Job Category:',
+                                      _formatJobCategory(job['job_category'])),
+                                  SizedBox(height: 8.h),
+                                ],
+                              ),
+                            ),
+
+                            SizedBox(height: 24.h),
+
+                            // --- Actions Buttons ---
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: OutlinedButton.icon(
+                                    onPressed: () {
+                                      // Navigate to edit job screen with job ID
+                                      Get.to(
+                                        () => const CreatePostScreen(),
+                                        arguments: job['id'],
+                                      );
+                                    },
+                                    icon: Icon(Icons.edit, size: 18.sp),
+                                    label: Text('Edit Job'),
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                          color: Appcolor.primaryColor),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12.h),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.r),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      // Handle close post
+                                    },
+                                    icon: Icon(Icons.close, size: 18.sp),
+                                    label: Text('Close Post'),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Appcolor.primaryColor,
+                                      foregroundColor: Colors.white,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 12.h),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(50.r),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 20.h),
                           ],
                         ),
                       ),
-
-                      SizedBox(height: 24.h),
-
-                      // --- Actions Buttons ---
-                      Row(
-                        children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () {
-                                // Navigate to edit job screen with job ID
-                                Get.to(
-                                  () => const CreatePostScreen(),
-                                  arguments: job['id'],
-                                );
-                              },
-                              icon: Icon(Icons.edit, size: 18.sp),
-                              label: Text('Edit Job'),
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Appcolor.primaryColor),
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.r),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                // Handle close post
-                              },
-                              icon: Icon(Icons.close, size: 18.sp),
-                              label: Text('Close Post'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Appcolor.primaryColor,
-                                foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(vertical: 12.h),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.r),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 20.h),
                     ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

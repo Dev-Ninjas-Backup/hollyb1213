@@ -8,7 +8,7 @@ class JobApplicantModel {
   final DateTime expireDate;
   final JobFileModel? file;
   final String? assignedEmployeeId;
-  final String? review;
+  final ReviewModel? review;
   final String startTime;
   final String endTime;
   final String amount;
@@ -52,7 +52,8 @@ class JobApplicantModel {
           : DateTime.now(),
       file: json['file'] != null ? JobFileModel.fromJson(json['file']) : null,
       assignedEmployeeId: json['assigned_employee_id'],
-      review: json['review'],
+      review:
+          json['review'] != null ? ReviewModel.fromJson(json['review']) : null,
       startTime: json['start_time'] ?? '',
       endTime: json['end_time'] ?? '',
       amount: json['amount'] ?? '0',
@@ -78,7 +79,7 @@ class JobApplicantModel {
       'expire_date': expireDate.toIso8601String(),
       'file': file?.toJson(),
       'assigned_employee_id': assignedEmployeeId,
-      'review': review,
+      'review': review?.toJson(),
       'start_time': startTime,
       'end_time': endTime,
       'amount': amount,
@@ -126,6 +127,30 @@ class JobCountModel {
   Map<String, dynamic> toJson() {
     return {
       'job_applications': jobApplications,
+    };
+  }
+}
+
+class ReviewModel {
+  final String id;
+  final int rating;
+
+  ReviewModel({
+    required this.id,
+    required this.rating,
+  });
+
+  factory ReviewModel.fromJson(Map<String, dynamic> json) {
+    return ReviewModel(
+      id: json['id'] ?? '',
+      rating: json['rating'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'rating': rating,
     };
   }
 }

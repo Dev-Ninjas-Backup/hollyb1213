@@ -69,4 +69,6 @@ class ApiEndpoint {
       '$baseUrl/employer/applications/$applicationId/accept';
   static String rejectApplicant(String applicationId) =>
       '$baseUrl/employer/applications/$applicationId/reject';
+  static String viewEmployeeProfile(String employeeId) =>
+      '$baseUrl/employer/employees/$employeeId';
 }

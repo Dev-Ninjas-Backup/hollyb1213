@@ -3,203 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/applicants/controller/view_applicants_controller.dart';
+import 'package:hollyb1213/features/employer/applicants/model/job_applicant_model.dart';
+import 'package:hollyb1213/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
 
-class ViewApplicantsScreen extends StatefulWidget {
+class ViewApplicantsScreen extends StatelessWidget {
   const ViewApplicantsScreen({super.key});
 
   @override
-  State<ViewApplicantsScreen> createState() => _ViewApplicantsScreenState();
-}
-
-class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  // Dummy data — replace with API data later
-  final List<Map<String, dynamic>> _jobs = [
-    {
-      "title": "Restaurant Chef",
-      "icon": Icons.restaurant,
-      "applicants": [
-        {
-          "name": "Nicolas",
-          "image": "",
-          "experience": "1 years experience",
-          "appliedFor": "Restaurant Chef",
-          "rating": 4.6,
-        },
-        {
-          "name": "Sarah Johnson",
-          "image": "",
-          "experience": "3 years experience",
-          "appliedFor": "Restaurant Chef",
-          "rating": 4.8,
-        },
-        {
-          "name": "Mike Chen",
-          "image": "",
-          "experience": "5 years experience",
-          "appliedFor": "Restaurant Chef",
-          "rating": 4.9,
-        },
-      ],
-    },
-    {
-      "title": "Restaurant Cleaner",
-      "icon": Icons.cleaning_services,
-      "applicants": [
-        {
-          "name": "Emma Wilson",
-          "image": "",
-          "experience": "2 years experience",
-          "appliedFor": "Restaurant Cleaner",
-          "rating": 4.5,
-        },
-        {
-          "name": "David Brown",
-          "image": "",
-          "experience": "1 years experience",
-          "appliedFor": "Restaurant Cleaner",
-          "rating": 4.3,
-        },
-        {
-          "name": "Lisa Park",
-          "image": "",
-          "experience": "4 years experience",
-          "appliedFor": "Restaurant Cleaner",
-          "rating": 4.7,
-        },
-        {
-          "name": "Tom Harris",
-          "image": "",
-          "experience": "2 years experience",
-          "appliedFor": "Restaurant Cleaner",
-          "rating": 4.4,
-        },
-      ],
-    },
-    {
-      "title": "Restaurant Helper",
-      "icon": Icons.room_service,
-      "applicants": [
-        {
-          "name": "Nicolas",
-          "image": "",
-          "experience": "1 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.6,
-        },
-        {
-          "name": "Jon Dorman",
-          "image": "",
-          "experience": "2 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.8,
-        },
-        {
-          "name": "Marvin McKinney",
-          "image": "",
-          "experience": "1 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.6,
-        },
-        {
-          "name": "Alex Turner",
-          "image": "",
-          "experience": "3 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.5,
-        },
-        {
-          "name": "Rachel Green",
-          "image": "",
-          "experience": "2 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.7,
-        },
-        {
-          "name": "Sam Wilson",
-          "image": "",
-          "experience": "1 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.2,
-        },
-        {
-          "name": "Kelly Adams",
-          "image": "",
-          "experience": "4 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.9,
-        },
-        {
-          "name": "Chris Evans",
-          "image": "",
-          "experience": "2 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.4,
-        },
-        {
-          "name": "Diana Prince",
-          "image": "",
-          "experience": "3 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.6,
-        },
-        {
-          "name": "Bruce Wayne",
-          "image": "",
-          "experience": "5 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.8,
-        },
-        {
-          "name": "Peter Parker",
-          "image": "",
-          "experience": "1 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 4.3,
-        },
-        {
-          "name": "Tony Stark",
-          "image": "",
-          "experience": "6 years experience",
-          "appliedFor": "Restaurant Helper",
-          "rating": 5.0,
-        },
-      ],
-    },
-  ];
-
-  final Set<int> _expandedIndices = {};
-
-  List<Map<String, dynamic>> get _filteredJobs {
-    if (_searchQuery.isEmpty) return _jobs;
-    final query = _searchQuery.toLowerCase();
-    final List<Map<String, dynamic>> result = [];
-    for (final job in _jobs) {
-      final title = (job['title'] as String).toLowerCase();
-      final applicants = job['applicants'] as List<Map<String, dynamic>>;
-      final matchedApplicants = applicants
-          .where((a) => (a['name'] as String).toLowerCase().contains(query))
-          .toList();
-      if (title.contains(query) || matchedApplicants.isNotEmpty) {
-        result.add({
-          ...job,
-          'applicants': title.contains(query) ? applicants : matchedApplicants,
-        });
-      }
-    }
-    return result;
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ViewApplicantsController());
+
     return Scaffold(
       backgroundColor: Appcolor.backgroundcolor,
       appBar: AppBar(
@@ -237,11 +51,8 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
                   SizedBox(width: 8.w),
                   Expanded(
                     child: TextField(
-                      controller: _searchController,
                       onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value;
-                        });
+                        controller.searchQuery.value = value;
                       },
                       style: TextStyle(fontSize: 14.sp),
                       decoration: InputDecoration(
@@ -265,129 +76,210 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
 
           // Job Expandable List
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              itemCount: _filteredJobs.length,
-              itemBuilder: (context, index) {
-                final job = _filteredJobs[index];
-                final applicants =
-                    job['applicants'] as List<Map<String, dynamic>>;
-                final isExpanded = _expandedIndices.contains(index);
-
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 12.h),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14.r),
-                      border: isExpanded
-                          ? Border.all(
-                              color: Appcolor.primaryColor.withOpacity(0.3),
-                              width: 1.2,
-                            )
-                          : null,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+            child: Obx(
+              () {
+                if (controller.isLoadingJobs.value) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Appcolor.primaryColor,
                     ),
-                    child: Column(
-                      children: [
-                        // Job Header (tap to expand/collapse)
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              if (isExpanded) {
-                                _expandedIndices.remove(index);
-                              } else {
-                                _expandedIndices.add(index);
-                              }
-                            });
-                          },
-                          borderRadius: BorderRadius.circular(14.r),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 14.w,
-                              vertical: 14.h,
-                            ),
-                            child: Row(
-                              children: [
-                                // Job Icon
-                                Container(
-                                  height: 44.w,
-                                  width: 44.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade100,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    job['icon'] as IconData,
-                                    size: 22.sp,
-                                    color: Colors.grey.shade700,
+                  );
+                }
+
+                final filteredJobs = controller.getFilteredJobs();
+                if (filteredJobs.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No jobs found',
+                      style: getBodyTextStyle(fontSize: 16),
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  itemCount: filteredJobs.length + 1,
+                  itemBuilder: (context, index) {
+                    // Load more button at the end
+                    if (index == filteredJobs.length) {
+                      if (controller.currentPage.value >=
+                          controller.totalPages.value) {
+                        return SizedBox(height: 20.h);
+                      }
+                      return Obx(
+                        () => controller.isLoadingMoreJobs.value
+                            ? Padding(
+                                padding: EdgeInsets.all(16.w),
+                                child: CircularProgressIndicator(
+                                  color: Appcolor.primaryColor,
+                                ),
+                              )
+                            : Padding(
+                                padding: EdgeInsets.all(16.w),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: controller.loadMoreJobs,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Appcolor.primaryColor,
+                                    ),
+                                    child: Text(
+                                      'Load More',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.sp,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(width: 12.w),
-                                // Title & count
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        job['title'] as String,
-                                        style: getBodyTextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      SizedBox(height: 2.h),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.people_outline,
-                                            size: 16.sp,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 4.w),
-                                          Text(
-                                            "${applicants.length} Applicants",
-                                            style: getBodyTextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.grey.shade600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // Expand/collapse arrow
-                                Icon(
-                                  isExpanded
-                                      ? Icons.keyboard_arrow_up
-                                      : Icons.keyboard_arrow_down,
-                                  size: 26.sp,
-                                  color: Colors.grey.shade600,
+                              ),
+                      );
+                    }
+
+                    final job = filteredJobs[index];
+                    final jobId = job.id;
+
+                    return Obx(
+                      () {
+                        final isExpanded =
+                            controller.expandedJobIds.contains(jobId);
+                        final applicants =
+                            controller.getApplicantsForJob(jobId);
+                        final isLoadingApplicants =
+                            controller.loadingApplicantsFor.contains(jobId);
+
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14.r),
+                              border: isExpanded
+                                  ? Border.all(
+                                      color: Appcolor.primaryColor
+                                          .withOpacity(0.3),
+                                      width: 1.2,
+                                    )
+                                  : null,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
+                            child: Column(
+                              children: [
+                                // Job Header (tap to expand/collapse)
+                                InkWell(
+                                  onTap: () =>
+                                      controller.toggleJobExpansion(jobId),
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 14.w,
+                                      vertical: 14.h,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        // Job Image or Icon
+                                        Container(
+                                          height: 44.w,
+                                          width: 44.w,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade100,
+                                            borderRadius:
+                                                BorderRadius.circular(8.r),
+                                            border: Border.all(
+                                              color: Colors.grey.shade300,
+                                            ),
+                                          ),
+                                          child: _buildJobImage(job),
+                                        ),
+                                        SizedBox(width: 12.w),
+                                        // Title & count
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                job.title,
+                                                style: getBodyTextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              SizedBox(height: 2.h),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.people_outline,
+                                                    size: 16.sp,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  SizedBox(width: 4.w),
+                                                  Text(
+                                                    "${job.count.jobApplications} Applicant${job.count.jobApplications != 1 ? 's' : ''}",
+                                                    style: getBodyTextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color:
+                                                          Colors.grey.shade600,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        // Expand/collapse arrow
+                                        Icon(
+                                          isExpanded
+                                              ? Icons.keyboard_arrow_up
+                                              : Icons.keyboard_arrow_down,
+                                          size: 26.sp,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
 
-                        // Applicant Cards (when expanded)
-                        if (isExpanded)
-                          Column(
-                            children: applicants.map((applicant) {
-                              return _buildApplicantCard(applicant);
-                            }).toList(),
+                                // Applicant Cards (when expanded)
+                                if (isExpanded)
+                                  if (isLoadingApplicants)
+                                    Padding(
+                                      padding: EdgeInsets.all(16.w),
+                                      child: CircularProgressIndicator(
+                                        color: Appcolor.primaryColor,
+                                      ),
+                                    )
+                                  else if (applicants.isEmpty)
+                                    Padding(
+                                      padding: EdgeInsets.all(16.w),
+                                      child: Text(
+                                        'No pending applicants for this job',
+                                        style: getBodyTextStyle(fontSize: 14),
+                                      ),
+                                    )
+                                  else
+                                    Column(
+                                      children: applicants.map((applicant) {
+                                        return _buildApplicantCard(
+                                            applicant, controller, jobId);
+                                      }).toList(),
+                                    ),
+                              ],
+                            ),
                           ),
-                      ],
-                    ),
-                  ),
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),
@@ -397,7 +289,46 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
     );
   }
 
-  Widget _buildApplicantCard(Map<String, dynamic> applicant) {
+  Widget _buildJobImage(JobApplicantModel job) {
+    final fileUrl = job.file?.url;
+
+    if (fileUrl != null && fileUrl.isNotEmpty) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8.r),
+        child: Image.network(
+          fileUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Icon(
+              Icons.work_outline,
+              size: 22.sp,
+              color: Colors.grey.shade700,
+            );
+          },
+        ),
+      );
+    }
+
+    return Icon(
+      Icons.work_outline,
+      size: 22.sp,
+      color: Colors.grey.shade700,
+    );
+  }
+
+  Widget _buildApplicantCard(
+    Map<String, dynamic> applicant,
+    ViewApplicantsController controller,
+    String jobId,
+  ) {
+    final employee = applicant['employee'] as Map<String, dynamic>?;
+    final user = employee?['user'] as Map<String, dynamic>?;
+    final profilePhotoUrl = employee?['profile_photo_url'] as String? ?? '';
+    final fullName = user?['full_name'] as String? ?? 'Unknown User';
+    final experienceYears = employee?['experience_years'] ?? 0;
+    final rating = employee?['rating'] as num? ?? 0;
+    final totalJobs = employee?['total_jobs'] ?? 0;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       padding: EdgeInsets.all(14.w),
@@ -422,10 +353,10 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
               CircleAvatar(
                 radius: 28.r,
                 backgroundColor: Colors.grey.shade200,
-                backgroundImage: (applicant['image'] as String).isNotEmpty
-                    ? NetworkImage(applicant['image'] as String)
+                backgroundImage: profilePhotoUrl.isNotEmpty
+                    ? NetworkImage(profilePhotoUrl)
                     : null,
-                child: (applicant['image'] as String).isEmpty
+                child: profilePhotoUrl.isEmpty
                     ? Icon(Icons.person, size: 28.sp, color: Colors.grey)
                     : null,
               ),
@@ -438,7 +369,7 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
                   children: [
                     // Name
                     Text(
-                      applicant['name'] as String,
+                      fullName,
                       style: getBodyTextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -448,7 +379,7 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
 
                     // Experience
                     Text(
-                      applicant['experience'] as String,
+                      "$experienceYears years experience",
                       style: getBodyTextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -457,27 +388,13 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
                     ),
                     SizedBox(height: 4.h),
 
-                    // Applied For
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Applied: ",
-                            style: getBodyTextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Appcolor.primaryColor,
-                            ),
-                          ),
-                          TextSpan(
-                            text: applicant['appliedFor'] as String,
-                            style: getBodyTextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey.shade700,
-                            ),
-                          ),
-                        ],
+                    // Total Jobs
+                    Text(
+                      "Completed $totalJobs job${totalJobs != 1 ? 's' : ''}",
+                      style: getBodyTextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey.shade600,
                       ),
                     ),
                     SizedBox(height: 6.h),
@@ -488,7 +405,7 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
                         Icon(Icons.star, color: Colors.amber, size: 16.sp),
                         SizedBox(width: 4.w),
                         Text(
-                          "Rating ${applicant['rating']}/5",
+                          "Rating $rating/5",
                           style: getBodyTextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -507,12 +424,17 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
                           size: 16.sp,
                         ),
                         SizedBox(width: 4.w),
-                        Text(
-                          "View Profile",
-                          style: getBodyTextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Appcolor.primaryColor,
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => EmployerWorkerProfile());
+                          },
+                          child: Text(
+                            "View Profile",
+                            style: getBodyTextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Appcolor.primaryColor,
+                            ),
                           ),
                         ),
                       ],
@@ -551,7 +473,8 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    // TODO: handle accept
+                    final applicationId = applicant['id'] as String? ?? '';
+                    controller.acceptApplicant(applicationId, jobId: jobId);
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(color: Appcolor.primaryColor),
@@ -574,7 +497,8 @@ class _ViewApplicantsScreenState extends State<ViewApplicantsScreen> {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    // TODO: handle reject
+                    final applicationId = applicant['id'] as String? ?? '';
+                    controller.rejectApplicant(applicationId, jobId: jobId);
                   },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.red),

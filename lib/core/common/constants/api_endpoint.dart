@@ -61,4 +61,12 @@ class ApiEndpoint {
       '$baseUrl/employer/favorites/$employeeId';
   static String checkEmployeeIfFavorite(String employeeId) =>
       '$baseUrl/employer/favorites/$employeeId/check';
+  static String getAllJobs2(int page, int limit) =>
+      '$baseUrl/employer/jobs?page=$page&limit=$limit';
+  static String viewAllApplicationts(String jobId) =>
+      '$baseUrl/employer/jobs/$jobId/applications';
+  static String acceptApplicant(String applicationId) =>
+      '$baseUrl/employer/applications/$applicationId/accept';
+  static String rejectApplicant(String applicationId) =>
+      '$baseUrl/employer/applications/$applicationId/reject';
 }

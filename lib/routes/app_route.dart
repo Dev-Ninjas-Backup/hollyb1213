@@ -197,6 +197,5 @@ class AppRoute {
     ),
 
     GetPage(name: employerProfileScreen, page: () => EmployerProfileScreen()),
-    GetPage(name: employerReviewPage, page: () => EmployerReviewPage()),
   ];
 }

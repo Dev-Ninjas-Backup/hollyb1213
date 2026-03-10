@@ -69,6 +69,7 @@ class LoginController extends GetxController {
       if (result != null) {
         final userData = result['userData'] as Map<String, dynamic>;
         final fbAccessToken = result['accessToken'] as String;
+        print('Facebook Access Token: $fbAccessToken');
 
         // 2. Create a Firebase credential with the Facebook access token
         final OAuthCredential credential =
@@ -80,6 +81,7 @@ class LoginController extends GetxController {
 
         // 4. Get the Firebase ID token to send to your backend.
         final String? firebaseIdToken = await userCredential.user?.getIdToken();
+        print('Firebase ID Token: $firebaseIdToken');
 
         if (firebaseIdToken == null) {
           Get.snackbar('Login Failed', 'Could not get Firebase token.');
@@ -112,6 +114,7 @@ class LoginController extends GetxController {
         if (body['success'] == true || body['success'] == 'true') {
           final data = body['data'];
           final accessToken = data['accessToken'];
+          print('Backend API Access Token: $accessToken');
           final refreshToken = data['refreshToken'];
           final user = data['user'];
           final userRole = user['role'];
@@ -155,6 +158,7 @@ class LoginController extends GetxController {
       final idToken = await GoogleLoginServices.login();
 
       if (idToken != null) {
+        print('Google ID Token: $idToken');
         final response = await _loginService.loginWithGoogle(
           idToken: idToken,
           role: role.selectedRole.value,
@@ -177,6 +181,7 @@ class LoginController extends GetxController {
         if (body['success'] == true || body['success'] == 'true') {
           final data = body['data'];
           final accessToken = data['accessToken'];
+          print('Backend API Access Token: $accessToken');
           final refreshToken = data['refreshToken'];
           final user = data['user'];
           final userRole = user['role'];
@@ -250,6 +255,7 @@ class LoginController extends GetxController {
       if (body['success'] == true || body['success'] == 'true') {
         final data = body['data'];
         final accessToken = data['accessToken'];
+        print('Backend API Access Token: $accessToken');
         final refreshToken = data['refreshToken'];
         final user = data['user'];
         final role = user['role'];

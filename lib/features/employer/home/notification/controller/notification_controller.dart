@@ -1,42 +1,61 @@
+import 'dart:developer';
 import 'package:get/get.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import '../service/employer_notification_service.dart';
 
 class NotificationController extends GetxController {
-  final notifications = <Map<String, String>>[].obs;
-
+  final notifications = <Map<String, dynamic>>[].obs;
   final isLoading = false.obs;
+
+  final EmployerNotificationService _service = EmployerNotificationService();
+  final SharedPreferenceHelper _prefs = SharedPreferenceHelper();
 
   @override
   void onInit() {
     super.onInit();
-    fetchNotifications();
+    _initializeSocket();
   }
 
-  void fetchNotifications() {
+  void _initializeSocket() async {
     isLoading.value = true;
+    final token = await _prefs.getAccessToken();
+    if (token != null && token.isNotEmpty) {
+      connectSocket(token);
+    } else {
+      isLoading.value = false;
+      log("Auth token not found, can't connect to employer notification socket.");
+    }
+  }
 
-    notifications.assignAll([
-      {
-        'title': 'Booking Confirmed',
-        'message': 'Your booking for Space A has been confirmed successfully.',
-        'time': '2h ago',
-      },
-      {
-        'title': 'Profile Updated',
-        'message': 'You have successfully updated your profile information.',
-        'time': '5h ago',
-      },
-      {
-        'title': 'Payment Successful',
-        'message': 'Payment of \$45.00 for booking #12345 completed.',
-        'time': '1d ago',
-      },
-      {
-        'title': 'New Message',
-        'message': 'You received a new message from Matthew Evan.',
-        'time': '2d ago',
-      },
-    ]);
+  void connectSocket(String token) {
+    _service.connect(token);
 
-    isLoading.value = false;
+    /// initial list
+    _service.onNotificationList((data) {
+      isLoading.value = false;
+
+      if (data != null && data["data"] != null) {
+        notifications.assignAll(List<Map<String, dynamic>>.from(data["data"]));
+      }
+    });
+
+    /// realtime new notification
+    _service.onNewNotification((data) {
+      if (data != null) {
+        notifications.insert(0, Map<String, dynamic>.from(data));
+      }
+    });
+
+    _service.loadNotifications();
+  }
+
+  void markAsRead(String id) {
+    _service.markAsRead(id);
+  }
+
+  @override
+  void onClose() {
+    _service.dispose();
+    super.onClose();
   }
 }

@@ -21,6 +21,7 @@ class CompletedJobDetailsScreen extends StatelessWidget {
     );
     final reviewController = TextEditingController();
 
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         Get.delete<CompletedJobDetailsController>(tag: jobId);
@@ -342,6 +343,7 @@ class CompletedJobDetailsScreen extends StatelessWidget {
                                           color: Color(0xFFE8F1FF),
                                           border: Border.all(
                                             color: Appcolor.primaryColor
+                                                // ignore: deprecated_member_use
                                                 .withOpacity(0.2),
                                             width: 2,
                                           ),

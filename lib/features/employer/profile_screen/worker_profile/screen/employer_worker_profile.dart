@@ -5,6 +5,7 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/profile_screen/review/screen/employer_review_page.dart';
 import 'package:hollyb1213/features/employer/profile_screen/worker_profile/controller/employer_worker_profile_controller.dart';
 import 'package:hollyb1213/features/employer/profile_screen/worker_profile/widgets/employer__worker_profile_upper_section.dart';
 import 'package:hollyb1213/features/employer/profile_screen/worker_profile/widgets/information.dart';
@@ -113,7 +114,10 @@ class EmployerWorkerProfile extends StatelessWidget {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(AppRoute.employerReviewPage);
+                                  Get.to(() => EmployerReviewPage(
+                                        employeeId: controller
+                                            .employeeProfile.value!.id,
+                                      ));
                                 },
                                 child: Text(
                                   "View All",

@@ -71,4 +71,6 @@ class ApiEndpoint {
       '$baseUrl/employer/applications/$applicationId/reject';
   static String viewEmployeeProfile(String employeeId) =>
       '$baseUrl/employer/employees/$employeeId';
+  static String seeAllReviews(String employeeId, int page, int limit) =>
+      '$baseUrl/employer/reviews?page=$page&limit=$limit&employeeId=$employeeId';
 }

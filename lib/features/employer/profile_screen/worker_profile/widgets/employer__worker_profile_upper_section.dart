@@ -7,8 +7,8 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/profile_screen/review/screen/employer_review_page.dart';
 import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 
 class EmployerWorkerProfileUpperSection extends StatelessWidget {
   final EmployeeProfileData profile;
@@ -88,7 +88,7 @@ class EmployerWorkerProfileUpperSection extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoute.employeeReview);
+                Get.to(() => EmployerReviewPage(employeeId: profile.id));
               },
               child: Text(
                 "${profile.rating}",

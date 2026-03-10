@@ -37,20 +37,20 @@ class ApiEndpoint {
   static const String uploadPassport = '/profile/documents/passport';
   static const String getProfile = '/profile/get-me';
   static const String changePassword = '/profile/change-password';
-  static const String createJobPost = '/employer/job/create';
+  static const String createJobPost = '$baseUrl/employer/job/create';
 
   static String getMyPostedJobs(
           String status, bool isUrgent, int page, int limit) =>
-      '/employer/jobs?status=$status&is_urgent=$isUrgent&page=$page&limit=$limit';
+      '$baseUrl/employer/jobs?status=$status&is_urgent=$isUrgent&page=$page&limit=$limit';
   static String getJobDetails(String id) => '/employer/jobs/$id';
 
-  static const String employerProfile = '/profile/get-me';
-  static const String employerStats = '/employer/stats';
-  static const String updateEmployerProfile = '/profile/update-me';
+  static const String employerProfile = '$baseUrl/profile/get-me';
+  static const String employerStats = '$baseUrl/employer/stats';
+  static const String updateEmployerProfile = '$baseUrl/profile/update-me';
   static const String updateProfile = '/profile/update-me';
   static const String employerSubscriptionStatus =
-      '/subscription/my-subscriptions/current';
-  static const String employerRenewSubscription = '/subscription/renew';
+      '$baseUrl/subscription/my-subscriptions/current';
+  static const String employerRenewSubscription = '$baseUrl/subscription/renew';
   static String getMyPostedJobsHomeScreen(String status, int page, int limit) =>
       '$baseUrl/employer/jobs?status=$status&page=$page&limit=$limit';
   static String seeFavoriteEmployeeList(int page, int limit) =>

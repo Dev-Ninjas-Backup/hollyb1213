@@ -70,7 +70,7 @@ class CreatePostService extends GetConnect {
     final formData = FormData(formFields);
 
     final response = await post(
-      '${ApiEndpoint.baseUrl}${ApiEndpoint.createJobPost}',
+      ApiEndpoint.createJobPost,
       formData,
       headers: {
         'Authorization': 'Bearer ${token ?? ''}',

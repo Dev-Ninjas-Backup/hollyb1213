@@ -141,7 +141,7 @@ class EmployerProfileController extends GetxController {
       }
 
       final response = await http.get(
-        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerProfile),
+        Uri.parse(ApiEndpoint.employerProfile),
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ class EmployerProfileController extends GetxController {
       }
 
       final response = await http.get(
-        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerStats),
+        Uri.parse(ApiEndpoint.employerStats),
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',
@@ -268,7 +268,7 @@ class EmployerProfileController extends GetxController {
       }
 
       final response = await http.get(
-        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerSubscriptionStatus),
+        Uri.parse(ApiEndpoint.employerSubscriptionStatus),
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',

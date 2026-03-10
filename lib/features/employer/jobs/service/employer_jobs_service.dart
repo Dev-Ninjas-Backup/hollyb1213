@@ -12,7 +12,7 @@ class EmployerJobsService extends GetConnect {
     final token = await SharedPreferenceHelper().getAccessToken();
 
     final response = await get(
-      '${ApiEndpoint.baseUrl}${ApiEndpoint.getMyPostedJobs(status, isUrgent, page, limit)}',
+      ApiEndpoint.getMyPostedJobs(status, isUrgent, page, limit),
       headers: {
         'Authorization': 'Bearer ${token ?? ''}',
         'accept': '*/*',

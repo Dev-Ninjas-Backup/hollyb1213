@@ -1,40 +1,48 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:hollyb1213/features/employee/profile_screen/profile/model/profile_stats_service.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_service.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/user_profile_model.dart';
 import 'package:hollyb1213/routes/app_route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/employee_stats_model.dart';
+
 class EmployeeProfileController extends GetxController {
   final ProfileService _service = Get.put(ProfileService());
+  final ProfileStatsService _statsService = Get.put(ProfileStatsService());
   final SharedPreferenceHelper _prefs = SharedPreferenceHelper();
   var isLoading = true.obs;
   var userProfile = Rx<UserProfile?>(null);
+  var employeeStats = Rx<EmployeeStats?>(null);
+  var isLoadingStats = true.obs;
 
-  final List<Map<String, dynamic>> statsList = [
+  var statsList = <Map<String, dynamic>>[
     {
       "iconImage": Iconpath.jobProfileIcon,
-      "count": "40",
+      "count": "0",
       "completedMsg": "Jobs Completed",
     },
     {
       "iconImage": Iconpath.workIcon,
-      "count": "120",
+      "count": "0",
       "completedMsg": "Hours Worked",
     },
     {
       "iconImage": Iconpath.earnIcon,
-      "count": "\$5.832",
+      "count": "\$0.00",
       "completedMsg": "Total Earned",
     },
     {
       "iconImage": Iconpath.monthCalenderIcon,
-      "count": "12",
+      "count": "0",
       "completedMsg": "This Month",
     },
-  ];
+  ].obs;
 
   final List<SettingsModel> settingsitems = [
     SettingsModel(
@@ -84,6 +92,7 @@ class EmployeeProfileController extends GetxController {
   void onInit() {
     super.onInit();
     fetchUserProfile();
+    fetchEmployeeStats();
     loadPreference();
   }
 
@@ -105,6 +114,60 @@ class EmployeeProfileController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  Future<void> fetchEmployeeStats() async {
+    try {
+      isLoadingStats(true);
+      final response = await _statsService.getEmployeeStats();
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        if (body['success'] == true) {
+          final stats = EmployeeStats.fromJson(body['data']);
+          employeeStats.value = stats;
+          _updateStatsList(stats);
+        } else {
+          print('Failed to fetch employee stats: ${body['message']}');
+          Get.snackbar('Error', 'Failed to fetch stats.',
+              snackPosition: SnackPosition.TOP);
+        }
+      } else {
+        print('Failed to fetch employee stats: ${response.reasonPhrase}');
+        Get.snackbar('Error', 'Failed to fetch stats.',
+            snackPosition: SnackPosition.TOP);
+      }
+    } catch (e) {
+      print('Error fetching employee stats: $e');
+      Get.snackbar('Error', 'An error occurred while fetching stats.',
+          snackPosition: SnackPosition.TOP);
+    } finally {
+      isLoadingStats(false);
+    }
+  }
+
+  void _updateStatsList(EmployeeStats stats) {
+    statsList.assignAll([
+      {
+        "iconImage": Iconpath.jobProfileIcon,
+        "count": stats.jobsCompleted.toString(),
+        "completedMsg": "Jobs Completed",
+      },
+      {
+        "iconImage": Iconpath.workIcon,
+        "count": stats.hoursWorked.toString(),
+        "completedMsg": "Hours Worked",
+      },
+      {
+        "iconImage": Iconpath.earnIcon,
+        "count": "\$${stats.totalEarned.toStringAsFixed(2)}",
+        "completedMsg": "Total Earned",
+      },
+      {
+        "iconImage": Iconpath.monthCalenderIcon,
+        "count": stats.thisMonth.toString(),
+        "completedMsg": "This Month",
+      },
+    ]);
   }
 
   Future<void> loadPreference() async {

@@ -12,6 +12,7 @@ class ApiEndpoint {
   static const String employeeJobs = '/employee/jobs';
   static const String employeeLatestJobs = '/employee/latest-jobs';
   static const String employeeAppliedJobs = '/employee/jobs/applied';
+  static const String employeeStats = '/employee/stats';
 
   static String employeeJobDetails(String jobId) => '/employee/jobs/$jobId';
   static String applyJob(String jobId) => '/employee/jobs/$jobId/apply';
@@ -46,6 +47,7 @@ class ApiEndpoint {
   static const String employerProfile = '/profile/get-me';
   static const String employerStats = '/employer/stats';
   static const String updateEmployerProfile = '/profile/update-me';
+  static const String updateProfile = '/profile/update-me';
   static const String employerSubscriptionStatus =
       '/subscription/my-subscriptions/current';
   static const String employerRenewSubscription = '/subscription/renew';

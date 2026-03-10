@@ -270,7 +270,8 @@ Widget _buildWorkerCard(
               elevation: 0,
             ),
             onPressed: () {
-              Get.to(() => EmployerWorkerProfile());
+              Get.to(() =>
+                  EmployerWorkerProfile(employeeId: favorite.employee.id));
             },
             child: Text(
               'View Profile',

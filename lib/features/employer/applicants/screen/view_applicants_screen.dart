@@ -428,7 +428,8 @@ class ViewApplicantsScreen extends StatelessWidget {
                         SizedBox(width: 4.w),
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => EmployerWorkerProfile());
+                            Get.to(() => EmployerWorkerProfile(
+                                employeeId: employee?['id']?.toString() ?? ''));
                           },
                           child: Text(
                             "View Profile",

@@ -143,6 +143,7 @@ class EmployerProfileInfoController extends GetxController {
         final jsonResponse = jsonDecode(responseBody);
 
         if (jsonResponse['success'] == true) {
+          Get.back();
           Get.snackbar('Success', 'Profile updated successfully');
           // Refresh profile data
           await fetchProfileDetails();

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_service.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 
 class ChangePasswordController extends GetxController {
-  final ProfileService _profileService = Get.find<ProfileService>();
+  final ProfileService _profileService = Get.isRegistered<ProfileService>()
+      ? Get.find<ProfileService>()
+      : Get.put(ProfileService());
 
   final oldPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
@@ -52,8 +56,9 @@ class ChangePasswordController extends GetxController {
       final body = response.body;
 
       if (response.isOk && body != null && body['success'] == true) {
-        Get.back(); // Go back to profile screen
-        Get.snackbar('Success', 'Password changed successfully.',
+        Get.toNamed(AppRoute.loginScreen);
+        SharedPreferenceHelper().clearAll();
+        Get.snackbar('Password changed.', 'Please log in again.',
             snackPosition: SnackPosition.TOP,
             backgroundColor: Appcolor.primaryColor,
             colorText: Colors.white);

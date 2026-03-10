@@ -22,7 +22,7 @@ class RenewSubscriptionService {
       print('[RenewSubscriptionService] Request Body: $body');
 
       final response = await http.post(
-        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerRenewSubscription),
+        Uri.parse(ApiEndpoint.employerRenewSubscription),
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',

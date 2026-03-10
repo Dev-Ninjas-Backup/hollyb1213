@@ -47,7 +47,7 @@ class EmployerProfileInfoController extends GetxController {
       }
 
       final response = await http.get(
-        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employerProfile),
+        Uri.parse(ApiEndpoint.employerProfile),
         headers: {
           'Authorization': 'Bearer $accessToken',
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ class EmployerProfileInfoController extends GetxController {
       // Create multipart request
       var request = http.MultipartRequest(
         'PATCH',
-        Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.updateEmployerProfile),
+        Uri.parse(ApiEndpoint.updateEmployerProfile),
       );
 
       // Add authorization header

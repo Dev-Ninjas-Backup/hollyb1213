@@ -32,6 +32,7 @@ class DetailedProfileData {
   final String fullName;
   final String email;
   final String role;
+  final String? phone;
   final DetailedProfile? profile;
 
   DetailedProfileData({
@@ -39,6 +40,7 @@ class DetailedProfileData {
     required this.fullName,
     required this.email,
     required this.role,
+    this.phone,
     this.profile,
   });
 
@@ -48,6 +50,7 @@ class DetailedProfileData {
       fullName: json['full_name'] ?? json['fullName'] ?? '',
       email: json['email'] ?? '',
       role: json['role'] ?? '',
+      phone: json['phone'],
       profile: json['profile'] != null
           ? DetailedProfile.fromJson(json['profile'])
           : null,

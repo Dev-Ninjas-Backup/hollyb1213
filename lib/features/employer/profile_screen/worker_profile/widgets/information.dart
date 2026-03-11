@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 
 class Information extends StatelessWidget {
-  const Information({super.key});
+  final EmployeeProfileData profile;
+
+  const Information({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class Information extends StatelessWidget {
             ),
             SizedBox(width: 4.w),
             Text(
-              "Dhaka Bangladesh",
+              profile.address,
               style: getBodyTextStyle(color: Appcolor.appTextSecondaryColor),
             ),
           ],
@@ -34,28 +37,28 @@ class Information extends StatelessWidget {
             ),
             SizedBox(width: 4.w),
             Text(
-              "Experience: 2 Years",
+              "Experience: ${profile.experienceYears} Years",
               style: getBodyTextStyle(color: Appcolor.appTextSecondaryColor),
             ),
           ],
         ),
-        SizedBox(height: 12.h),
-        Row(
-          children: [
-            Icon(
-              Icons.timer_outlined,
-              size: sp(20),
-              color: Appcolor.appTextSecondaryColor,
-            ),
-            SizedBox(width: 4.w),
-            Text(
-              "Job Type: Part - Time / Full Time / Hourly",
-              style: getBodyTextStyle(color: Appcolor.appTextSecondaryColor),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            ),
-          ],
-        ),
+        if (profile.user.phone != null && profile.user.phone!.isNotEmpty) ...[
+          SizedBox(height: 12.h),
+          Row(
+            children: [
+              Icon(
+                Icons.phone_outlined,
+                size: sp(20),
+                color: Appcolor.appTextSecondaryColor,
+              ),
+              SizedBox(width: 4.w),
+              Text(
+                profile.user.phone!,
+                style: getBodyTextStyle(color: Appcolor.appTextSecondaryColor),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

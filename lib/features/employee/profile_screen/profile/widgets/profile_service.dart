@@ -6,7 +6,7 @@ class ProfileService extends GetConnect {
   Future<Response> getProfile() async {
     final String? token = await SharedPreferenceHelper().getAccessToken();
     final response = await get(
-      '${ApiEndpoint.baseUrl}${ApiEndpoint.getProfile}',
+      ApiEndpoint.getProfile,
       headers: {
         'Authorization': 'Bearer ${token ?? ''}',
         'Content-Type': 'application/json',

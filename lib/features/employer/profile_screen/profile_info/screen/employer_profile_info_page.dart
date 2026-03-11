@@ -102,6 +102,11 @@ class EmployerProfileInfoPage extends StatelessWidget {
                         hintText: "Enter your full name",
                       ),
                       CustomTextField(
+                        controller: controller.phoneNumberController,
+                        lebelText: "Phone Number",
+                        hintText: "Enter your phone number",
+                      ),
+                      CustomTextField(
                         controller: controller.companyNameController,
                         lebelText: "Company Name",
                         hintText: "Enter company name",

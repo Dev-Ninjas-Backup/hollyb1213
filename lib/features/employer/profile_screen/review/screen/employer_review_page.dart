@@ -6,157 +6,247 @@ import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/constants/iconpath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/review/controller/employer_review_controller.dart';
+import 'package:hollyb1213/features/employer/profile_screen/review/controller/all_reviews_controller.dart';
 
 class EmployerReviewPage extends StatelessWidget {
-  final controller = Get.put(EmployerReviewController());
-  EmployerReviewPage({super.key});
+  final String employeeId;
+  final controller = Get.put(AllReviewsController());
+
+  EmployerReviewPage({super.key, required this.employeeId}) {
+    controller.setEmployeeId(employeeId);
+    controller.fetchAllReviews();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomAppBar(title: "Reviews", iconUrl: Iconpath.backIcon),
-
-              SizedBox(height: 12.h),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-
-                  children: [
-                    Text(
-                      "4.0",
-                      style: getBodyTextStyle(
-                        fontSize: sp(30),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-
-                    RatingBarIndicator(
-                      unratedColor: Appcolor.primaryColor.withValues(alpha: .5),
-                      rating: 4,
-                      itemBuilder: (context, index) =>
-                          Icon(Icons.star, color: Appcolor.primaryColor),
-                      itemCount: 5,
-                      itemSize: sp(20),
-                      direction: Axis.horizontal,
-                    ),
-                    SizedBox(height: 6.h),
-
-                    Text(
-                      "Based on 24 reviews",
-                      style: getBodyTextStyle(
-                        color: Appcolor.appTextSecondaryColor,
-                      ),
-                    ),
-                  ],
+      body: Obx(
+        () => controller.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Appcolor.primaryColor,
                 ),
-              ),
-              SizedBox(height: 20.h),
-
-              Image.asset(
-                "assets/images/reviewImage.png",
-                height: 134.h,
-                width: double.infinity,
-              ),
-
-              SizedBox(height: 20.h),
-
-
-
-
-
-
-
-              ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: controller.allReview.length,
-
-                itemBuilder: (_, index) {
-                  final item = controller.allReview[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 25.h),
-                    child:
-                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+              )
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomAppBar(
+                          title: "Reviews", iconUrl: Iconpath.backIcon),
+                      SizedBox(height: 12.h),
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadiusGeometry.circular(50.r),
-                              child: Image.asset(
-                                item.imageUrl,
-                                height: 38.h,
-                                width: 38.w,
-                              ),
-                            ),
-                            SizedBox(width: 4.w),
                             Text(
-                              item.title,
+                              "${controller.getAverageRating().toStringAsFixed(1)}",
                               style: getBodyTextStyle(
-                                fontSize: sp(16),
-                                fontWeight: FontWeight.w500,
+                                fontSize: sp(30),
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 4.h),
-                        Row(
-                          children: [
                             RatingBarIndicator(
-                              unratedColor: Appcolor.primaryColor.withValues(
-                                alpha: .5,
-                              ),
-                              rating: item.rating,
-                              itemBuilder: (context, index) => Icon(
-                                Icons.star,
-                                color: Appcolor.primaryColor,
-                              ),
+                              unratedColor:
+                                  Appcolor.primaryColor.withValues(alpha: .5),
+                              rating: controller.getAverageRating(),
+                              itemBuilder: (context, index) => Icon(Icons.star,
+                                  color: Appcolor.primaryColor),
                               itemCount: 5,
                               itemSize: sp(20),
                               direction: Axis.horizontal,
                             ),
-                            SizedBox(width: 4.w),
+                            SizedBox(height: 6.h),
                             Text(
-                              item.rating.toString(),
+                              "Based on ${controller.paginationInfo.value?.totalReviews ?? 0} reviews",
                               style: getBodyTextStyle(
                                 color: Appcolor.appTextSecondaryColor,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          item.subTitle,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ],
-                    ),
-
-                  );
-                },
+                      ),
+                      SizedBox(height: 20.h),
+                      _buildRatingDistribution(),
+                      SizedBox(height: 20.h),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: controller.reviews.length,
+                        itemBuilder: (_, index) {
+                          final review = controller.reviews[index];
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 25.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 38.h,
+                                      width: 38.w,
+                                      decoration: BoxDecoration(
+                                        color: Appcolor.primaryColor
+                                            .withValues(alpha: .2),
+                                        borderRadius:
+                                            BorderRadius.circular(50.r),
+                                      ),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: Appcolor.primaryColor,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            review.job.companyName,
+                                            style: getBodyTextStyle(
+                                              fontSize: sp(16),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            review.job.title,
+                                            style: getBodyTextStyle(
+                                              fontSize: sp(14),
+                                              color: Appcolor
+                                                  .appTextSecondaryColor,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8.h),
+                                Row(
+                                  children: [
+                                    RatingBarIndicator(
+                                      unratedColor: Appcolor.primaryColor
+                                          .withValues(alpha: .5),
+                                      rating: review.rating.toDouble(),
+                                      itemBuilder: (context, index) => Icon(
+                                        Icons.star,
+                                        color: Appcolor.primaryColor,
+                                      ),
+                                      itemCount: 5,
+                                      itemSize: sp(16),
+                                      direction: Axis.horizontal,
+                                    ),
+                                    SizedBox(width: 8.w),
+                                    Text(
+                                      review.rating.toString(),
+                                      style: getBodyTextStyle(
+                                        color: Appcolor.appTextSecondaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8.h),
+                                Text(
+                                  review.comment,
+                                  style: getBodyTextStyle(),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      SizedBox(height: 40.h),
+                    ],
+                  ),
+                ),
               ),
+      ),
+    );
+  }
 
+  Widget _buildRatingDistribution() {
+    final ratingCounts = controller.getRatingCounts();
+    final totalReviews = controller.reviews.length;
 
+    return Column(
+      children: [
+        _buildRatingRow(
+          "Excellent",
+          ratingCounts['5'] ?? 0,
+          totalReviews,
+          Colors.green,
+        ),
+        SizedBox(height: 12.h),
+        _buildRatingRow(
+          "Good",
+          ratingCounts['4'] ?? 0,
+          totalReviews,
+          Color(0xFFAFCC00),
+        ),
+        SizedBox(height: 12.h),
+        _buildRatingRow(
+          "Average",
+          ratingCounts['3'] ?? 0,
+          totalReviews,
+          Color(0xFFFFA500),
+        ),
+        SizedBox(height: 12.h),
+        _buildRatingRow(
+          "Poor",
+          ratingCounts['1'] ?? 0,
+          totalReviews,
+          Colors.red,
+        ),
+      ],
+    );
+  }
 
+  Widget _buildRatingRow(
+    String label,
+    int count,
+    int total,
+    Color color,
+  ) {
+    final percentage = total > 0 ? count / total : 0.0;
 
-
-
-
-              SizedBox(height: 40.h),
-            ],
+    return Row(
+      children: [
+        SizedBox(
+          width: 80.w,
+          child: Text(
+            label,
+            style: getBodyTextStyle(fontSize: sp(14)),
           ),
         ),
-      ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4.r),
+            child: LinearProgressIndicator(
+              value: percentage,
+              minHeight: 8.h,
+              backgroundColor: Colors.grey[300]!,
+              valueColor: AlwaysStoppedAnimation<Color>(color),
+            ),
+          ),
+        ),
+        SizedBox(width: 8.w),
+        SizedBox(
+          width: 30.w,
+          child: Text(
+            count.toString(),
+            style: getBodyTextStyle(fontSize: sp(14)),
+          ),
+        ),
+      ],
     );
   }
 }

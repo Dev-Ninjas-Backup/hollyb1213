@@ -4,26 +4,39 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import '../../../../../core/common/constants/widget/custom_shadow_container.dart';
 import '../../../../../core/common/style/global_text_style.dart';
-import '../../review/controller/employer_review_controller.dart';
+import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 
 class WorkerProfileReview extends StatelessWidget {
+  final EmployeeProfileData profile;
+
   const WorkerProfileReview({
     super.key,
-    required this.controller,
+    required this.profile,
   });
-
-  final EmployerReviewController controller;
 
   @override
   Widget build(BuildContext context) {
+    // Show only first 3 reviews
+    final reviewsToShow = profile.receivedReviews.length > 3
+        ? profile.receivedReviews.sublist(0, 3)
+        : profile.receivedReviews;
+
+    if (reviewsToShow.isEmpty) {
+      return Center(
+        child: Text(
+          'No reviews yet',
+          style: getBodyTextStyle(color: Appcolor.appTextSecondaryColor),
+        ),
+      );
+    }
+
     return ListView.builder(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 3,
-    
+      itemCount: reviewsToShow.length,
       itemBuilder: (_, index) {
-        final item = controller.allReview[index];
+        final review = reviewsToShow[index];
         return Padding(
           padding: EdgeInsets.only(bottom: 18.h),
           child: CustomShadowContainer(
@@ -32,54 +45,75 @@ class WorkerProfileReview extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(
-                        50.r,
+                    Container(
+                      height: 38.h,
+                      width: 38.w,
+                      decoration: BoxDecoration(
+                        color: Appcolor.primaryColor.withValues(alpha: .2),
+                        borderRadius: BorderRadius.circular(50.r),
                       ),
-                      child: Image.asset(
-                        item.imageUrl,
-                        height: 38.h,
-                        width: 38.w,
+                      child: Icon(
+                        Icons.person,
+                        color: Appcolor.primaryColor,
                       ),
                     ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      item.title,
-                      style: getBodyTextStyle(
-                        fontSize: sp(16),
-                        fontWeight: FontWeight.w500,
+                    SizedBox(width: 8.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            review.job.companyName,
+                            style: getBodyTextStyle(
+                              fontSize: sp(16),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            review.job.title,
+                            style: getBodyTextStyle(
+                              fontSize: sp(14),
+                              color: Appcolor.appTextSecondaryColor,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4.h),
+                SizedBox(height: 8.h),
                 Row(
                   children: [
                     RatingBarIndicator(
                       unratedColor: Appcolor.primaryColor.withValues(
                         alpha: .5,
                       ),
-                      rating: item.rating,
+                      rating: review.rating.toDouble(),
                       itemBuilder: (context, index) => Icon(
                         Icons.star,
                         color: Appcolor.primaryColor,
                       ),
                       itemCount: 5,
-                      itemSize: sp(20),
+                      itemSize: sp(16),
                       direction: Axis.horizontal,
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: 8.w),
                     Text(
-                      item.rating.toString(),
+                      review.rating.toString(),
                       style: getBodyTextStyle(
                         color: Appcolor.appTextSecondaryColor,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 4.h),
+                SizedBox(height: 8.h),
                 Text(
-                  item.subTitle,
+                  review.comment,
+                  style: getBodyTextStyle(),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                 ),

@@ -31,6 +31,8 @@ class EmployeeProfileData {
   final int totalJobs;
   final int totalHours;
   final String totalEarned;
+  final int completedJobsCount;
+  final String? latestJobTitle;
   final EmployeeUser user;
   final List<EmployeeSkill> employeeSkills;
   final List<Review> receivedReviews;
@@ -48,12 +50,24 @@ class EmployeeProfileData {
     required this.totalJobs,
     required this.totalHours,
     required this.totalEarned,
+    required this.completedJobsCount,
+    this.latestJobTitle,
     required this.user,
     required this.employeeSkills,
     required this.receivedReviews,
   });
 
   factory EmployeeProfileData.fromJson(Map<String, dynamic> json) {
+    // Extract _count for completed jobs
+    final count = json['_count'] ?? {};
+    final completedJobs = count['assigned_job'] ?? 0;
+
+    // Extract latest job title
+    final assignedJobs = json['assigned_job'] as List<dynamic>?;
+    final latestJobTitle = assignedJobs != null && assignedJobs.isNotEmpty
+        ? assignedJobs[0]['title']
+        : null;
+
     return EmployeeProfileData(
       id: json['id'] ?? '',
       userId: json['user_id'] ?? '',
@@ -69,6 +83,8 @@ class EmployeeProfileData {
       totalJobs: json['total_jobs'] ?? 0,
       totalHours: json['total_hours'] ?? 0,
       totalEarned: json['total_earned'] ?? '0',
+      completedJobsCount: completedJobs,
+      latestJobTitle: latestJobTitle,
       user: EmployeeUser.fromJson(json['user'] ?? {}),
       employeeSkills: (json['employee_skills'] as List<dynamic>?)
               ?.map((skill) => EmployeeSkill.fromJson(skill))
@@ -87,12 +103,14 @@ class EmployeeUser {
   final String fullName;
   final String email;
   final String role;
+  final String? phone;
 
   EmployeeUser({
     required this.id,
     required this.fullName,
     required this.email,
     required this.role,
+    this.phone,
   });
 
   factory EmployeeUser.fromJson(Map<String, dynamic> json) {
@@ -101,6 +119,7 @@ class EmployeeUser {
       fullName: json['full_name'] ?? '',
       email: json['email'] ?? '',
       role: json['role'] ?? '',
+      phone: json['phone'],
     );
   }
 }

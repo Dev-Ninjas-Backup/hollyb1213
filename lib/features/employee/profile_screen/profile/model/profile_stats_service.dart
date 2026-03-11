@@ -11,7 +11,7 @@ class ProfileStatsService extends GetxService {
     }
 
     final response = await http.get(
-      Uri.parse(ApiEndpoint.baseUrl + ApiEndpoint.employeeStats),
+      Uri.parse(ApiEndpoint.employeeStats),
       headers: {
         'Authorization': 'Bearer $accessToken',
         'Content-Type': 'application/json',

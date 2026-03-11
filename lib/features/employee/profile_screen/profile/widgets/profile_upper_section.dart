@@ -105,7 +105,7 @@ class ProfileUpperSection extends StatelessWidget {
           children: [
             RatingBarIndicator(
               unratedColor: Appcolor.primaryColor.withValues(alpha: .5),
-              rating: 4,
+              rating: userProfile.rating,
               itemBuilder: (context, index) =>
                   Icon(Icons.star, color: Appcolor.primaryColor),
               itemCount: 5,
@@ -118,7 +118,7 @@ class ProfileUpperSection extends StatelessWidget {
                 Get.toNamed(AppRoute.employeeReview);
               },
               child: Text(
-                "4.8 (24 review)",
+                "${userProfile.rating.toStringAsFixed(1)} (${userProfile.totalReviews} review${userProfile.totalReviews != 1 ? 's' : ''})",
                 style: getBodyTextStyle(
                   color: Appcolor.appTextSecondaryColor,
                 ),

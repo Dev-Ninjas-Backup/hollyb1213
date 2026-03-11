@@ -66,6 +66,7 @@ class EmployerProfileInfoController extends GetxController {
 
           // Populate text controllers with fetched data
           fullNameController.text = profileResponse.data.fullName;
+          phoneNumberController.text = profileResponse.data.phone ?? '';
           companyNameController.text =
               profileResponse.data.profile?.companyName ?? '';
           addressController.text = profileResponse.data.profile?.address ?? '';
@@ -109,6 +110,7 @@ class EmployerProfileInfoController extends GetxController {
 
       // Add text fields
       request.fields['fullName'] = fullNameController.text;
+      request.fields['phoneNumber'] = phoneNumberController.text;
       request.fields['companyName'] = companyNameController.text;
       request.fields['address'] = addressController.text;
 

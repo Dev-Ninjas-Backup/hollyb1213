@@ -115,7 +115,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget _buildMessageInput(EmployeeChatController controller) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h)
-          .copyWith(bottom: MediaQuery.of(Get.context!).padding.bottom + 8.h),
+          .copyWith(bottom: MediaQuery.of(Get.context!).padding.bottom + 38.h),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -133,16 +133,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               decoration: const InputDecoration.collapsed(
                   hintText: 'Type a message...'),
               onSubmitted: (_) => controller.sendMessage(),
-              
             ),
-            
-            
           ),
           IconButton(
             icon: const Icon(Icons.send, color: Appcolor.primaryColor),
             onPressed: controller.sendMessage,
           ),
-
         ],
       ),
     );

@@ -42,6 +42,23 @@ class Information extends StatelessWidget {
             ),
           ],
         ),
+        if (profile.user.phone != null && profile.user.phone!.isNotEmpty) ...[
+          SizedBox(height: 12.h),
+          Row(
+            children: [
+              Icon(
+                Icons.phone_outlined,
+                size: sp(20),
+                color: Appcolor.appTextSecondaryColor,
+              ),
+              SizedBox(width: 4.w),
+              Text(
+                profile.user.phone!,
+                style: getBodyTextStyle(color: Appcolor.appTextSecondaryColor),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }

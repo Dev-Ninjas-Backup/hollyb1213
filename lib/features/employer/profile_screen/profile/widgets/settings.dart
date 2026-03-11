@@ -17,54 +17,54 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.only(bottom: 18.h),
-          child: CustomShadowContainer(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  Iconpath.notificationProfile,
-                  height: 40.h,
-                  width: 40.w,
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Notifications",
-                        style: getBodyTextStyle(
-                          fontSize: sp(18),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Obx(
-                  () => ToggleButtons(
-                    borderRadius: BorderRadius.circular(8),
-                    selectedColor: Colors.white,
-                    fillColor: Appcolor.primaryColor.withValues(alpha: .4),
-                    color: Colors.black,
-                    constraints: BoxConstraints(
-                      minHeight: 25.h,
-                      minWidth: 40.w,
-                    ),
-                    isSelected: controller.isSelected,
-                    onPressed: (index) => controller.toggle(index),
-                    children: [
-                      Text("Disable", style: getBodyTextStyle(fontSize: sp(8))),
-                      Text("Enable", style: getBodyTextStyle(fontSize: sp(8))),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.only(bottom: 18.h),
+        //   child: CustomShadowContainer(
+        //     child: Row(
+        //       crossAxisAlignment: CrossAxisAlignment.center,
+        //       children: [
+        //         Image.asset(
+        //           Iconpath.notificationProfile,
+        //           height: 40.h,
+        //           width: 40.w,
+        //         ),
+        //         SizedBox(width: 12.w),
+        //         Expanded(
+        //           child: Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Text(
+        //                 "Notifications",
+        //                 style: getBodyTextStyle(
+        //                   fontSize: sp(18),
+        //                   fontWeight: FontWeight.w500,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //         Obx(
+        //           () => ToggleButtons(
+        //             borderRadius: BorderRadius.circular(8),
+        //             selectedColor: Colors.white,
+        //             fillColor: Appcolor.primaryColor.withValues(alpha: .4),
+        //             color: Colors.black,
+        //             constraints: BoxConstraints(
+        //               minHeight: 25.h,
+        //               minWidth: 40.w,
+        //             ),
+        //             isSelected: controller.isSelected,
+        //             onPressed: (index) => controller.toggle(index),
+        //             children: [
+        //               Text("Disable", style: getBodyTextStyle(fontSize: sp(8))),
+        //               Text("Enable", style: getBodyTextStyle(fontSize: sp(8))),
+        //             ],
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         ListView.builder(
           padding: EdgeInsets.zero,
           shrinkWrap: true,

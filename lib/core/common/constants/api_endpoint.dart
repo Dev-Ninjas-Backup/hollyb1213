@@ -12,7 +12,7 @@ class ApiEndpoint {
   static const String employeeJobs = '/employee/jobs';
   static const String employeeLatestJobs = '/employee/latest-jobs';
   static const String employeeAppliedJobs = '/employee/jobs/applied';
-  static const String employeeStats = '/employee/stats';
+  static const String employeeStats = '$baseUrl/employee/stats';
 
   static String employeeJobDetails(String jobId) => '/employee/jobs/$jobId';
   static String applyJob(String jobId) => '/employee/jobs/$jobId/apply';
@@ -35,7 +35,7 @@ class ApiEndpoint {
   static const String profilePhoto = '/profile/documents/profile-photo';
   static const String uploadNid = '/profile/documents/nid';
   static const String uploadPassport = '/profile/documents/passport';
-  static const String getProfile = '/profile/get-me';
+  static const String getProfile = '$baseUrl/profile/get-me';
   static const String changePassword = '/profile/change-password';
   static const String createJobPost = '$baseUrl/employer/job/create';
 

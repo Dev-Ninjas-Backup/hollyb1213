@@ -3,10 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile_info/service/employee_profile_info_service.dart';
 
@@ -39,7 +37,6 @@ class EmployeeProfileInfoController extends GetxController {
       if (response.statusCode == 200 && response.body['success'] == true) {
         final data = response.body['data'];
         final profile = data['profile'] ?? {};
-        final contact = data;
 
         // Populate controllers with fetched data
         fullNameController.text = data['full_name'] ?? '';
@@ -53,7 +50,7 @@ class EmployeeProfileInfoController extends GetxController {
           if (skillsData is String) {
             skillController.text = skillsData;
           } else if (skillsData is List) {
-            skillController.text = (skillsData as List).join(', ');
+            skillController.text = (skillsData).join(', ');
           }
         }
 
@@ -138,7 +135,7 @@ class EmployeeProfileInfoController extends GetxController {
 
         // Navigate after showing success message
         Future.delayed(Duration(seconds: 1), () {
-          Get.offAll(() => RoleSelectionScreen());
+          Get.offAll(() => AppRoute.loginScreen);
         });
       } else {
         EasyLoading.showError(

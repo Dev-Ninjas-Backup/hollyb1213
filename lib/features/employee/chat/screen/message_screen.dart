@@ -30,7 +30,6 @@ class MessageScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
-
               Container(
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
@@ -47,7 +46,6 @@ class MessageScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-
               Expanded(
                 child: Obx(
                   () => ListView.builder(
@@ -58,10 +56,10 @@ class MessageScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap: () => Get.to(
                           () => ChatDetailScreen(
-                            name: message.name,
-                            company: message.company,
-                            imageUrl: message.imageUrl,
-                            isOnline: message.isOnline,
+                            conversationId: message.conversationId,
+                            recipientId: message.recipientId,
+                            recipientName: message.name,
+                            recipientAvatarUrl: message.imageUrl,
                           ),
                         ),
                         child: Padding(
@@ -85,9 +83,14 @@ class MessageScreen extends StatelessWidget {
                                   children: [
                                     CircleAvatar(
                                       radius: 24,
-                                      backgroundImage: NetworkImage(
-                                        message.imageUrl,
-                                      ),
+                                      backgroundImage:
+                                          message.imageUrl.isNotEmpty
+                                              ? NetworkImage(message.imageUrl)
+                                              : null,
+                                      child: message.imageUrl.isEmpty
+                                          ? const Icon(Icons.person,
+                                              color: Colors.grey)
+                                          : null,
                                     ),
                                     if (message.isOnline)
                                       Positioned(

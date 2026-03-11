@@ -2,18 +2,16 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import '../model/chat_message_model.dart';
-import '../service/employee_chat_service.dart';
+import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
+import 'package:hollyb1213/features/employer/applicants/screen/employer_chat_service.dart';
 
-class EmployeeChatController extends GetxController {
-  final EmployeeChatService _service = EmployeeChatService();
+class EmployerChatController extends GetxController {
+  final EmployerChatService _service = EmployerChatService();
   final SharedPreferenceHelper _prefs = SharedPreferenceHelper();
 
-  final String conversationId;
   final String recipientId;
 
-  EmployeeChatController(
-      {required this.conversationId, required this.recipientId});
+  EmployerChatController({required this.recipientId});
 
   final textController = TextEditingController();
   final scrollController = ScrollController();
@@ -40,8 +38,12 @@ class EmployeeChatController extends GetxController {
         return;
       }
 
-      _service.connect(token);
+      _service.connect(token, onConnect: () {
+        log("Socket connected. Requesting conversation list.");
+        _service.loadConversations();
+      });
 
+      // Attach listeners AFTER connect() is called so the socket is initialized.
       _service.listenMessages((data) {
         if (data is Map && data.containsKey('messages')) {
           final List list = data["messages"] ?? [];
@@ -73,7 +75,31 @@ class EmployeeChatController extends GetxController {
         _scrollToBottom();
       });
 
-      _service.loadConversation(conversationId);
+      _service.listenConversationList((data) {
+        log("Received conversation list: $data");
+        if (data is List) {
+          final conversation = data.firstWhere(
+            (convo) => convo['participant']?['id'] == recipientId,
+            orElse: () => null,
+          );
+
+          if (conversation != null) {
+            final conversationId = conversation['conversationId'] as String?;
+            if (conversationId != null) {
+              log("Found existing conversation. ID: $conversationId. Loading messages.");
+              _service.loadConversation(conversationId);
+              // Stop loading indicator here to prevent getting stuck if server
+              // doesn't respond with message history. The list will populate
+              // when/if the `listenMessages` callback is fired.
+              isLoading.value = false;
+            }
+          } else {
+            log("No existing conversation found for recipient: $recipientId. This is a new chat.");
+            isLoading.value = false;
+            messages.clear();
+          }
+        }
+      });
     } catch (e) {
       log("Chat initialization error: $e");
       isLoading.value = false;
@@ -84,7 +110,11 @@ class EmployeeChatController extends GetxController {
     final text = textController.text.trim();
     if (text.isEmpty) return;
 
+    // Emit the message to the server.
     _service.sendMessage(recipientId, text);
+
+    // Clear the input. The message will appear when the server echo is received
+    // via the `listenNewMessage` listener. This prevents duplicate messages.
     textController.clear();
   }
 

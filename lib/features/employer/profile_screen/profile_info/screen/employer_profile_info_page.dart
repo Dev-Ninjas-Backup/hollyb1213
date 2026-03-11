@@ -135,7 +135,7 @@ class EmployerProfileInfoPage extends StatelessWidget {
                       SizedBox(height: 30.h),
                       GestureDetector(
                         onTap: () {
-                          Get.back();
+                          controller.deleteProfile();
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

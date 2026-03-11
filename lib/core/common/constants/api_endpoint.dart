@@ -47,7 +47,7 @@ class ApiEndpoint {
   static const String employerProfile = '$baseUrl/profile/get-me';
   static const String employerStats = '$baseUrl/employer/stats';
   static const String updateEmployerProfile = '$baseUrl/profile/update-me';
-  static const String updateProfile = '/profile/update-me';
+  static const String updateEmployeeProfile = '$baseUrl/profile/update-me';
   static const String employerSubscriptionStatus =
       '$baseUrl/subscription/my-subscriptions/current';
   static const String employerRenewSubscription = '$baseUrl/subscription/renew';
@@ -79,4 +79,5 @@ class ApiEndpoint {
       '$baseUrl/notification/user/$userId';
   static String markNotificationAsRead(String notificationId) =>
       '$baseUrl/notification/$notificationId/read';
+  static String deleteUserProfile = '$baseUrl/profile/delete';
 }

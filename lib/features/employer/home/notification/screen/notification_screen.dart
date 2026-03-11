@@ -32,6 +32,13 @@ class NotificationScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(
+              child: Text(
+            "No Notifications Yet",
+          ));
+        }
+
         if (controller.notifications.isEmpty) {
           return const Center(
             child: Text(
@@ -91,7 +98,7 @@ class _NotificationListItemState extends State<_NotificationListItem> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
+          color: item["read"] == true ? Colors.white : Colors.blue.shade50,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.05),

@@ -73,4 +73,10 @@ class ApiEndpoint {
       '$baseUrl/employer/employees/$employeeId';
   static String seeAllReviews(String employeeId, int page, int limit) =>
       '$baseUrl/employer/reviews?page=$page&limit=$limit&employeeId=$employeeId';
+
+  // Notifications
+  static String getUserNotifications(String userId) =>
+      '$baseUrl/notification/user/$userId';
+  static String markNotificationAsRead(String notificationId) =>
+      '$baseUrl/notification/$notificationId/read';
 }

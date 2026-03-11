@@ -67,7 +67,7 @@ class EmployerHomeScreen extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                Get.to(NotificationScreen());
+                Get.to(() => NotificationScreen());
               },
               icon: Image.asset(
                 Iconpath.notification,
@@ -154,7 +154,7 @@ class EmployerHomeScreen extends StatelessWidget {
                       onViewDetails: () {
                         if (isCompleted) {
                           Get.to(
-                            CompletedJobDetailsScreen(jobId: job.id),
+                            () => CompletedJobDetailsScreen(jobId: job.id),
                           );
                         } else {
                           Get.toNamed(

@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/chat/controller/chat_message_controller.dart';
 import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
+import 'package:hollyb1213/features/employee/chat/controller/chat_message_controller.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final String conversationId;
@@ -30,10 +30,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   void initState() {
     super.initState();
-    controller = Get.put(EmployeeChatController(
-      conversationId: widget.conversationId,
-      recipientId: widget.recipientId,
-    ));
+    controller = Get.put(
+      EmployeeChatController(
+        conversationId: widget.conversationId,
+        recipientId: widget.recipientId,
+      ),
+    );
   }
 
   @override
@@ -44,8 +46,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         backgroundColor: Appcolor.backgroundcolor,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
           onPressed: () => Get.back(),
+          icon: Icon(Icons.arrow_back, color: Colors.black, size: 24.sp),
         ),
         title: Text(widget.recipientName,
             style: getBodyTextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
@@ -133,16 +135,12 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               decoration: const InputDecoration.collapsed(
                   hintText: 'Type a message...'),
               onSubmitted: (_) => controller.sendMessage(),
-              
             ),
-            
-            
           ),
           IconButton(
             icon: const Icon(Icons.send, color: Appcolor.primaryColor),
             onPressed: controller.sendMessage,
           ),
-
         ],
       ),
     );

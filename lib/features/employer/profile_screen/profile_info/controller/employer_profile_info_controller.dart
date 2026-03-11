@@ -3,7 +3,9 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
@@ -161,6 +163,40 @@ class EmployerProfileInfoController extends GetxController {
       Get.snackbar('Error', 'Error updating profile: $e');
     } finally {
       isUpdating.value = false;
+    }
+  }
+
+  Future<void> deleteProfile() async {
+    try {
+      EasyLoading.show(status: 'Deleting account...');
+      final token = await SharedPreferenceHelper().getAccessToken();
+
+      final response = await http.delete(
+        Uri.parse(ApiEndpoint.deleteUserProfile),
+        headers: {
+          'Authorization': 'Bearer ${token ?? ''}',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+      print('Profile Details Response Status: ${response.statusCode}');
+      print('Profile Details Response Body: ${response.body}');
+      final jsonResponse = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        await SharedPreferenceHelper().clearAll();
+        EasyLoading.showSuccess('Account deleted successfully');
+
+        Future.delayed(Duration(seconds: 1), () {
+          Get.offAll(() => AppRoute.loginScreen);
+        });
+      } else {
+        EasyLoading.showError(
+            jsonResponse['message'] ?? 'Failed to delete profile');
+      }
+    } catch (e) {
+      EasyLoading.dismiss();
+      EasyLoading.showError('Error deleting profile: $e');
     }
   }
 

@@ -310,6 +310,7 @@ class ViewApplicantsScreen extends StatelessWidget {
     String jobId,
   ) {
     final employee = applicant['employee'] as Map<String, dynamic>?;
+    final employeeId = employee?['id'] as String?;
     final user = employee?['user'] as Map<String, dynamic>?;
 
     final profilePhotoUrl = employee?['profile_photo_url'] as String? ?? '';
@@ -394,7 +395,10 @@ class ViewApplicantsScreen extends StatelessWidget {
                     SizedBox(height: 4.h),
                     GestureDetector(
                       onTap: () {
-                        Get.to(() => EmployerWorkerProfile());
+                        if (employeeId != null) {
+                          Get.to(() =>
+                              EmployerWorkerProfile(employeeId: employeeId));
+                        }
                       },
                       child: Text(
                         "View Profile",

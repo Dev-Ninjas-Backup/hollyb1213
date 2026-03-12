@@ -37,26 +37,47 @@ class EmployeeProfileInfoController extends GetxController {
       if (response.statusCode == 200 && response.body['success'] == true) {
         final data = response.body['data'];
         final profile = data['profile'] ?? {};
+        final employeeProfile = data['employee_profile'] ?? {};
 
         // Populate controllers with fetched data
         fullNameController.text = data['full_name'] ?? '';
         phoneNumberController.text = data['phone'] ?? '';
-        addressController.text = profile['address'] ?? '';
-        dobController.text = profile['dateOfBirth'] ?? '';
+        addressController.text =
+            employeeProfile['address'] ?? profile['address'] ?? '';
+        dobController.text = _formatDate(
+            employeeProfile['date_of_birth'] ?? profile['dateOfBirth']);
 
-        // Handle skills - if it's a string, split by comma
-        final skillsData = profile['skills'];
-        if (skillsData != null) {
-          if (skillsData is String) {
-            skillController.text = skillsData;
-          } else if (skillsData is List) {
-            skillController.text = (skillsData).join(', ');
+        // Handle skills - from employee_skills array or profile.skills
+        final employeeSkillsData = employeeProfile['employee_skills'];
+        if (employeeSkillsData != null && employeeSkillsData is List) {
+          final skills = (employeeSkillsData)
+              .map((skillItem) => skillItem['skill']?['name'] ?? '')
+              .where((skill) => skill.isNotEmpty)
+              .toList();
+          if (skills.isNotEmpty) {
+            skillController.text = skills.join(', ');
+          } else if (profile['skills'] != null) {
+            if (profile['skills'] is String) {
+              skillController.text = profile['skills'];
+            } else if (profile['skills'] is List) {
+              skillController.text = (profile['skills']).join(', ');
+            }
+          }
+        } else if (profile['skills'] != null) {
+          if (profile['skills'] is String) {
+            skillController.text = profile['skills'];
+          } else if (profile['skills'] is List) {
+            skillController.text = (profile['skills']).join(', ');
           }
         }
 
-        experienceYearsController.text =
-            (profile['experienceYears'] ?? '').toString();
-        profilePhotoUrl.value = profile['profilePhotoUrl'] ?? '';
+        experienceYearsController.text = (employeeProfile['experience_years'] ??
+                profile['experienceYears'] ??
+                '')
+            .toString();
+        profilePhotoUrl.value = employeeProfile['profile_photo_url'] ??
+            profile['profilePhotoUrl'] ??
+            '';
       } else {
         EasyLoading.showError('Failed to fetch profile');
       }
@@ -64,6 +85,16 @@ class EmployeeProfileInfoController extends GetxController {
       EasyLoading.showError('Error fetching profile: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  String _formatDate(String? date) {
+    if (date == null || date.isEmpty) return '';
+    try {
+      final dateTime = DateTime.parse(date);
+      return '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')}';
+    } catch (e) {
+      return date;
     }
   }
 

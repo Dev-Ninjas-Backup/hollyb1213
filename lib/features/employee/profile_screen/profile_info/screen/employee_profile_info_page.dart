@@ -112,7 +112,7 @@ class EmployeeProfileInfoPage extends StatelessWidget {
                       CustomTextField(
                         controller: controller.dobController,
                         lebelText: "Date of Birth",
-                        hintText: "12 may 1999",
+                        hintText: "2000-01-01",
                       ),
                       CustomTextField(
                         controller: controller.experienceYearsController,

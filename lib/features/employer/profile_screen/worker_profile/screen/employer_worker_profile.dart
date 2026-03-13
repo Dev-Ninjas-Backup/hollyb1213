@@ -141,6 +141,12 @@ class EmployerWorkerProfile extends StatelessWidget {
                           MessageAndCallButton(
                             phoneNumber:
                                 controller.employeeProfile.value!.user.phone,
+                            recipientId:
+                                controller.employeeProfile.value!.userId,
+                            recipientName:
+                                controller.employeeProfile.value!.user.fullName,
+                            recipientAvatarUrl: controller
+                                .employeeProfile.value!.profilePhotoUrl,
                           ),
                           SizedBox(height: 70.h),
                         ],

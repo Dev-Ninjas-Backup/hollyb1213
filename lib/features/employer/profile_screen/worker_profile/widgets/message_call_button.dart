@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:hollyb1213/features/employee/chat/screen/chat_details_screen.dart';
 
 import '../../../../../core/common/constants/appcolor.dart';
 import '../../../../../core/common/style/global_text_style.dart';
@@ -8,11 +10,18 @@ import '../../../../../core/common/style/global_text_style.dart';
 class MessageAndCallButton extends StatelessWidget {
   final String? phoneNumber;
 
+  final String recipientId;
+  final String recipientName;
+  final String? recipientAvatarUrl;
+
   static const platform = MethodChannel('com.hollybdev.hollyb1213/call');
 
   const MessageAndCallButton({
     super.key,
     this.phoneNumber,
+    required this.recipientId,
+    required this.recipientName,
+    this.recipientAvatarUrl,
   });
 
   @override
@@ -23,7 +32,14 @@ class MessageAndCallButton extends StatelessWidget {
       children: [
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(() => ChatDetailScreen(
+                    conversationId: '',
+                    recipientId: recipientId,
+                    recipientName: recipientName,
+                    recipientAvatarUrl: recipientAvatarUrl ?? '',
+                  ));
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Appcolor.primaryColor,
               shape: RoundedRectangleBorder(

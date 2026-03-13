@@ -7,6 +7,7 @@ class MessageModel {
   final String timeAgo;
   final String imageUrl;
   final bool isOnline;
+  final int unreadCount;
 
   MessageModel({
     required this.conversationId,
@@ -17,5 +18,6 @@ class MessageModel {
     required this.timeAgo,
     required this.imageUrl,
     this.isOnline = false,
+    this.unreadCount = 0,
   });
 }

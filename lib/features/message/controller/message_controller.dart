@@ -22,15 +22,15 @@ class MessageController extends GetxController {
     _initializeSocketListener();
   }
 
-  Future<void> fetchConversations() async {
+  Future<void> fetchConversations({bool showLoading = true}) async {
     try {
-      isLoading.value = true;
+      if (showLoading) isLoading.value = true;
 
       final token = await _prefs.getAccessToken();
 
       if (token == null || token.isEmpty) {
         log("Auth token not found, can't fetch messages.");
-        isLoading.value = false;
+        if (showLoading) isLoading.value = false;
         return;
       }
 
@@ -70,21 +70,101 @@ class MessageController extends GetxController {
           timeAgo: formattedDate,
           imageUrl: "",
           isOnline: false,
+          unreadCount: e['unread_count'] ?? 0,
         );
       }).toList();
 
-      isLoading.value = false;
+      if (showLoading) isLoading.value = false;
     } catch (e) {
       log("Conversation fetch error: $e");
-      isLoading.value = false;
+      if (showLoading) isLoading.value = false;
     }
   }
 
   Future<void> _initializeSocketListener() async {
-    // Only connecting socket for potential real-time updates, handled separately
     final token = await _prefs.getAccessToken();
     if (token != null) {
       _socketService.connect(token);
+
+      // Listen for new messages to trigger live updates
+      _socketService.on('new_message', (data) {
+        log("Socket: New message received with data: $data");
+        _updateConversationFromSocket(data);
+      });
+    }
+  }
+
+  void _updateConversationFromSocket(dynamic data) {
+    try {
+      if (data is! Map<String, dynamic> ||
+          !data.containsKey('conversationId')) {
+        log("Socket: Received message with unexpected data format, refreshing list as a fallback.");
+        fetchConversations(showLoading: false);
+        return;
+      }
+
+      final String conversationId = data['conversationId'];
+      final int index =
+          messages.indexWhere((c) => c.conversationId == conversationId);
+
+      if (index != -1) {
+        // An existing conversation was found, update it locally.
+        final MessageModel existing = messages[index];
+
+        String formattedDate = existing.timeAgo;
+        final rawDate = data["updatedAt"] ?? data["createdAt"];
+        if (rawDate is String && rawDate.isNotEmpty) {
+          formattedDate =
+              DateFormat('hh:mm a').format(DateTime.parse(rawDate).toLocal());
+        }
+
+        final updated = MessageModel(
+          conversationId: existing.conversationId,
+          recipientId: existing.recipientId,
+          name: existing.name,
+          company: existing.company,
+          message: data['content'] ?? existing.message,
+          timeAgo: formattedDate,
+          imageUrl: existing.imageUrl,
+          isOnline: existing.isOnline,
+          unreadCount: existing.unreadCount + 1,
+        );
+
+        messages.removeAt(index);
+        messages.insert(0, updated);
+        messages.refresh();
+        log("Socket: Updated conversation $conversationId locally and moved to top.");
+      } else {
+        // This is a new conversation. Fetch the full list to get all details.
+        log("Socket: New message for a new conversation, refreshing list.");
+        fetchConversations(showLoading: false);
+      }
+    } catch (e) {
+      log("Socket: Error processing new message data: $e. Refreshing list as a fallback.");
+      fetchConversations(showLoading: false);
+    }
+  }
+
+  void resetUnreadCount(String conversationId) {
+    final int index =
+        messages.indexWhere((c) => c.conversationId == conversationId);
+    if (index != -1) {
+      final MessageModel existing = messages[index];
+      if (existing.unreadCount == 0) return; // No update needed
+
+      final updated = MessageModel(
+        conversationId: existing.conversationId,
+        recipientId: existing.recipientId,
+        name: existing.name,
+        company: existing.company,
+        message: existing.message,
+        timeAgo: existing.timeAgo,
+        imageUrl: existing.imageUrl,
+        isOnline: existing.isOnline,
+        unreadCount: 0, // Reset to zero
+      );
+      messages[index] = updated;
+      log("Reset unread count for conversation $conversationId");
     }
   }
 

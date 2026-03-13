@@ -164,6 +164,20 @@ class LoginScreen extends StatelessWidget {
                                 iconSize: 21,
                               ),
                             ),
+                            SizedBox(width: 24), // Container(
+                            //   width: 40,
+                            //   height: 40,
+                            //   decoration: BoxDecoration(
+                            //     color: Appcolor.appBorderColor,
+                            //     shape: BoxShape.circle,
+                            //   ),
+                            //   child: IconButton(
+                            //     onPressed: () => ctrl.loginWithFacebook(),
+                            //     icon: Image.asset(Iconpath.fecebook),
+                            //     iconSize: 24,
+                            //   ),
+                            // ),
+
                             SizedBox(width: 24),
                             Container(
                               width: 40,
@@ -173,9 +187,9 @@ class LoginScreen extends StatelessWidget {
                                 shape: BoxShape.circle,
                               ),
                               child: IconButton(
-                                onPressed: () => ctrl.loginWithFacebook(),
-                                icon: Image.asset(Iconpath.fecebook),
-                                iconSize: 24,
+                                onPressed: () => ctrl.loginWithApple(),
+                                icon: Icon(Icons.apple),
+                                iconSize: 26,
                               ),
                             ),
                           ],

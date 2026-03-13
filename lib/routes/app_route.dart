@@ -1,6 +1,7 @@
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:hollyb1213/features/auth/create_new_password/screen/create_password_screen.dart';
 import 'package:hollyb1213/features/auth/login/services/screen/login_screen.dart';
+import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_bottom_navbar_binding.dart';
 import 'package:hollyb1213/features/auth/forgot_password/screen/forgot_password_screen.dart';
 import 'package:hollyb1213/features/auth/forgot_password_otp/screen/otp_screen.dart';
@@ -14,7 +15,6 @@ import 'package:hollyb1213/features/auth/upload_utility_bill/screen/upload_utili
 import 'package:hollyb1213/features/auth/verification_otp/screen/verification_screen.dart';
 import 'package:hollyb1213/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
 import 'package:hollyb1213/features/employee/home/job_details/screen/job_details_screen.dart';
-import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
 import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';

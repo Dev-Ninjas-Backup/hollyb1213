@@ -80,4 +80,8 @@ class ApiEndpoint {
   static String markNotificationAsRead(String notificationId) =>
       '$baseUrl/notification/$notificationId/read';
   static String deleteUserProfile = '$baseUrl/profile/delete';
+  static const String conversations = '/private-message/conversations';
+
+  static String getConversationDetails(String conversationId) =>
+      '/private-message/conversations/$conversationId';
 }

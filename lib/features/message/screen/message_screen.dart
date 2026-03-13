@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/chat/controller/message_controller.dart';
+import 'package:hollyb1213/features/message/controller/message_controller.dart';
 import 'package:hollyb1213/features/employee/chat/screen/chat_details_screen.dart';
 
 class MessageScreen extends StatelessWidget {
@@ -138,12 +138,34 @@ class MessageScreen extends StatelessWidget {
                                         ],
                                       ),
                                       const SizedBox(height: 2),
-                                      Text(
-                                        message.company,
-                                        style: TextStyle(
-                                          color: Colors.grey.shade500,
-                                          fontSize: 13,
-                                        ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            message.company
+                                                .toUpperCase(), // Role
+                                            style: TextStyle(
+                                              color: Appcolor.primaryColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 6),
+                                            width: 4,
+                                            height: 4,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.grey,
+                                                shape: BoxShape.circle),
+                                          ),
+                                          Text(
+                                            "READ", // Status (Hardcoded as per requirement to show status, or map dynamic if available)
+                                            style: TextStyle(
+                                              color: Colors.grey.shade500,
+                                              fontSize: 11,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       const SizedBox(height: 4),
                                       Text(

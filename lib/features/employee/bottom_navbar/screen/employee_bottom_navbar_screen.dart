@@ -9,9 +9,9 @@ import 'package:hollyb1213/features/employee/jobs/controller/employee_jobs_contr
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
 import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
-import 'package:hollyb1213/features/employee/chat/screen/message_screen.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/screen/employee_profile_screen.dart';
+import 'package:hollyb1213/features/message/screen/message_screen.dart';
 
 class EmployeeBottomNavbarScreen extends StatelessWidget {
   const EmployeeBottomNavbarScreen({super.key});

@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hollyb1213/features/auth/login/apple_login/apple_login_services.dart';
 import 'package:hollyb1213/features/auth/login/facebook_login/facebook_login_services.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/auth/login/services/google_login_services.dart';
@@ -214,6 +215,69 @@ class LoginController extends GetxController {
       print('Exception: $e');
       print('StackTrace: $stackTrace');
       Get.snackbar('Error', 'Something went wrong with Google login.');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> loginWithApple() async {
+    isLoading.value = true;
+    try {
+      final idToken = await AppleLoginServices.login();
+
+      if (idToken != null) {
+        print('Apple ID Token: $idToken');
+        final response = await _loginService.loginWithApple(
+          idToken: idToken,
+          role: role.selectedRole.value,
+        );
+
+        final body = response.body;
+        if (body is! Map) {
+          print('Server error or offline: $body');
+          Get.snackbar(
+            'Error',
+            'Server is unreachable. Please try again later.',
+            snackPosition: SnackPosition.TOP,
+          );
+          return;
+        }
+
+        if (body['success'] == true || body['success'] == 'true') {
+          final data = body['data'];
+          final accessToken = data['accessToken'];
+          print('Backend API Access Token: $accessToken');
+          final refreshToken = data['refreshToken'];
+          final user = data['user'];
+          final userRole = user['role'];
+          final userId = user['id'].toString();
+
+          await _prefs.saveAuthData(
+            accessToken: accessToken,
+            refreshToken: refreshToken ?? '',
+            role: userRole,
+            userId: userId,
+          );
+
+          if (userRole == 'employee') {
+            Get.offAllNamed(AppRoute.getEmployeeBottomNavbarScreen());
+          } else {
+            Get.offAllNamed(AppRoute.getemployerBottomNavbarScreen());
+          }
+        } else {
+          final message = body['message'] ?? 'Apple login failed';
+          Get.snackbar('Error', message, snackPosition: SnackPosition.TOP);
+        }
+      } else {
+        Get.snackbar(
+          'Login Failed',
+          'Apple login was cancelled or failed.',
+        );
+      }
+    } catch (e, stackTrace) {
+      print('Exception: $e');
+      print('StackTrace: $stackTrace');
+      Get.snackbar('Error', 'Something went wrong with Apple login.');
     } finally {
       isLoading.value = false;
     }

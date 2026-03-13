@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/chat/controller/chat_message_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
 
 class ChatDetailScreen extends StatefulWidget {
@@ -34,6 +35,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       conversationId: widget.conversationId,
       recipientId: widget.recipientId,
     ));
+  }
+
+  String _formatTime(String time) {
+    try {
+      final dateTime = DateTime.parse(time).toLocal();
+      return DateFormat.jm().format(dateTime);
+    } catch (e) {
+      // Return original string if formatting fails
+      return time;
+    }
   }
 
   @override
@@ -92,22 +103,41 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     final isMe = message.isSentByMe;
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4.h),
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-        decoration: BoxDecoration(
-          color: isMe ? Appcolor.primaryColor : Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(16.r).copyWith(
-            bottomRight: isMe ? Radius.circular(4.r) : Radius.circular(16.r),
-            bottomLeft: !isMe ? Radius.circular(4.r) : Radius.circular(16.r),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 4.h, bottom: 2.h),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: isMe ? Appcolor.primaryColor : Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(16.r).copyWith(
+                bottomRight:
+                    isMe ? Radius.circular(4.r) : Radius.circular(16.r),
+                bottomLeft:
+                    !isMe ? Radius.circular(4.r) : Radius.circular(16.r),
+              ),
+            ),
+            child: Text(
+              message.message,
+              style: getBodyTextStyle(
+                color: isMe ? Colors.white : Colors.black87,
+              ),
+            ),
           ),
-        ),
-        child: Text(
-          message.message,
-          style: getBodyTextStyle(
-            color: isMe ? Colors.white : Colors.black87,
+          Padding(
+            padding: EdgeInsets.only(bottom: 4.h),
+            child: Text(
+              _formatTime(message.time),
+              style: getBodyTextStyle(
+                fontSize: 10,
+                color: Colors.grey,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

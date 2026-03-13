@@ -54,14 +54,18 @@ class MessageScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final message = controller.filteredMessages[index];
                       return GestureDetector(
-                        onTap: () => Get.to(
-                          () => ChatDetailScreen(
-                            conversationId: message.conversationId,
-                            recipientId: message.recipientId,
-                            recipientName: message.name,
-                            recipientAvatarUrl: message.imageUrl,
-                          ),
-                        ),
+                        onTap: () {
+                          // Reset the unread count before navigating
+                          controller.resetUnreadCount(message.conversationId);
+                          Get.to(
+                            () => ChatDetailScreen(
+                              conversationId: message.conversationId,
+                              recipientId: message.recipientId,
+                              recipientName: message.name,
+                              recipientAvatarUrl: message.imageUrl,
+                            ),
+                          );
+                        },
                         child: Padding(
                           padding: EdgeInsets.only(bottom: 12),
                           child: Container(
@@ -70,9 +74,9 @@ class MessageScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: .15),
+                                  color: Colors.black.withOpacity(0.15),
                                   blurRadius: 1,
-                                  offset: Offset(2, 3),
+                                  offset: const Offset(2, 3),
                                 ),
                               ],
                             ),
@@ -158,24 +162,37 @@ class MessageScreen extends StatelessWidget {
                                                 color: Colors.grey,
                                                 shape: BoxShape.circle),
                                           ),
-                                          Text(
-                                            "READ", // Status (Hardcoded as per requirement to show status, or map dynamic if available)
-                                            style: TextStyle(
-                                              color: Colors.grey.shade500,
-                                              fontSize: 11,
-                                            ),
-                                          ),
+                                          // Text(
+                                          //   "READ", // Status (Hardcoded as per requirement to show status, or map dynamic if available)
+                                          //   style: TextStyle(
+                                          //     color: Colors.grey.shade500,
+                                          //     fontSize: 11,
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        message.message,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Colors.blue.shade600,
-                                          fontSize: 14,
-                                        ),
-                                      ),
+                                      const SizedBox(height: 6),
+                                      if (message.unreadCount > 0)
+                                        Text(
+                                          '${message.unreadCount} new unread message${message.unreadCount > 1 ? 's' : ''}',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: Appcolor.primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
+                                        )
+                                      //   else
+                                      // Text(
+                                      //   message.message,
+                                      //   maxLines: 1,
+                                      //   overflow: TextOverflow.ellipsis,
+                                      //   style: TextStyle(
+                                      //     color: Colors.grey.shade600,
+                                      //     fontSize: 14,
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ),

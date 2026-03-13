@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/chat/controller/chat_message_controller.dart';
+import 'package:hollyb1213/features/employer/applicants/screen/employer_chat_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
 
@@ -26,15 +26,23 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
-  late final EmployeeChatController controller;
+  late final EmployerChatController controller;
 
   @override
   void initState() {
     super.initState();
-    controller = Get.put(EmployeeChatController(
-      conversationId: widget.conversationId,
-      recipientId: widget.recipientId,
-    ));
+    // Using EmployerChatController to correctly load conversations for an employer.
+    // A unique tag ensures a new controller instance for each chat.
+    // `permanent: true` is crucial here. It tells GetX to keep the controller
+    // in memory even when this screen is closed. This preserves the chat
+    // history when you navigate back to this conversation. Without it, the
+    // controller would be deleted and a new, empty one would be created on
+    // re-entry, "losing" the conversation.
+    controller = Get.put(
+      EmployerChatController(recipientId: widget.recipientId),
+      tag: widget.recipientId,
+      permanent: true,
+    );
   }
 
   String _formatTime(String time) {
@@ -66,8 +74,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         children: [
           Expanded(
             child: Obx(() {
-              if (controller.isLoading.value) {
-                return const Center(
+              // Show a loading spinner while fetching the conversation.
+              if (controller.isLoading.value && controller.messages.isEmpty) {
+                return Center(
                     child: CircularProgressIndicator(
                   color: Appcolor.primaryColor,
                 ));
@@ -142,10 +151,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
   }
 
-  Widget _buildMessageInput(EmployeeChatController controller) {
+  Widget _buildMessageInput(EmployerChatController controller) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h)
-          .copyWith(bottom: MediaQuery.of(Get.context!).padding.bottom + 38.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -155,21 +163,24 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               offset: const Offset(0, -2)),
         ],
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller.textController,
-              decoration: const InputDecoration.collapsed(
-                  hintText: 'Type a message...'),
-              onSubmitted: (_) => controller.sendMessage(),
+      // Use SafeArea to avoid system intrusions like the home bar on iOS.
+      child: SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: controller.textController,
+                decoration: const InputDecoration.collapsed(
+                    hintText: 'Type a message...'),
+                onSubmitted: (_) => controller.sendMessage(),
+              ),
             ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.send, color: Appcolor.primaryColor),
-            onPressed: controller.sendMessage,
-          ),
-        ],
+            IconButton(
+              icon: const Icon(Icons.send, color: Appcolor.primaryColor),
+              onPressed: controller.sendMessage,
+            ),
+          ],
+        ),
       ),
     );
   }

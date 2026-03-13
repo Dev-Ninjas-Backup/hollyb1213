@@ -52,4 +52,21 @@ class LoginService extends GetConnect {
       },
     );
   }
+
+  Future<Response> loginWithApple({
+    required String idToken,
+    required String role,
+  }) async {
+    return await post(
+      '${ApiEndpoint.baseUrl}${ApiEndpoint.appleLogin}',
+      {
+        'idToken': idToken,
+        'role': role,
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    );
+  }
 }

@@ -136,18 +136,45 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 4.h),
-            child: Text(
-              _formatTime(message.time),
-              style: getBodyTextStyle(
-                fontSize: 10,
-                color: Colors.grey,
-              ),
+            padding: EdgeInsets.only(bottom: 4.h, top: 2.h),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _formatTime(message.time),
+                  style: getBodyTextStyle(
+                    fontSize: 10,
+                    color: Colors.grey,
+                  ),
+                ),
+                if (isMe) ...[
+                  SizedBox(width: 5.w),
+                  _buildStatusIcon(message),
+                ],
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildStatusIcon(ChatMessage message) {
+    // IMPORTANT: This assumes your `ChatMessage` model in
+    // `lib/features/employee/chat/model/chat_message_model.dart`
+    // has been updated to include a `status` property (e.g., `final String status;`).
+
+    final status = message.status.toUpperCase();
+
+    if (status == 'READ') {
+      return Icon(Icons.done_all, size: 16.sp, color: Colors.blue);
+    } else if (status == 'DELIVERED') {
+      return Icon(Icons.done_all, size: 16.sp, color: Colors.grey);
+    } else if (status == 'SENT') {
+      return Icon(Icons.check, size: 16.sp, color: Colors.grey);
+    }
+    // Default for 'sending' or unknown status
+    return Icon(Icons.access_time, size: 16.sp, color: Colors.grey);
   }
 
   Widget _buildMessageInput(ChatController controller) {

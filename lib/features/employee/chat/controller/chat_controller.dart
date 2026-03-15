@@ -68,10 +68,19 @@ class ChatController extends GetxController {
     try {
       final conversationData = await _messageService.getConversation(conversationId);
       final fetchedMessages = conversationData.messages.map((msg) {
+        String status = 'SENT';
+        if (msg.sender.id == currentUserId) {
+          try {
+            final statusData = msg.statuses.firstWhere((s) => s.userId == recipientId);
+            status = statusData.status;
+          } catch (_) {}
+        }
+
         return ChatMessage(
           message: msg.content,
           time: msg.createdAt.toIso8601String(),
           isSentByMe: msg.sender.id == currentUserId,
+          status: status,
         );
       }).toList();
       messages.assignAll(fetchedMessages.reversed); // API returns oldest first
@@ -88,11 +97,14 @@ class ChatController extends GetxController {
     });
 
     _chatService.listenNewMessage((data) {
+      if (data['conversationId'] != conversationId) return;
+
       final senderId = data['sender']?['id'] as String?;
       final newMessage = ChatMessage(
         message: data["content"] ?? "",
         isSentByMe: senderId != null && senderId == currentUserId,
         time: data["createdAt"] ?? "",
+        status: data["status"] ?? 'SENT',
       );
       messages.insert(0, newMessage);
       _scrollToBottom();

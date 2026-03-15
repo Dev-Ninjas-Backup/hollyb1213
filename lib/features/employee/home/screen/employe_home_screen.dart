@@ -7,7 +7,6 @@ import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employee/employee_notification/screen/employee_notification_screen.dart';
 import 'package:hollyb1213/features/employee/home/screen/schedule_card.dart';
 import 'package:hollyb1213/features/employee/home/screen/schedule_model.dart';
-import 'package:hollyb1213/features/employee/home/screen/job_model.dart';
 import 'package:hollyb1213/features/employee/home/widgets/header_section_widget.dart';
 import 'package:hollyb1213/features/employee/home/widgets/job_card_widget.dart';
 import 'package:hollyb1213/features/employee/home/widgets/quick_actions_widget.dart';

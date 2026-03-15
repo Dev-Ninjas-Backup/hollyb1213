@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/applicants/screen/employer_chat_controller.dart';
+import 'package:hollyb1213/features/employee/chat/controller/chat_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
 
@@ -26,21 +26,20 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
-  late final EmployerChatController controller;
+  late final ChatController controller;
 
   @override
   void initState() {
     super.initState();
-    // Using EmployerChatController to correctly load conversations for an employer.
     // A unique tag ensures a new controller instance for each chat.
-    // `permanent: true` is crucial here. It tells GetX to keep the controller
-    // in memory even when this screen is closed. This preserves the chat
-    // history when you navigate back to this conversation. Without it, the
-    // controller would be deleted and a new, empty one would be created on
-    // re-entry, "losing" the conversation.
+    // `permanent: true` is crucial to preserve the chat history when
+    // navigating away and back to the screen.
     controller = Get.put(
-      EmployerChatController(recipientId: widget.recipientId),
-      tag: widget.recipientId,
+      ChatController(
+        conversationId: widget.conversationId,
+        recipientId: widget.recipientId,
+      ),
+      tag: widget.conversationId,
       permanent: true,
     );
   }
@@ -151,7 +150,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     );
   }
 
-  Widget _buildMessageInput(EmployerChatController controller) {
+  Widget _buildMessageInput(ChatController controller) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(

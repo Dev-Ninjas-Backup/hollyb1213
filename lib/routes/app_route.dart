@@ -22,8 +22,6 @@ import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_botto
 import 'package:hollyb1213/features/employer/job_details/screen/job_details_screen.dart'
     as employer_job_details;
 import 'package:hollyb1213/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
-import 'package:hollyb1213/features/employer/profile_screen/review/screen/employer_review_page.dart';
-
 import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/change_password_screen.dart';
 import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
 

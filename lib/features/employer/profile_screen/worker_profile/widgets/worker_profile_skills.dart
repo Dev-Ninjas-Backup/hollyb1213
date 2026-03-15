@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
 import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 import 'custom_skill_container.dart';
 

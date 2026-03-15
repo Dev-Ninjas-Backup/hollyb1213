@@ -123,34 +123,9 @@ class SingUpScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Appcolor.appBorderColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(Iconpath.google),
-                    iconSize: 21,
-                  ),
-                ),
+                
                 SizedBox(width: 24),
 
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Appcolor.appBorderColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(Iconpath.fecebook),
-                    iconSize: 24,
-                  ),
-                ),
               ],
             ),
 

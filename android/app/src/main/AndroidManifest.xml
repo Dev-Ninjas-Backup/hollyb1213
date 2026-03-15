@@ -16,7 +16,7 @@
     <application
         android:label="hollyb1213"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
 
         <!-- Facebook SDK -->
         <meta-data

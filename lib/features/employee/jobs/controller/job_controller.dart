@@ -10,7 +10,6 @@ class JobController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Dummy data for demo
     jobs.addAll([
       JobModel(
         title: 'Delivery Driver',

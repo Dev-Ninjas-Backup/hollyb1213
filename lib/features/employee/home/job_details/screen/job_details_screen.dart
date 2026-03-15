@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
 import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
 import 'package:hollyb1213/core/common/style/global_text_style.dart';
@@ -156,7 +155,6 @@ class JobDetailsScreen extends StatelessWidget {
 
                     SizedBox(height: 14.h),
 
-                    // --- About Job ---
                     Text(
                       'About this job',
                       style: getBodyTextStyle(
@@ -169,7 +167,6 @@ class JobDetailsScreen extends StatelessWidget {
 
                     SizedBox(height: 12.h),
 
-                    // --- Responsibilities ---
                     if (controller.responsibilities.isNotEmpty) ...[
                       Text(
                         'Responsibilities',
@@ -231,7 +228,6 @@ class JobDetailsScreen extends StatelessWidget {
 
                     SizedBox(height: 20.h),
 
-                    // --- Apply Button ---
                     Obx(() => CustomButton(
                           buttonText: controller.isApplying.value
                               ? "Applying..."

@@ -18,6 +18,7 @@ import 'package:hollyb1213/features/employee/home/job_details/screen/job_details
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
 import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
+import 'package:hollyb1213/features/employer/bottom_navbar/controller/employer_bottom_navbar_binding.dart';
 import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
 import 'package:hollyb1213/features/employer/job_details/screen/job_details_screen.dart'
     as employer_job_details;
@@ -192,6 +193,7 @@ class AppRoute {
     GetPage(
       name: employerBottomNavbarScreen,
       page: () => EmployerBottomNavbarScreen(),
+      binding: EmployerBottomNavbarBinding(),
     ),
 
     GetPage(name: employerProfileScreen, page: () => EmployerProfileScreen()),

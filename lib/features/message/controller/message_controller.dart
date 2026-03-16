@@ -2,18 +2,19 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:hollyb1213/features/message/model/message_model.dart';
-import 'package:hollyb1213/features/message/service/employee_message_service.dart';
+import 'package:hollyb1213/features/employee/chat/service/employee_chat_service.dart';
 import 'package:hollyb1213/features/message/service/rest_message_service.dart';
 import 'package:intl/intl.dart';
 
 class MessageController extends GetxController {
-  final EmployeeMessageService _socketService = EmployeeMessageService();
+  final EmployeeChatService _socketService = EmployeeChatService();
   final RestMessageService _restService = RestMessageService();
   final SharedPreferenceHelper _prefs = SharedPreferenceHelper();
 
   var messages = <MessageModel>[].obs;
   var searchQuery = ''.obs;
   var isLoading = false.obs;
+  String? currentUserId;
 
   @override
   void onInit() {
@@ -83,14 +84,18 @@ class MessageController extends GetxController {
 
   Future<void> _initializeSocketListener() async {
     final token = await _prefs.getAccessToken();
+    currentUserId = await _prefs.getUserId();
     if (token != null) {
+      log("Socket: Connecting to message socket...");
       _socketService.connect(token);
 
       // Listen for new messages to trigger live updates
-      _socketService.on('new_message', (data) {
+      _socketService.listenNewMessage((data) {
         log("Socket: New message received with data: $data");
         _updateConversationFromSocket(data);
       });
+    } else {
+      log("Socket: Token is null. Cannot connect.");
     }
   }
 
@@ -118,6 +123,13 @@ class MessageController extends GetxController {
               DateFormat('hh:mm a').format(DateTime.parse(rawDate).toLocal());
         }
 
+        int unread = existing.unreadCount;
+        if (currentUserId != null &&
+            data['sender'] != null &&
+            data['sender']['id'] != currentUserId) {
+          unread++;
+        }
+
         final updated = MessageModel(
           conversationId: existing.conversationId,
           recipientId: existing.recipientId,
@@ -127,7 +139,7 @@ class MessageController extends GetxController {
           timeAgo: formattedDate,
           imageUrl: existing.imageUrl,
           isOnline: existing.isOnline,
-          unreadCount: existing.unreadCount + 1,
+          unreadCount: unread,
         );
 
         messages.removeAt(index);

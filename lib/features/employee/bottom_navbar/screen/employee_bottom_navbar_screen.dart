@@ -11,6 +11,7 @@ import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_b
 import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
 import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
 import 'package:hollyb1213/features/employee/profile_screen/profile/screen/employee_profile_screen.dart';
+import 'package:hollyb1213/features/message/controller/message_controller.dart';
 import 'package:hollyb1213/features/message/screen/message_screen.dart';
 
 class EmployeeBottomNavbarScreen extends StatelessWidget {
@@ -18,13 +19,17 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ensure MessageController is created once and persists with the navbar.
+    // This keeps the socket connection alive across tab switches.
+    Get.put(MessageController());
+
     final EmployeeBottomNavbarController controller =
         Get.find<EmployeeBottomNavbarController>();
 
     final List<Widget> pages = [
       EmployeHomeScreen(),
       const JobScreen(),
-      MessageScreen(),
+      const MessageScreen(), // Use const since the screen is now stateless and simple
       EmployeeProfileScreen(),
     ];
 
@@ -75,6 +80,11 @@ class EmployeeBottomNavbarScreen extends StatelessWidget {
                         Get.find<EmployeHomeController>().getLatestJobs();
                       } else if (index == 1) {
                         Get.find<EmployeeJobsController>().getJobs();
+                      } else if (index == 2) {
+                        // The controller is guaranteed to be registered.
+                        // Fetch conversations without a loading spinner for a smoother UX.
+                        Get.find<MessageController>()
+                            .fetchConversations(showLoading: false);
                       } else if (index == 3) {
                         Get.put(EmployeeProfileController()).fetchUserProfile();
                       }

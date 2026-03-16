@@ -66,7 +66,7 @@ class MessageController extends GetxController {
           conversationId: e["conversationId"] ?? "",
           recipientId: participant["id"] ?? "",
           name: participant["full_name"] ?? "Unknown User",
-          company: sender["role"] ?? "Employer", // Mapping Role
+          company: participant["role"] ?? "Employer", // Mapping Role
           message: lastMessage["content"] ?? "",
           timeAgo: formattedDate,
           imageUrl: "",

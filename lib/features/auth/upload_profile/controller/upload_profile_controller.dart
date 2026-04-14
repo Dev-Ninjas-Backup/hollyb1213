@@ -4,8 +4,9 @@ import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hollyb1213/features/auth/upload_profile/service/upload_profile_service.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/features/auth/upload_profile/service/upload_profile_service.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class UploadProfileController extends GetxController {
   final ImagePicker _picker = ImagePicker();

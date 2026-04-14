@@ -5,20 +5,22 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/auth/login/services/screen/login_screen.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/model/settings_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile_info/screen/employer_profile_info_page.dart';
-import 'package:hollyb1213/routes/app_route.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile/model/employer_profile_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile/model/employer_stats_model.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile/model/subscription_status_model.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile/service/renew_subscription_service.dart';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+
 import 'dart:convert';
+
+import 'package:readytowork/core/common/constants/iconpath.dart' show Iconpath;
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/auth/login/services/screen/login_screen.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/model/employer_profile_model.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/model/employer_stats_model.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/model/settings_model.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/model/subscription_status_model.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/service/renew_subscription_service.dart';
+import 'package:readytowork/features/employer/profile_screen/profile_info/screen/employer_profile_info_page.dart';
+import 'package:readytowork/routes/app_route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployerProfileController extends GetxController {
   final List<Map<String, dynamic>> initialStatsList = [

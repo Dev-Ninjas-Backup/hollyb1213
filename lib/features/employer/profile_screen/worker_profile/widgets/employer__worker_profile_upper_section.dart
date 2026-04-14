@@ -3,13 +3,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/review/screen/employer_review_page.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
-
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/iconpath.dart';
+import 'package:readytowork/core/common/constants/imagepath.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/profile_screen/review/screen/employer_review_page.dart';
+import 'package:readytowork/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 class EmployerWorkerProfileUpperSection extends StatelessWidget {
   final EmployeeProfileData profile;
 

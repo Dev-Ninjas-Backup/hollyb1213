@@ -3,14 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/button_widget.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/job_information_widget.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/location_section_widget.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/payment_section_widget.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/time_section_widget.dart';
-import 'package:hollyb1213/features/employer/create_post/widgets/image_upload_section_widget.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_back_button.dart';
+import 'package:readytowork/features/employer/create_post/widgets/button_widget.dart';
+import 'package:readytowork/features/employer/create_post/widgets/image_upload_section_widget.dart';
+import 'package:readytowork/features/employer/create_post/widgets/job_information_widget.dart';
+import 'package:readytowork/features/employer/create_post/widgets/location_section_widget.dart';
+import 'package:readytowork/features/employer/create_post/widgets/payment_section_widget.dart';
+import 'package:readytowork/features/employer/create_post/widgets/time_section_widget.dart';
 import '../controller/create_post_controller.dart';
 
 class CreatePostScreen extends StatelessWidget {

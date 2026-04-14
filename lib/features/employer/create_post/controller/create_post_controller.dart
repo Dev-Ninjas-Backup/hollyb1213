@@ -4,14 +4,14 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employer/create_post/service/create_post_service.dart';
-import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
-import 'package:hollyb1213/features/employer/job_details/controller/job_details_controller.dart';
-import 'package:hollyb1213/features/employer/jobs/controller/employer_jobs_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employer/create_post/service/create_post_service.dart';
+import 'package:readytowork/features/employer/home/controller/employer_home_controller.dart';
+import 'package:readytowork/features/employer/job_details/controller/job_details_controller.dart';
+import 'package:readytowork/features/employer/jobs/controller/employer_jobs_controller.dart';
+import 'package:readytowork/routes/app_route.dart';
 
 class CreatePostController extends GetxController {
   // Text controllers

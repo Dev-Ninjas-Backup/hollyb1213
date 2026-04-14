@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+
 
 class RestNotificationService {
   final _prefsHelper = SharedPreferenceHelper();

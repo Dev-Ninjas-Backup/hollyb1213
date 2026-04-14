@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/chat/controller/chat_controller.dart';
 import 'package:intl/intl.dart';
-import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employee/chat/controller/chat_message_controller.dart';
+import 'package:readytowork/features/employee/chat/model/chat_message_model.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   final String conversationId;
@@ -26,21 +26,20 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
-  late final ChatController controller;
+  late final EmployeeChatController controller;
 
   @override
   void initState() {
     super.initState();
-    // A unique tag ensures a new controller instance for each chat.
-    // `permanent: true` is crucial to preserve the chat history when
-    // navigating away and back to the screen.
-    controller = Get.put(
-      ChatController(
+    // Use Get.put with a tag to manage multiple chat instances.
+    // Removed permanent: true to prevent memory leaks. GetX will automatically
+    // manage the lifecycle and dispose the controller when the screen is removed from the stack.
+    controller = Get.put<EmployeeChatController>(
+      EmployeeChatController(
         conversationId: widget.conversationId,
         recipientId: widget.recipientId,
       ),
       tag: widget.conversationId,
-      permanent: true,
     );
   }
 
@@ -177,14 +176,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     return Icon(Icons.access_time, size: 16.sp, color: Colors.grey);
   }
 
-  Widget _buildMessageInput(ChatController controller) {
+  Widget _buildMessageInput(EmployeeChatController controller) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 4,
               offset: const Offset(0, -2)),
         ],

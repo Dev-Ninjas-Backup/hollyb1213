@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
+
 import 'package:http/http.dart' as http;
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'dart:convert';
+
+import 'package:readytowork/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 
 class EmployerWorkerProfileController extends GetxController {
   final employeeProfile = Rx<EmployeeProfileData?>(null);

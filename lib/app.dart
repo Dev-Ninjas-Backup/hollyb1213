@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:hollyb1213/core/binding/controller_binder.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/binding/controller_binder.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 import '../../../../../core/common/constants/widget/custom_shadow_container.dart';
 import '../../../../../core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 
 class WorkerProfileReview extends StatelessWidget {
   final EmployeeProfileData profile;

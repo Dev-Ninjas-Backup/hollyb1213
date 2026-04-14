@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employer/job_details/service/job_details_service.dart';
+import 'package:readytowork/features/employer/job_details/service/job_details_service.dart';
 
 class JobDetailsController extends GetxController {
   final JobDetailsService _service = JobDetailsService();

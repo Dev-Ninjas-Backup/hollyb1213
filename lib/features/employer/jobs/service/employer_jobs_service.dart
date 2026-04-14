@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 
 class EmployerJobsService extends GetConnect {
   Future<Response> getPostedJobs({

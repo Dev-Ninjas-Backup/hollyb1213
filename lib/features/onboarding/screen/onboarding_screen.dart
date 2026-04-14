@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/onboarding/controller/onboarding_controller.dart';
-import 'package:hollyb1213/features/onboarding/widgets/slider_box_widget.dart';
-import 'package:hollyb1213/features/onboarding/widgets/title_style_widget.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/onboarding/controller/onboarding_controller.dart';
+import 'package:readytowork/features/onboarding/widgets/slider_box_widget.dart';
+import 'package:readytowork/features/onboarding/widgets/title_style_widget.dart';
+
 
 class OnboardingScreen extends StatelessWidget {
   final OnboardingController controller = Get.put(OnboardingController());

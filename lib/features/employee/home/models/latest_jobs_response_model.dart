@@ -1,5 +1,7 @@
-import 'package:hollyb1213/features/employee/home/models/latest_job_model.dart';
-import 'package:hollyb1213/features/employee/home/models/stats_model.dart';
+
+
+import 'package:readytowork/features/employee/home/models/latest_job_model.dart';
+import 'package:readytowork/features/employee/home/models/stats_model.dart';
 
 class LatestJobsResponse {
   final bool success;

@@ -1,31 +1,29 @@
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:hollyb1213/features/auth/create_new_password/screen/create_password_screen.dart';
-import 'package:hollyb1213/features/auth/login/services/screen/login_screen.dart';
-import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
-import 'package:hollyb1213/features/employee/jobs/screen/employee_bottom_navbar_binding.dart';
-import 'package:hollyb1213/features/auth/forgot_password/screen/forgot_password_screen.dart';
-import 'package:hollyb1213/features/auth/forgot_password_otp/screen/otp_screen.dart';
-import 'package:hollyb1213/features/auth/payment_method/screen/payment_method_screen.dart';
-import 'package:hollyb1213/features/auth/role_selection/screen/role_selection_screen.dart';
-import 'package:hollyb1213/features/auth/sing_up/screen/sing_up_screen.dart';
-import 'package:hollyb1213/features/auth/upload_nid/screen/upload_nid_screen.dart';
-import 'package:hollyb1213/features/auth/upload_passport/screen/upload_passport_screen.dart';
-import 'package:hollyb1213/features/auth/upload_profile/screen/upload_profile_screen.dart';
-import 'package:hollyb1213/features/auth/upload_utility_bill/screen/upload_utility_bill_screen.dart';
-import 'package:hollyb1213/features/auth/verification_otp/screen/verification_screen.dart';
-import 'package:hollyb1213/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
-import 'package:hollyb1213/features/employee/home/job_details/screen/job_details_screen.dart';
-import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
-import 'package:hollyb1213/features/employee/profile_screen/privacy/employee_privacy.dart';
-import 'package:hollyb1213/features/employee/profile_screen/review/screen/employee_review_page.dart';
-import 'package:hollyb1213/features/employer/bottom_navbar/controller/employer_bottom_navbar_binding.dart';
-import 'package:hollyb1213/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
-import 'package:hollyb1213/features/employer/job_details/screen/job_details_screen.dart'
-    as employer_job_details;
-import 'package:hollyb1213/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/change_password_screen.dart';
-import 'package:hollyb1213/features/onboarding/screen/onboarding_screen.dart';
-
+import 'package:readytowork/features/auth/create_new_password/screen/create_password_screen.dart';
+import 'package:readytowork/features/auth/forgot_password/screen/forgot_password_screen.dart';
+import 'package:readytowork/features/auth/forgot_password_otp/screen/otp_screen.dart';
+import 'package:readytowork/features/auth/login/services/screen/login_screen.dart';
+import 'package:readytowork/features/auth/payment_method/screen/payment_method_screen.dart';
+import 'package:readytowork/features/auth/role_selection/screen/role_selection_screen.dart';
+import 'package:readytowork/features/auth/sing_up/screen/sing_up_screen.dart';
+import 'package:readytowork/features/auth/upload_nid/screen/upload_nid_screen.dart';
+import 'package:readytowork/features/auth/upload_passport/screen/upload_passport_screen.dart';
+import 'package:readytowork/features/auth/upload_profile/screen/upload_profile_screen.dart';
+import 'package:readytowork/features/auth/upload_utility_bill/screen/upload_utility_bill_screen.dart';
+import 'package:readytowork/features/auth/verification_otp/screen/verification_screen.dart';
+import 'package:readytowork/features/employee/bottom_navbar/screen/employee_bottom_navbar_screen.dart';
+import 'package:readytowork/features/employee/home/screen/employe_home_screen.dart';
+import 'package:readytowork/features/employee/jobs/screen/employee_bottom_navbar_binding.dart';
+import 'package:readytowork/features/employee/jobs/screen/employee_jobs_screen.dart';
+import 'package:readytowork/features/employee/profile_screen/privacy/employee_privacy.dart';
+import 'package:readytowork/features/employee/profile_screen/profile/widgets/change_password_screen.dart';
+import 'package:readytowork/features/employee/profile_screen/review/screen/employee_review_page.dart';
+import 'package:readytowork/features/employer/bottom_navbar/controller/employer_bottom_navbar_binding.dart';
+import 'package:readytowork/features/employer/bottom_navbar/screen/employer_bottom_navbar_screen.dart';
+import 'package:readytowork/features/employer/job_details/screen/job_details_screen.dart';
+import 'package:readytowork/features/employer/job_details/screen/job_details_screen.dart' as employer_job_details;
+import 'package:readytowork/features/employer/profile_screen/profile/screen/employer_profile_screen.dart';
+import 'package:readytowork/features/onboarding/screen/onboarding_screen.dart';
 import '../features/employee/profile_screen/profile_info/screen/employee_profile_info_page.dart';
 
 class AppRoute {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/favorite_workers/controller/favorite_workers_controller.dart';
-import 'package:hollyb1213/features/employer/favorite_workers/model/favorite_employees_model.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/favorite_workers/controller/favorite_workers_controller.dart';
+import 'package:readytowork/features/employer/favorite_workers/model/favorite_employees_model.dart';
+import 'package:readytowork/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
 
 class FavoriteWorkersScreen extends StatelessWidget {
   FavoriteWorkersScreen({super.key});

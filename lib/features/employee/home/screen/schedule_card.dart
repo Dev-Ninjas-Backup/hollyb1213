@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/features/employee/home/screen/schedule_model.dart';
+import 'package:readytowork/features/employee/home/screen/schedule_model.dart';
 
 class ScheduleCard extends StatelessWidget {
   final Schedule schedule;

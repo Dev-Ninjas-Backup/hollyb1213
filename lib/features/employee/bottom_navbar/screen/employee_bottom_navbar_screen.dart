@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/home/controller/employe_home_controller.dart';
-import 'package:hollyb1213/features/employee/jobs/controller/employee_jobs_controller.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
-import 'package:hollyb1213/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
-import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_screen.dart';
-import 'package:hollyb1213/features/employee/home/screen/employe_home_screen.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/screen/employee_profile_screen.dart';
-import 'package:hollyb1213/features/message/controller/message_controller.dart';
-import 'package:hollyb1213/features/message/screen/message_screen.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/iconpath.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employee/bottom_navbar/controller/employee_bottom_navbar_controller.dart';
+import 'package:readytowork/features/employee/home/controller/employe_home_controller.dart';
+import 'package:readytowork/features/employee/home/screen/employe_home_screen.dart';
+import 'package:readytowork/features/employee/jobs/controller/employee_jobs_controller.dart';
+import 'package:readytowork/features/employee/jobs/screen/employee_jobs_screen.dart';
+import 'package:readytowork/features/employee/profile_screen/profile/screen/employee_profile_screen.dart';
+import 'package:readytowork/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
+import 'package:readytowork/features/message/controller/message_controller.dart';
+import 'package:readytowork/features/message/screen/message_screen.dart';
+
 
 class EmployeeBottomNavbarScreen extends StatelessWidget {
   const EmployeeBottomNavbarScreen({super.key});

@@ -2,13 +2,14 @@
 
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hollyb1213/features/auth/login/apple_login/apple_login_services.dart';
-import 'package:hollyb1213/features/auth/login/facebook_login/facebook_login_services.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/auth/login/services/google_login_services.dart';
-import 'package:hollyb1213/features/auth/login/services/login_service.dart';
-import 'package:hollyb1213/features/auth/role_selection/controller/role_selection_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/auth/login/apple_login/apple_login_services.dart';
+import 'package:readytowork/features/auth/login/facebook_login/facebook_login_services.dart';
+import 'package:readytowork/features/auth/login/services/google_login_services.dart';
+import 'package:readytowork/features/auth/login/services/login_service.dart';
+import 'package:readytowork/features/auth/role_selection/controller/role_selection_controller.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class LoginController extends GetxController {
   final LoginService _loginService = LoginService();

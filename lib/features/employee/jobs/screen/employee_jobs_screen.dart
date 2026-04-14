@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/home/widgets/job_card_widget.dart';
-import 'package:hollyb1213/features/employee/jobs/controller/employee_jobs_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employee/home/widgets/job_card_widget.dart';
+import 'package:readytowork/features/employee/jobs/controller/employee_jobs_controller.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class JobScreen extends StatelessWidget {
   const JobScreen({super.key});

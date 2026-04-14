@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
+import 'package:readytowork/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
 
 import '../../../../../core/common/constants/appcolor.dart';
 import '../../../../../core/common/constants/iconpath.dart';

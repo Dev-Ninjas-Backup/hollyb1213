@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_shadow_container.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile/controller/employer_controllre.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_shadow_container.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/controller/employer_controllre.dart';
 
 class YourStats extends StatelessWidget {
   const YourStats({
@@ -12,7 +12,7 @@ class YourStats extends StatelessWidget {
     required this.controller,
   });
 
-  final EmployerProfileController controller;
+  final dynamic controller;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class YourStats extends StatelessWidget {
                 Text(
                   item["count"],
                   style: getBodyTextStyle(
-                    fontSize: sp(20),
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

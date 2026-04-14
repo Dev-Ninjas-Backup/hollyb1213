@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile_info/service/employee_profile_info_service.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employee/profile_screen/profile_info/service/employee_profile_info_service.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class EmployeeProfileInfoController extends GetxController {
   final fullNameController = TextEditingController();

@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employee/employee_notification/screen/rest_notification_service.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employee/employee_notification/screen/rest_notification_service.dart';
 import '../service/notification_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 

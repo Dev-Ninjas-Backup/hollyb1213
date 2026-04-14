@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employer/jobs/service/employer_jobs_service.dart';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employer/jobs/service/employer_jobs_service.dart';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

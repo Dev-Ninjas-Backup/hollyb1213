@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
 
 class Information extends StatelessWidget {
-  final EmployeeProfileData profile;
+  final dynamic profile;
 
   const Information({super.key, required this.profile});
 
@@ -17,7 +16,7 @@ class Information extends StatelessWidget {
           children: [
             Icon(
               Icons.location_on_outlined,
-              size: sp(20),
+              size: 20.sp,
               color: Appcolor.appTextSecondaryColor,
             ),
             SizedBox(width: 4.w),
@@ -32,7 +31,7 @@ class Information extends StatelessWidget {
           children: [
             Icon(
               Icons.work_outline_sharp,
-              size: sp(20),
+              size: 20.sp,
               color: Appcolor.appTextSecondaryColor,
             ),
             SizedBox(width: 4.w),
@@ -48,7 +47,7 @@ class Information extends StatelessWidget {
             children: [
               Icon(
                 Icons.phone_outlined,
-                size: sp(20),
+                size: 20.sp,
                 color: Appcolor.appTextSecondaryColor,
               ),
               SizedBox(width: 4.w),

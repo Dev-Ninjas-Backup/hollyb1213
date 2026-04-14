@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/message/model/message_model.dart';
-import 'package:hollyb1213/features/employee/chat/service/employee_chat_service.dart';
-import 'package:hollyb1213/features/message/service/rest_message_service.dart';
 import 'package:intl/intl.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employee/chat/service/employee_chat_service.dart';
+import 'package:readytowork/features/message/model/message_model.dart';
+import 'package:readytowork/features/message/service/rest_message_service.dart';
 
 class MessageController extends GetxController {
   final EmployeeChatService _socketService = EmployeeChatService();

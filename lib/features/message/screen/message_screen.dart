@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/message/controller/message_controller.dart';
-import 'package:hollyb1213/features/employee/chat/screen/chat_details_screen.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/applicants/screen/chat_detail_screen.dart';
+import 'package:readytowork/features/message/controller/message_controller.dart';
+
 
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});

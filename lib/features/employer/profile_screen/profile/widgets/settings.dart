@@ -11,7 +11,7 @@ import '../controller/employer_controllre.dart';
 class Settings extends StatelessWidget {
   const Settings({super.key, required this.controller});
 
-  final EmployerProfileController controller;
+  final dynamic controller;
 
   @override
   Widget build(BuildContext context) {

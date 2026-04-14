@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/upload_nid/controller/upload_nid_controller.dart';
-import 'package:hollyb1213/features/auth/upload_nid/widgets/nid_box_widget.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_back_button.dart';
+import 'package:readytowork/core/common/constants/widget/custom_button.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/auth/upload_nid/controller/upload_nid_controller.dart';
+import 'package:readytowork/features/auth/upload_nid/widgets/nid_box_widget.dart';
+
 
 class UploadNidScreen extends StatelessWidget {
   UploadNidScreen({super.key});

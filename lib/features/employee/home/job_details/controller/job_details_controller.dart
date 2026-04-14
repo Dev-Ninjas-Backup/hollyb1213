@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employee/home/models/apply_service.dart';
-import 'package:hollyb1213/features/auth/payment_method/screen/payment_method_screen.dart';
-import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_service.dart';
+import 'package:readytowork/features/auth/payment_method/screen/payment_method_screen.dart';
+import 'package:readytowork/features/employee/home/models/apply_service.dart';
+import 'package:readytowork/features/employee/jobs/screen/employee_jobs_service.dart';
+
 
 class JobDetailsController extends GetxController {
   final EmployeeJobsService _service = EmployeeJobsService();

@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/iconpath.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+
 
 class BoxNid extends StatelessWidget {
   const BoxNid({

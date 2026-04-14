@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
+import 'package:readytowork/core/common/constants/widget/custom_button.dart';
 
 class JobCard extends StatelessWidget {
   const JobCard({

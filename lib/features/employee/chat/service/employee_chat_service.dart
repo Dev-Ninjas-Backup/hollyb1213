@@ -1,18 +1,18 @@
 import 'dart:developer';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class EmployeeChatService {
-  IO.Socket? _socket;
+  io.Socket? _socket;
 
-  IO.Socket get socket => _socket!;
+  io.Socket get socket => _socket!;
 
   void connect(String token) {
     if (_socket?.connected ?? false) {
       return;
     }
-    _socket = IO.io(
+    _socket = io.io(
       "http://16.16.114.137:5000/pv/message", // Connect to root namespace
-      IO.OptionBuilder()
+      io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
           .setAuth({'token': 'Bearer $token'})

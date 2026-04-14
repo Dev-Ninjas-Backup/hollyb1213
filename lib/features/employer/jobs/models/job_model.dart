@@ -35,6 +35,17 @@ class JobModel {
     this.review,
   });
 
+  // Getters for backward compatibility with older UI components
+  String get image => imageUrl ?? 'assets/images/job_placeholder.png';
+  String get company => companyName;
+  String get rate => amount;
+  String get time => (startTime != null && endTime != null)
+      ? "$startTime - $endTime"
+      : (startTime ?? "N/A");
+  String get progressText => (status == 'completed') ? "100%" : "In Progress";
+  String get jobDescription => subtitle;
+  List<String> get requirements => []; // Placeholder if not in API
+
   /// Convert API response to JobModel
   factory JobModel.fromJson(Map<String, dynamic> json) {
     // Handle file which can be null, a string, or a Map with url

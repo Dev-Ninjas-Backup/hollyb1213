@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
 import 'package:http/http.dart' as http;
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JobDetailsService {

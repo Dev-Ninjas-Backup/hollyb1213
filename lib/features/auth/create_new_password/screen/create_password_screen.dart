@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/create_new_password/controller/create_password_controller.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_back_button.dart';
+import 'package:readytowork/core/common/constants/widget/custom_button.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/auth/create_new_password/controller/create_password_controller.dart';
+
 
 class CreatePasswordScreen extends StatelessWidget {
   CreatePasswordScreen({super.key});

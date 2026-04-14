@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import '../model/chat_message_model.dart';
 import '../service/employee_chat_service.dart';
 

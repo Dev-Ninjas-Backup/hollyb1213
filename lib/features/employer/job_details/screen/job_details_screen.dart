@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/features/employer/create_post/screen/create_post_screen.dart';
-import 'package:hollyb1213/features/employer/job_details/controller/job_details_controller.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/features/employer/create_post/screen/create_post_screen.dart';
+import 'package:readytowork/features/employer/job_details/controller/job_details_controller.dart';
+
 
 class JobDetailsScreen extends StatelessWidget {
   const JobDetailsScreen({super.key});

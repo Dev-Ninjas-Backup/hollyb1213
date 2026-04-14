@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employee/employee_notification/screen/rest_notification_service.dart';
+import 'package:readytowork/features/employee/employee_notification/screen/rest_notification_service.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class EmployeeNotificationController extends GetxController {

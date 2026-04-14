@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
 
 class SliderBox extends StatelessWidget {
   const SliderBox({

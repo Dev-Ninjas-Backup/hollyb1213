@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/auth/sing_up/services/singup_service.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/auth/sing_up/services/singup_service.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class SingUpController extends GetxController {
   final SingupService _singupService = SingupService();

@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -7,12 +7,12 @@ class NotificationService {
 
   NotificationService._internal();
 
-  IO.Socket? socket;
+  io.Socket? socket;
 
   void connect(String token) {
-    socket = IO.io(
+    socket = io.io(
       "http://16.16.114.137:5000/notifications", // Changed to base URL to debug connection. This connects to the default '/' namespace.
-      IO.OptionBuilder()
+      io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
           .setAuth({"token": "Bearer $token"})

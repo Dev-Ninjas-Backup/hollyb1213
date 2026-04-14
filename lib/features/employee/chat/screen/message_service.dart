@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employee/chat/screen/conversation_model.dart';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employee/chat/screen/conversation_model.dart';
 
 class MessageService extends GetConnect {
   final SharedPreferenceHelper _prefs = SharedPreferenceHelper();
@@ -22,7 +22,8 @@ class MessageService extends GetConnect {
   /// Returns [ConversationData] on success.
   /// Throws an [Exception] if the request fails or the data is invalid.
   Future<ConversationData> getConversation(String conversationId) async {
-    final response = await get(ApiEndpoint.getConversationDetails(conversationId));
+    final response =
+        await get(ApiEndpoint.getConversationDetails(conversationId));
 
     if (response.isOk && response.body['success'] == true) {
       try {
@@ -31,6 +32,7 @@ class MessageService extends GetConnect {
         throw Exception('Failed to parse conversation data: $e');
       }
     }
-    throw Exception('Failed to load conversation: ${response.body['message'] ?? response.statusText}');
+    throw Exception(
+        'Failed to load conversation: ${response.body['message'] ?? response.statusText}');
   }
 }

@@ -2,7 +2,8 @@
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
+
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
 
 class RenewSubscriptionService {
   Future<http.Response> renewSubscription({

@@ -1,15 +1,15 @@
 import 'dart:developer';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class EmployerChatService {
-  IO.Socket? socket;
+  io.Socket? socket;
 
   void connect(String token, {required Function onConnect}) {
     // The endpoint for chat seems to be the same for both.
     // The server will differentiate based on the token.
-    socket = IO.io(
+    socket = io.io(
       "http://16.16.114.137:5000/pv/message", // Connect to root namespace first
-      IO.OptionBuilder()
+      io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
           .setAuth({'token': 'Bearer $token'})

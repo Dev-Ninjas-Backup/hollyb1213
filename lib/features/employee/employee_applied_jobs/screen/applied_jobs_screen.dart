@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/screen/kitchen_helper_screen.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/model/job_model.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_back_button.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/kitchen_helper/screen/kitchen_helper_screen.dart';
+import 'package:readytowork/features/employer/jobs/models/job_model.dart';
 import '../controller/employee_applied_jobs_controller.dart';
 
 class AppliedJobsScreen extends StatelessWidget {
@@ -175,7 +175,7 @@ class AppliedJobsScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (isActive) {
-          final jobModel = JobModel.fromMap(job);
+          final jobModel = JobModel.fromJson(job);
           Get.to(() => KitchenHelperScreen(job: jobModel));
         } else {
           // Handle completed jobs navigation if needed

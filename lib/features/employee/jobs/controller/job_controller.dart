@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
-import 'package:hollyb1213/features/employee/jobs/model/job_model.dart';
+import 'package:readytowork/core/common/constants/imagepath.dart';
+import 'package:readytowork/features/employer/jobs/models/job_model.dart';
 
 class JobController extends GetxController {
   var jobs = <JobModel>[].obs;
@@ -12,39 +12,62 @@ class JobController extends GetxController {
     super.onInit();
     jobs.addAll([
       JobModel(
+        id: '1',
         title: 'Delivery Driver',
-        category: 'Delivery',
+        subtitle: 'Delivery',
         location: 'Dhaka',
-        pay: '\$50/day',
+        companyName: 'FoodPanda',
+        amount: '50',
+        applicants: 5,
+        status: 'open',
         imageUrl: Imagepath.rectangle1,
         isUrgent: true,
       ),
       JobModel(
+        id: '2',
         title: 'Restaurant Chef',
-        category: 'Restaurant',
+        subtitle: 'Restaurant',
         location: 'Chittagong',
-        pay: '\$80/day',
+        companyName: 'Tasty Treat',
+        amount: '80',
+        applicants: 2,
+        status: 'open',
         imageUrl: Imagepath.rectangle1,
+        isUrgent: false,
       ),
       JobModel(
+        id: '3',
         title: 'Software Engineer',
-        category: 'High Pay',
+        subtitle: 'High Pay',
         location: 'Remote',
-        pay: '\$1200/month',
+        companyName: 'Tech Corp',
+        amount: '1200',
+        applicants: 10,
+        status: 'open',
         imageUrl: Imagepath.rectangle1,
+        isUrgent: false,
       ),
       JobModel(
+        id: '4',
         title: 'Nearby Courier',
-        category: 'Nearby',
+        subtitle: 'Nearby',
         location: 'Dhaka',
-        pay: '\$40/day',
+        companyName: 'Pathao',
+        amount: '40',
+        applicants: 8,
+        status: 'open',
         imageUrl: Imagepath.rectangle1,
+        isUrgent: false,
       ),
       JobModel(
+        id: '5',
         title: 'Urgent Helper',
-        category: 'Urgent',
+        subtitle: 'Urgent',
         location: 'Sylhet',
-        pay: '\$60/day',
+        companyName: 'Event Co',
+        amount: '60',
+        applicants: 3,
+        status: 'open',
         imageUrl: Imagepath.rectangle1,
         isUrgent: true,
       ),
@@ -55,15 +78,15 @@ class JobController extends GetxController {
     var filtered = jobs.toList();
     if (selectedCategory.value != 'All') {
       filtered = filtered
-          .where((job) => job.category == selectedCategory.value)
+          .where((job) => job.subtitle == selectedCategory.value)
           .toList();
     }
     if (searchText.value.isNotEmpty) {
       filtered = filtered
           .where(
             (job) => job.title.toLowerCase().contains(
-              searchText.value.toLowerCase(),
-            ),
+                  searchText.value.toLowerCase(),
+                ),
           )
           .toList();
     }

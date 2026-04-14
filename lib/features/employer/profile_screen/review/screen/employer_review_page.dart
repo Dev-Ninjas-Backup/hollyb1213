@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/profile_screen/review/controller/all_reviews_controller.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/iconpath.dart';
+import 'package:readytowork/core/common/constants/widget/custom_app_bar.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/profile_screen/review/controller/all_reviews_controller.dart';
+
 
 class EmployerReviewPage extends StatelessWidget {
   final String employeeId;

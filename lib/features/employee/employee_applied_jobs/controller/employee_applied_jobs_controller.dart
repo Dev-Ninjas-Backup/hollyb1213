@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/employee_applied_jobs_service.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/employee_applied_jobs_service.dart';
 
 class EmployeeAppliedJobsController extends GetxController {
   final EmployeeAppliedJobsService _service = EmployeeAppliedJobsService();

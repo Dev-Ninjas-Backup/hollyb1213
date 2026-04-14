@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/create_post/screen/create_post_screen.dart';
-import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/create_post/screen/create_post_screen.dart';
+import 'package:readytowork/features/employer/home/controller/employer_home_controller.dart';
 
 class EmployerHeaderSection extends StatelessWidget {
   const EmployerHeaderSection({super.key, required this.controller});

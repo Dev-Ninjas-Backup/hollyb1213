@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_back_button.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
 import '../../employee_notification/controller/employee_notification_controller.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
+
 
 class EmployeeNotificationScreen extends StatelessWidget {
   const EmployeeNotificationScreen({super.key});

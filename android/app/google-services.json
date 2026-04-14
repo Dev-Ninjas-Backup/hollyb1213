@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "793538857243",
-    "project_id": "hollyb-3c39d",
-    "storage_bucket": "hollyb-3c39d.firebasestorage.app"
+    "project_number": "933607359600",
+    "project_id": "ready-to-work-app-8dd0e",
+    "storage_bucket": "ready-to-work-app-8dd0e.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:793538857243:android:debb9f241fda81da06ebbe",
+        "mobilesdk_app_id": "1:933607359600:android:d7853448d24f72ae1420b5",
         "android_client_info": {
-          "package_name": "com.hollybdev.hollyb1213"
+          "package_name": "com.hollybdev.readytowork"
         }
       },
       "oauth_client": [
         {
-          "client_id": "793538857243-qvsef3mvkssfcqp45p9k6u8ivfg1a7c9.apps.googleusercontent.com",
+          "client_id": "933607359600-qt3el4b0fltatnk340rsek56acbnugha.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.hollybdev.hollyb1213",
+            "package_name": "com.hollybdev.readytowork",
             "certificate_hash": "f54cb97a4dda50b812d0adbbe5a4a8dab28a1d02"
           }
         },
         {
-          "client_id": "793538857243-5ngj228flbb6nj68627suim4qj48ra2a.apps.googleusercontent.com",
+          "client_id": "933607359600-6lps6oeima92me077sr9f0p9b1en5sn4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCwNqIZUM2WCQKH30kXhSWDsQHyjnBo2_g"
+          "current_key": "AIzaSyDceItsFsk4y1ldQQroSoUF_RaYWYTvdoY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "793538857243-5ngj228flbb6nj68627suim4qj48ra2a.apps.googleusercontent.com",
+              "client_id": "933607359600-6lps6oeima92me077sr9f0p9b1en5sn4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

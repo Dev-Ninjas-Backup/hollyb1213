@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
-import 'package:hollyb1213/features/employee/profile_screen/profile/widgets/profile_upper_section.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
+import 'package:readytowork/features/employer/profile_screen/profile/widgets/profile_upper_section.dart';
 
 class EmployeeProfileScreen extends StatelessWidget {
   const EmployeeProfileScreen({super.key});

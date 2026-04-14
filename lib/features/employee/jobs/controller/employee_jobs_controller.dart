@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employee/home/screen/job_model.dart';
-import 'package:hollyb1213/features/employee/jobs/screen/employee_jobs_service.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employee/home/screen/job_model.dart';
+import 'package:readytowork/features/employee/jobs/screen/employee_jobs_service.dart';
+
 
 class EmployeeJobsController extends GetxController {
   final EmployeeJobsService _service = EmployeeJobsService();

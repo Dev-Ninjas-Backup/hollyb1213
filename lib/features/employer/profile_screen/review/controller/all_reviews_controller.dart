@@ -1,13 +1,17 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employer/profile_screen/review/model/all_reviews_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'dart:convert';
 
+import 'package:readytowork/features/employer/favorite_workers/model/favorite_employees_model.dart'
+    as fav;
+import 'package:readytowork/features/employer/profile_screen/review/model/all_reviews_model.dart'
+    as rev;
+
 class AllReviewsController extends GetxController {
-  final reviews = <ReviewItem>[].obs;
-  final paginationInfo = Rx<PaginationInfo?>(null);
+  final reviews = <rev.ReviewItem>[].obs;
+  final paginationInfo = Rx<rev.PaginationInfo?>(null);
   final isLoading = true.obs;
   final error = ''.obs;
   final currentPage = 1.obs;
@@ -47,7 +51,8 @@ class AllReviewsController extends GetxController {
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
         if (jsonResponse['success'] == true) {
-          final allReviewsResponse = AllReviewsResponse.fromJson(jsonResponse);
+          final allReviewsResponse =
+              rev.AllReviewsResponse.fromJson(jsonResponse);
 
           if (isRefresh) {
             reviews.clear();

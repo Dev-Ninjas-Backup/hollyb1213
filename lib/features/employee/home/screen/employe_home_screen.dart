@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/employee_notification/screen/employee_notification_screen.dart';
-import 'package:hollyb1213/features/employee/home/screen/schedule_card.dart';
-import 'package:hollyb1213/features/employee/home/screen/schedule_model.dart';
-import 'package:hollyb1213/features/employee/home/widgets/header_section_widget.dart';
-import 'package:hollyb1213/features/employee/home/widgets/job_card_widget.dart';
-import 'package:hollyb1213/features/employee/home/widgets/quick_actions_widget.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/iconpath.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employee/employee_notification/screen/employee_notification_screen.dart';
+import 'package:readytowork/features/employee/home/screen/schedule_card.dart';
+import 'package:readytowork/features/employee/home/screen/schedule_model.dart';
+import 'package:readytowork/features/employee/home/widgets/header_section_widget.dart';
+import 'package:readytowork/features/employee/home/widgets/job_card_widget.dart';
+import 'package:readytowork/features/employee/home/widgets/quick_actions_widget.dart';
+import 'package:readytowork/routes/app_route.dart';
 import '../controller/employe_home_controller.dart';
 
 class EmployeHomeScreen extends StatelessWidget {

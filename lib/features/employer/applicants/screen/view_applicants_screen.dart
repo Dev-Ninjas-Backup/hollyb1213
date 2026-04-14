@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/applicants/controller/view_applicants_controller.dart';
-import 'package:hollyb1213/features/employer/applicants/model/job_applicant_model.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
-import 'package:hollyb1213/features/employee/chat/screen/chat_details_screen.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/applicants/controller/view_applicants_controller.dart';
+import 'package:readytowork/features/employer/applicants/model/job_applicant_model.dart';
+import 'package:readytowork/features/employer/applicants/screen/chat_detail_screen.dart';
+import 'package:readytowork/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
+
 
 class ViewApplicantsScreen extends StatelessWidget {
   const ViewApplicantsScreen({super.key});

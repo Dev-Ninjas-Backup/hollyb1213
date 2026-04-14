@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/screen/check_in_service.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/screen/check_out_service.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/screen/mark_as_complete_service.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/screen/job_details_service.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/kitchen_helper/screen/check_in_service.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/kitchen_helper/screen/check_out_service.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/kitchen_helper/screen/mark_as_complete_service.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/kitchen_helper/screen/job_details_service.dart';
 
 class KitchenHelperController extends GetxController {
   var isCheckedIn = false.obs;
@@ -34,10 +34,10 @@ class KitchenHelperController extends GetxController {
     if (result['success'] == true) {
       isCheckedIn.value = true;
       currentProgress.value = 0.0;
-      Get.snackbar("Success", result['message']);
+      Get.snackbar("Success", result['message'] ?? "Checked in successfully");
       fetchJobDetails(jobId);
     } else {
-      Get.snackbar("Error", result['message']);
+      Get.snackbar("Error", result['message'] ?? "Check-in failed");
     }
   }
 
@@ -50,9 +50,9 @@ class KitchenHelperController extends GetxController {
       isCheckedOut.value = true;
       _timer?.cancel();
       currentProgress.value = 1.0;
-      Get.snackbar("Success", result['message']);
+      Get.snackbar("Success", result['message'] ?? "Checked out successfully");
     } else {
-      Get.snackbar("Error", result['message']);
+      Get.snackbar("Error", result['message'] ?? "Check-out failed");
     }
   }
 
@@ -63,10 +63,10 @@ class KitchenHelperController extends GetxController {
 
     if (result['success'] == true) {
       isCompleted.value = true;
-      Get.snackbar("Success", result['message']);
+      Get.snackbar("Success", result['message'] ?? "Job marked as completed");
       await fetchJobDetails(jobId);
     } else {
-      Get.snackbar("Error", result['message']);
+      Get.snackbar("Error", result['message'] ?? "Failed to complete job");
     }
   }
 

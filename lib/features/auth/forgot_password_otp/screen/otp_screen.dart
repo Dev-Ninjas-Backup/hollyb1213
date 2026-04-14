@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_back_button.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_button.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/auth/forgot_password_otp/controller/otp_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/widget/custom_back_button.dart';
+import 'package:readytowork/core/common/constants/widget/custom_button.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/auth/forgot_password_otp/controller/otp_controller.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class OTPScreen extends StatelessWidget {
   OTPScreen({super.key});

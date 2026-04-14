@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
-import 'package:hollyb1213/core/common/constants/iconpath.dart';
-import 'package:hollyb1213/core/common/constants/widget/custom_app_bar.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/iconpath.dart';
+import 'package:readytowork/core/common/constants/widget/custom_app_bar.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+
 
 class EmployeePrivacy extends StatelessWidget {
   const EmployeePrivacy({super.key});

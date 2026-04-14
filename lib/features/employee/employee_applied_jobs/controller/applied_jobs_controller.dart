@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/kitchen_helper/screen/kitchen_helper_screen.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/model/job_model.dart';
+import 'package:readytowork/core/common/constants/imagepath.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/kitchen_helper/screen/kitchen_helper_screen.dart';
+import 'package:readytowork/features/employer/jobs/models/job_model.dart';
+
 
 class AppliedJobsController extends GetxController {
   var selectedTab = 0.obs;

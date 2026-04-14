@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/features/employee/chat/screen/chat_details_screen.dart';
-
+import 'package:readytowork/features/employer/applicants/screen/chat_detail_screen.dart';
 import '../../../../../core/common/constants/appcolor.dart';
 import '../../../../../core/common/style/global_text_style.dart';
 

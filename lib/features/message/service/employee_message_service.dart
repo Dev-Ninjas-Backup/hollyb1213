@@ -1,6 +1,6 @@
 import 'dart:developer';
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class EmployeeMessageService {
   static final EmployeeMessageService _instance =
@@ -12,15 +12,15 @@ class EmployeeMessageService {
 
   EmployeeMessageService._internal();
 
-  IO.Socket? _socket;
+  io.Socket? _socket;
 
   void connect(String token) {
     if (_socket != null && _socket!.connected) return;
 
     try {
-      _socket = IO.io(
+      _socket = io.io(
         ApiEndpoint.baseUrl,
-        IO.OptionBuilder()
+        io.OptionBuilder()
             .setTransports(['websocket'])
             .setExtraHeaders({'Authorization': 'Bearer $token'})
             .disableAutoConnect()

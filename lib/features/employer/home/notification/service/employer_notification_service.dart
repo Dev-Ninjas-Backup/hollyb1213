@@ -1,13 +1,13 @@
 import 'dart:developer';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
 class EmployerNotificationService {
-  IO.Socket? socket;
+  io.Socket? socket;
 
   void connect(String token) {
-    socket = IO.io(
+    socket = io.io(
       "http://16.16.114.137:5000/notifications",
-      IO.OptionBuilder()
+      io.OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
           .setAuth({

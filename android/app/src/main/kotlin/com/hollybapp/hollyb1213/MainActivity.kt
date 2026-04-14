@@ -1,4 +1,4 @@
-package com.hollybdev.hollyb1213
+package com.hollybdev.readytowork
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import android.content.pm.PackageManager
 
 class MainActivity: FlutterFragmentActivity() {
-    private val CHANNEL = "com.hollybdev.hollyb1213/call"
+    private val CHANNEL = "com.hollybdev.readytowork/call"
     private val PERMISSION_REQUEST_CODE = 100
     private var pendingPhoneNumber: String? = null
 

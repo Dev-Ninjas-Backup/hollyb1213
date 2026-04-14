@@ -3,8 +3,9 @@
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:hollyb1213/features/auth/upload_utility_bill/service/upload_utility_bill_service.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/features/auth/upload_utility_bill/service/upload_utility_bill_service.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class UploadUtilityBillController extends GetxController {
   var backImage = Rx<File?>(null);

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class GoogleLoginServices {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
     serverClientId:
-        '793538857243-5ngj228flbb6nj68627suim4qj48ra2a.apps.googleusercontent.com',
+        '933607359600-6lps6oeima92me077sr9f0p9b1en5sn4.apps.googleusercontent.com',
   );
 
   static Future<String?> login() async {

@@ -1,6 +1,6 @@
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:hollyb1213/core/common/constants/imagepath.dart';
-import 'package:hollyb1213/features/employer/profile_screen/review/model/employer_review_model.dart';
+import 'package:readytowork/core/common/constants/imagepath.dart';
+import 'package:readytowork/features/employer/profile_screen/review/model/employer_review_model.dart';
 
 class EmployerReviewController extends GetxController {
   final List<EmployerReviewModel> allReview = [

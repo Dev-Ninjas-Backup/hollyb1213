@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employer/home/controller/employer_home_controller.dart';
-import 'package:hollyb1213/features/employer/applicants/screen/view_applicants_screen.dart';
-import 'package:hollyb1213/features/employer/favorite_workers/screen/favorite_workers_screen.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employer/home/controller/employer_home_controller.dart';
+import 'package:readytowork/features/employer/applicants/screen/view_applicants_screen.dart';
+import 'package:readytowork/features/employer/favorite_workers/screen/favorite_workers_screen.dart';
 
 class EmployerQuickActions extends StatelessWidget {
   const EmployerQuickActions({super.key, required this.controller});

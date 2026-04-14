@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
 
 class RestMessageService {
   Future<Map<String, dynamic>> getConversations(String token) async {

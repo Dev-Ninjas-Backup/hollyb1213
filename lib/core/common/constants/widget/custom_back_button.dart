@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/constants/appcolor.dart';
+import 'package:readytowork/core/common/constants/appcolor.dart';
 
 class CustomBackButton extends StatelessWidget {
   final Color? backgroundColor;

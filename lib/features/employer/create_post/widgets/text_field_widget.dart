@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
 
 class TextFielld extends StatelessWidget {
   const TextFielld({

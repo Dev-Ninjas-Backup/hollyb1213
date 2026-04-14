@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hollyb1213/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
+import 'package:readytowork/features/employer/profile_screen/worker_profile/model/employee_profile_model.dart';
 import 'custom_skill_container.dart';
 
 class WorkerProfileSkills extends StatelessWidget {

@@ -1,10 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employee/chat/model/chat_message_model.dart';
-import 'package:hollyb1213/features/employee/chat/screen/message_service.dart';
-import 'package:hollyb1213/features/employee/chat/service/chat_service.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employee/chat/model/chat_message_model.dart';
+import 'package:readytowork/features/employee/chat/screen/message_service.dart';
+import 'package:readytowork/features/employee/chat/service/chat_service.dart';
+
 
 class ChatController extends GetxController {
   final String conversationId;

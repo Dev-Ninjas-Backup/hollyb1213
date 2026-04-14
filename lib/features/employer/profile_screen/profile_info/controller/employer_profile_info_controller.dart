@@ -1,17 +1,18 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/routes/app_route.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:hollyb1213/core/common/constants/api_endpoint.dart';
-import 'package:hollyb1213/core/common/share_preferrance/share_preferrance_helper.dart';
-import 'package:hollyb1213/features/employer/profile_screen/profile_info/model/detailed_profile_model.dart';
-import 'dart:convert';
+import 'package:readytowork/core/common/constants/api_endpoint.dart';
+import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
+import 'package:readytowork/features/employer/profile_screen/profile_info/model/detailed_profile_model.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class EmployerProfileInfoController extends GetxController {
   final fullNameController = TextEditingController();

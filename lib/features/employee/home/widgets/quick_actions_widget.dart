@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:hollyb1213/core/common/style/global_text_style.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/controller/employee_applied_jobs_controller.dart';
-import 'package:hollyb1213/features/employee/employee_applied_jobs/screen/applied_jobs_screen.dart';
-import 'package:hollyb1213/features/employee/home/controller/employe_home_controller.dart';
-import 'package:hollyb1213/routes/app_route.dart';
+import 'package:readytowork/core/common/style/global_text_style.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/controller/employee_applied_jobs_controller.dart';
+import 'package:readytowork/features/employee/employee_applied_jobs/screen/applied_jobs_screen.dart';
+import 'package:readytowork/features/employee/home/controller/employe_home_controller.dart';
+import 'package:readytowork/routes/app_route.dart';
+
 
 class QuickActions extends StatelessWidget {
   const QuickActions({super.key, required this.controller});

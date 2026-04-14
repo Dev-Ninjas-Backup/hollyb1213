@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hollybdev.hollyb1213">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -31,7 +30,7 @@
             android:value="2" />
 
         <activity
-            android:name="com.hollybdev.hollyb1213.MainActivity"
+            android:name="com.hollybdev.readytowork.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"

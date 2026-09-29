@@ -8,7 +8,6 @@ import 'package:readytowork/core/common/constants/widget/custom_app_bar.dart';
 import 'package:readytowork/core/common/style/global_text_style.dart';
 import 'package:readytowork/features/employer/profile_screen/review/controller/all_reviews_controller.dart';
 
-
 class EmployerReviewPage extends StatelessWidget {
   final String employeeId;
   final controller = Get.put(AllReviewsController());
@@ -43,7 +42,7 @@ class EmployerReviewPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "${controller.getAverageRating().toStringAsFixed(1)}",
+                              controller.getAverageRating().toStringAsFixed(1),
                               style: getBodyTextStyle(
                                 fontSize: sp(30),
                                 fontWeight: FontWeight.w600,

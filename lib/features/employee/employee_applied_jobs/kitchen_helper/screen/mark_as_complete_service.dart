@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readytowork/core/common/constants/api_endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,8 +28,8 @@ class MarkAsCompleteService {
         },
       );
 
-      print('MarkAsComplete Response Status: ${response.statusCode}');
-      print('MarkAsComplete Response Body: ${response.body}');
+      debugPrint('MarkAsComplete Response Status: ${response.statusCode}');
+      debugPrint('MarkAsComplete Response Body: ${response.body}');
 
       final Map<String, dynamic> body = jsonDecode(response.body);
 

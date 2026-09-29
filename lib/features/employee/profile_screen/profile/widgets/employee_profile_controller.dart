@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readytowork/core/common/constants/iconpath.dart';
 import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
@@ -102,12 +103,12 @@ class EmployeeProfileController extends GetxController {
       if (response.statusCode == 200 && response.body['success'] == true) {
         userProfile.value = UserProfile.fromJson(response.body['data']);
       } else {
-        print('Failed to fetch profile: ${response.statusText}');
+        debugPrint('Failed to fetch profile: ${response.statusText}');
         Get.snackbar('Error', 'Failed to fetch profile data.',
             snackPosition: SnackPosition.TOP);
       }
     } catch (e) {
-      print('Error fetching profile: $e');
+      debugPrint('Error fetching profile: $e');
       Get.snackbar('Error', 'An error occurred while fetching profile data.',
           snackPosition: SnackPosition.TOP);
     } finally {
@@ -126,17 +127,17 @@ class EmployeeProfileController extends GetxController {
           employeeStats.value = stats;
           _updateStatsList(stats);
         } else {
-          print('Failed to fetch employee stats: ${body['message']}');
+          debugPrint('Failed to fetch employee stats: ${body['message']}');
           Get.snackbar('Error', 'Failed to fetch stats.',
               snackPosition: SnackPosition.TOP);
         }
       } else {
-        print('Failed to fetch employee stats: ${response.reasonPhrase}');
+        debugPrint('Failed to fetch employee stats: ${response.reasonPhrase}');
         Get.snackbar('Error', 'Failed to fetch stats.',
             snackPosition: SnackPosition.TOP);
       }
     } catch (e) {
-      print('Error fetching employee stats: $e');
+      debugPrint('Error fetching employee stats: $e');
       Get.snackbar('Error', 'An error occurred while fetching stats.',
           snackPosition: SnackPosition.TOP);
     } finally {

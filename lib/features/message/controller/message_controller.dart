@@ -48,6 +48,7 @@ class MessageController extends GetxController {
       messages.value = list.map((e) {
         final participant = e["participant"] ?? {};
         final lastMessage = e["lastMessage"] ?? {};
+        // ignore: unused_local_variable
         final sender = lastMessage["sender"] ?? {};
 
         // Date Formatting

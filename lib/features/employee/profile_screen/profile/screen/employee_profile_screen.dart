@@ -9,7 +9,7 @@ import 'package:readytowork/features/employer/profile_screen/profile/widgets/set
 import 'package:readytowork/features/employer/profile_screen/profile/widgets/your_stats.dart';
 
 class EmployeeProfileScreen extends StatelessWidget {
-  EmployeeProfileScreen({super.key});
+  const EmployeeProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
     final EmployeeProfileController controller =

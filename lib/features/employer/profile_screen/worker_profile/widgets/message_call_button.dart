@@ -105,21 +105,21 @@ class MessageAndCallButton extends StatelessWidget {
   }
 
   Future<void> _makePhoneCall() async {
-    print('DEBUG: Phone number: $phoneNumber');
+    debugPrint('DEBUG: Phone number: $phoneNumber');
 
     if (phoneNumber == null || phoneNumber!.isEmpty) {
-      print('DEBUG: Phone number is null or empty');
+      debugPrint('DEBUG: Phone number is null or empty');
       return;
     }
 
     try {
-      print('DEBUG: Making direct call to: $phoneNumber');
+      debugPrint('DEBUG: Making direct call to: $phoneNumber');
       await platform.invokeMethod('makeCall', {'phoneNumber': phoneNumber});
-      print('DEBUG: Call initiated successfully');
+      debugPrint('DEBUG: Call initiated successfully');
     } on PlatformException catch (e) {
-      print('DEBUG: Failed to make call: ${e.message}');
+      debugPrint('DEBUG: Failed to make call: ${e.message}');
     } catch (e) {
-      print('DEBUG: Error making phone call: $e');
+      debugPrint('DEBUG: Error making phone call: $e');
     }
   }
 }

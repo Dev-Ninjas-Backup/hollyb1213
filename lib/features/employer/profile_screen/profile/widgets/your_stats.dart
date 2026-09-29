@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:readytowork/core/common/constants/appcolor.dart';
 import 'package:readytowork/core/common/constants/widget/custom_shadow_container.dart';
 import 'package:readytowork/core/common/style/global_text_style.dart';
-import 'package:readytowork/features/employer/profile_screen/profile/controller/employer_controllre.dart';
 
 class YourStats extends StatelessWidget {
   const YourStats({

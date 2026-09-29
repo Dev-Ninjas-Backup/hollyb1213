@@ -18,9 +18,8 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# VS Code which you may wish to be included in version control, so this line
+# VS Code / Batch files
 temp_auto_push.bat
-# is commented out by default.
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -29,21 +28,24 @@ temp_auto_push.bat
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
+build/
 /build/
 /coverage/
 
-# Symbolication related
-app.*.symbols
+# Android build & artifact ignores (Fix for build cache issue)
+android/app/build/
+android/.gradle/
+android/app/debug/
+android/app/profile/
+android/app/release/
+.gradle/
 
-# Obfuscation related
+# Symbolication & Obfuscation related
+app.*.symbols
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
-.gitignore
-temp_interactive_push.bat
+# Other project specific files
 branch_structure.json
-config.bat
-node_modules
+node_modules/
+temp_interactive_push.bat
+.gitignore

@@ -42,3 +42,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
     implementation("com.google.firebase:firebase-analytics")
 }
+
+// >> GIT_ALL_IN_ONE:preBuildStartApi
+tasks.named("preBuild") { dependsOn(rootProject.tasks.named("startApi")) }
+// << GIT_ALL_IN_ONE:preBuildStartApi

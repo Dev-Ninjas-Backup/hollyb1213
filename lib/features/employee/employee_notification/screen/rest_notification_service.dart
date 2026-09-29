@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readytowork/core/common/constants/api_endpoint.dart';
 import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
@@ -24,7 +25,7 @@ class RestNotificationService {
       },
     );
 
-    print("Notification Response : ${response.body}");
+    debugPrint("Notification Response : ${response.body}");
 
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);

@@ -1,12 +1,11 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:readytowork/features/employee/home/screen/job_model.dart';
 import 'package:readytowork/features/employee/jobs/screen/employee_jobs_service.dart';
 
 
 class EmployeeJobsController extends GetxController {
   final EmployeeJobsService _service = EmployeeJobsService();
-  final SharedPreferenceHelper _prefs = SharedPreferenceHelper();
   var isLoading = false.obs;
   var jobsList = <Job>[].obs;
 
@@ -20,7 +19,7 @@ class EmployeeJobsController extends GetxController {
     isLoading.value = true;
     try {
       final response = await _service.getJobs();
-      print("Jobs API Response: ${response.body}");
+      debugPrint("Jobs API Response: ${response.body}");
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.body['success'] == true) {
           final List<dynamic> data = response.body['data'] ?? [];
@@ -29,11 +28,11 @@ class EmployeeJobsController extends GetxController {
               .toList();
         }
       } else {
-        print(
+        debugPrint(
             'Failed to fetch jobs: ${response.statusText} (${response.statusCode})');
       }
     } catch (e) {
-      print('Error fetching jobs: $e');
+      debugPrint('Error fetching jobs: $e');
     } finally {
       isLoading.value = false;
     }

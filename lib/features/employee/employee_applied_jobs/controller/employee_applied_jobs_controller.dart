@@ -53,7 +53,7 @@ class EmployeeAppliedJobsController extends GetxController {
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
-        print('Failed to fetch applied jobs: ${response.statusText}');
+        debugPrint('Failed to fetch applied jobs: ${response.statusText}');
       }
     } catch (e) {
       Get.snackbar(
@@ -63,7 +63,7 @@ class EmployeeAppliedJobsController extends GetxController {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-      print('Error fetching applied jobs: $e');
+      debugPrint('Error fetching applied jobs: $e');
     } finally {
       isLoading.value = false;
     }

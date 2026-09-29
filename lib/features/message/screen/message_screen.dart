@@ -6,7 +6,6 @@ import 'package:readytowork/core/common/style/global_text_style.dart';
 import 'package:readytowork/features/employer/applicants/screen/chat_detail_screen.dart';
 import 'package:readytowork/features/message/controller/message_controller.dart';
 
-
 class MessageScreen extends StatelessWidget {
   const MessageScreen({super.key});
 
@@ -92,7 +91,7 @@ class MessageScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
+                                    color: Colors.black.withValues(alpha: .15),
                                     blurRadius: 1,
                                     offset: const Offset(2, 3),
                                   ),
@@ -144,7 +143,7 @@ class MessageScreen extends StatelessWidget {
                                             Expanded(
                                               child: Text(
                                                 message.name,
-                                                style: const TextStyle(
+                                                style: getTextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   fontSize: 16,
                                                 ),
@@ -152,7 +151,7 @@ class MessageScreen extends StatelessWidget {
                                             ),
                                             Text(
                                               message.timeAgo,
-                                              style: TextStyle(
+                                              style: getTextStyle(
                                                 fontSize: 12,
                                                 color: Colors.grey.shade600,
                                               ),
@@ -172,8 +171,9 @@ class MessageScreen extends StatelessWidget {
                                               ),
                                             ),
                                             Container(
-                                              margin: const EdgeInsets.symmetric(
-                                                  horizontal: 6),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 6),
                                               width: 4,
                                               height: 4,
                                               decoration: const BoxDecoration(
@@ -195,7 +195,7 @@ class MessageScreen extends StatelessWidget {
                                             '${message.unreadCount} new unread message${message.unreadCount > 1 ? 's' : ''}',
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
+                                            style: getTextStyle(
                                               color: Appcolor.primaryColor,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14,
@@ -206,7 +206,7 @@ class MessageScreen extends StatelessWidget {
                                             message.message,
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
+                                            style: getTextStyle(
                                               color: Colors.grey.shade600,
                                               fontSize: 14,
                                             ),

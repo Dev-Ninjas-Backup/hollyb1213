@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class FacebookLoginServices {
@@ -12,31 +13,31 @@ class FacebookLoginServices {
           fields: "id,name,email,picture.width(200)",
         );
 
-        print('Facebook Login Success');
-        print('Name: ${userData['name']}');
-        print('Email: ${userData['email']}');
-        print('Picture: ${userData['picture']['data']['url']}');
+        debugPrint('Facebook Login Success');
+        debugPrint('Name: ${userData['name']}');
+        debugPrint('Email: ${userData['email']}');
+        debugPrint('Picture: ${userData['picture']['data']['url']}');
 
         return {
           'userData': userData,
           'accessToken': result.accessToken!.token,
         };
       } else if (result.status == LoginStatus.cancelled) {
-        print('Facebook Login Cancelled');
+        debugPrint('Facebook Login Cancelled');
         return null;
       } else {
-        print(' Facebook Login Failed: ${result.message}');
+        debugPrint(' Facebook Login Failed: ${result.message}');
         return null;
       }
     } catch (e) {
-      print('Facebook Login Error: $e');
+      debugPrint('Facebook Login Error: $e');
       return null;
     }
   }
 
   static Future<void> logoutFromFacebook() async {
     await FacebookAuth.instance.logOut();
-    print(' Facebook Logout Success');
+    debugPrint(' Facebook Logout Success');
   }
 
   static Future<bool> isLoggedIn() async {
@@ -55,7 +56,7 @@ class FacebookLoginServices {
       }
       return null;
     } catch (e) {
-      print(' Get User Data Error: $e');
+      debugPrint(' Get User Data Error: $e');
       return null;
     }
   }

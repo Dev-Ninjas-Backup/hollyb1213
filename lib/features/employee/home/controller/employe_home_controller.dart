@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readytowork/core/common/constants/iconpath.dart';
 import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:readytowork/features/employee/home/screen/job_model.dart';
 import 'package:readytowork/features/employee/home/screen/schedule_model.dart';
 import 'package:readytowork/features/employee/home/widgets/employee_home_service.dart';
-
 
 class EmployeHomeController extends GetxController {
   final EmployeeHomeService service = Get.put(EmployeeHomeService());
@@ -93,10 +93,10 @@ class EmployeHomeController extends GetxController {
         // await _prefs.clearAll();
         // Get.offAllNamed(AppRoute.loginScreen);
       } else {
-        print('Failed to fetch latest jobs: ${response.statusText}');
+        debugPrint('Failed to fetch latest jobs: ${response.statusText}');
       }
     } catch (e) {
-      print('Error fetching latest jobs: $e');
+      debugPrint('Error fetching latest jobs: $e');
     } finally {
       isLoading.value = false;
     }

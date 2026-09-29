@@ -101,7 +101,7 @@ class _NotificationListItemState extends State<_NotificationListItem> {
           color: item["read"] == true ? Colors.white : Colors.blue.shade50,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.05),
+              color: Colors.black.withValues(alpha: .05),
               blurRadius: 6,
               offset: const Offset(0, 3),
             )
@@ -112,7 +112,7 @@ class _NotificationListItemState extends State<_NotificationListItem> {
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundColor: Appcolor.primaryColor.withOpacity(.2),
+              backgroundColor: Appcolor.primaryColor.withValues(alpha: .2),
               child: const Icon(
                 Icons.notifications_active,
                 size: 22,
@@ -136,7 +136,7 @@ class _NotificationListItemState extends State<_NotificationListItem> {
                   Text(
                     displayMessage,
                     style: getBodyTextStyle(
-                      color: Colors.black.withOpacity(.7),
+                      color: Colors.black.withValues(alpha: .7),
                     ),
                   ),
                   if (canExpand)

@@ -239,7 +239,7 @@ class AppliedJobsScreen extends StatelessWidget {
                           vertical: 4.h,
                         ),
                         decoration: BoxDecoration(
-                          color: statusColor.withOpacity(0.15),
+                          color: statusColor.withValues(alpha: .15),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Text(

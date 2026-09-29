@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readytowork/core/common/constants/api_endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,8 +27,8 @@ class JobDetailsService {
         },
       );
 
-      print('JobDetails Response Status: ${response.statusCode}');
-      print('JobDetails Response Body: ${response.body}');
+      debugPrint('JobDetails Response Status: ${response.statusCode}');
+      debugPrint('JobDetails Response Body: ${response.body}');
 
       final Map<String, dynamic> body = jsonDecode(response.body);
 

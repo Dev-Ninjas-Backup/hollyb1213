@@ -5,7 +5,6 @@ import 'package:readytowork/core/common/constants/widget/custom_back_button.dart
 import 'package:readytowork/core/common/style/global_text_style.dart';
 import '../../employee_notification/controller/employee_notification_controller.dart';
 
-
 class EmployeeNotificationScreen extends StatelessWidget {
   const EmployeeNotificationScreen({super.key});
 
@@ -113,7 +112,7 @@ class _NotificationListItemState extends State<_NotificationListItem> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: .05),
               blurRadius: 6,
             )
           ],
@@ -122,7 +121,7 @@ class _NotificationListItemState extends State<_NotificationListItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CircleAvatar(
-              backgroundColor: Appcolor.primaryColor.withOpacity(0.2),
+              backgroundColor: Appcolor.primaryColor.withValues(alpha: .2),
               child: const Icon(Icons.notifications),
             ),
             const SizedBox(width: 12),

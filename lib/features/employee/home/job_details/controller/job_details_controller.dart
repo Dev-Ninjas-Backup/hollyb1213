@@ -34,7 +34,7 @@ class JobDetailsController extends GetxController {
         }
       }
     } catch (e) {
-      print('Error fetching job details: $e');
+      debugPrint('Error fetching job details: $e');
     } finally {
       isLoading.value = false;
     }
@@ -50,7 +50,7 @@ class JobDetailsController extends GetxController {
         coverNote: coverNote,
       );
 
-      print('Apply Job Response: ${response.body}');
+      debugPrint('Apply Job Response: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (response.body['success'] == true) {
@@ -78,7 +78,7 @@ class JobDetailsController extends GetxController {
         }
       }
     } catch (e) {
-      print('Apply Job Error: $e');
+      debugPrint('Apply Job Error: $e');
       Get.snackbar('Error', 'Something went wrong',
           snackPosition: SnackPosition.TOP);
     } finally {

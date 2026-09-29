@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:readytowork/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
 
 import '../../../../../core/common/constants/appcolor.dart';
-import '../../../../../core/common/constants/iconpath.dart';
 import '../../../../../core/common/constants/widget/custom_shadow_container.dart';
 import '../../../../../core/common/style/global_text_style.dart';
 

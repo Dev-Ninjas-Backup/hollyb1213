@@ -175,9 +175,8 @@ class KitchenHelperScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: job.requirements
-                                ?.map((req) => Text("• $req"))
-                                .toList() ??
-                            [],
+                                .map((req) => Text("• $req"))
+                                .toList(),
                       ),
                     ),
                     SizedBox(height: 16.h),

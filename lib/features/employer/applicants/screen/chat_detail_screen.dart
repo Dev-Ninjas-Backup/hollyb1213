@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:readytowork/core/common/constants/appcolor.dart';
-import 'package:readytowork/core/common/style/global_text_style.dart' show getBodyTextStyle;
+import 'package:readytowork/core/common/style/global_text_style.dart'
+    show getBodyTextStyle;
 import 'package:readytowork/features/employee/chat/controller/chat_message_controller.dart';
 import 'package:readytowork/features/employee/chat/model/chat_message_model.dart';
 
@@ -122,7 +123,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: .05),
               blurRadius: 4,
               offset: const Offset(0, -2)),
         ],

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:readytowork/core/common/constants/api_endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,8 +29,8 @@ class CheckInService {
         },
       );
 
-      print('CheckIn Response Status: ${response.statusCode}');
-      print('CheckIn Response Body: ${response.body}');
+      debugPrint('CheckIn Response Status: ${response.statusCode}');
+      debugPrint('CheckIn Response Body: ${response.body}');
 
       final Map<String, dynamic> body = jsonDecode(response.body);
 
@@ -45,7 +46,7 @@ class CheckInService {
         };
       }
     } catch (e) {
-      print('CheckIn Error: $e');
+      debugPrint('CheckIn Error: $e');
       return {'success': false, 'message': 'An error occurred: $e'};
     }
   }

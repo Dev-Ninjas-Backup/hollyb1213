@@ -8,7 +8,6 @@ import 'package:readytowork/features/employer/applicants/model/job_applicant_mod
 import 'package:readytowork/features/employer/applicants/screen/chat_detail_screen.dart';
 import 'package:readytowork/features/employer/profile_screen/worker_profile/screen/employer_worker_profile.dart';
 
-
 class ViewApplicantsScreen extends StatelessWidget {
   const ViewApplicantsScreen({super.key});
 
@@ -156,13 +155,14 @@ class ViewApplicantsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14.r),
                           border: isExpanded
                               ? Border.all(
-                                  color: Appcolor.primaryColor.withOpacity(0.3),
+                                  color: Appcolor.primaryColor
+                                      .withValues(alpha: .3),
                                   width: 1.2,
                                 )
                               : null,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
+                              color: Colors.black.withValues(alpha: .05),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),

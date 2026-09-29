@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'package:readytowork/routes/app_route.dart';
@@ -42,12 +43,12 @@ class RoleSelectionController extends GetxController {
 
   void selectRole(String role) {
     selectedRole.value = role;
-    print('Role Selected: ${selectedRole.value}');
+    debugPrint('Role Selected: ${selectedRole.value}');
   }
 
   Future<void> goToLogin() async {
     await _prefs.saveSelectedRole(selectedRole.value);
-    print('Role saved to SharedPrefs: ${selectedRole.value}');
+    debugPrint('Role saved to SharedPrefs: ${selectedRole.value}');
     Get.toNamed(AppRoute.getloginScreen());
   }
 }

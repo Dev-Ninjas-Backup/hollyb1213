@@ -4,8 +4,6 @@ import 'package:readytowork/core/common/constants/api_endpoint.dart';
 import 'package:readytowork/core/common/share_preferrance/share_preferrance_helper.dart';
 import 'dart:convert';
 
-import 'package:readytowork/features/employer/favorite_workers/model/favorite_employees_model.dart'
-    as fav;
 import 'package:readytowork/features/employer/profile_screen/review/model/all_reviews_model.dart'
     as rev;
 

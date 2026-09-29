@@ -5,7 +5,6 @@ import 'package:readytowork/core/common/constants/appcolor.dart';
 import 'package:readytowork/core/common/style/global_text_style.dart';
 import 'package:readytowork/features/employee/profile_screen/profile/widgets/employee_profile_controller.dart';
 
-
 class YourStats extends StatelessWidget {
   final EmployeeProfileController controller;
 
@@ -19,7 +18,7 @@ class YourStats extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (controller.statsList.length > 0)
+              if (controller.statsList.isNotEmpty)
                 _buildDynamicStatCard(
                   controller.statsList[0]['iconImage'],
                   controller.statsList[0]['count'],
